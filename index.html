@@ -4,21 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UX-Experiment – Persuasive Design</title>
-  <link rel="stylesheet" href="hmm.css" />
-  <script type="text/javascript">
+  <link rel="stylesheet" href="style.css" />
+ <script> window.COLLECT_URL = "/api/collect"; </script>
+<script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "t4h7v8a2dt");
 </script>
+  <!-- <script> window.COLLECT_URL = "/api/collect"; </script> -->
 </head>
 <body>
   <div class="container">
     <header class="header">
       <div>
         <h1 class="title">UX-Experiment-App</h1>
-        <p class="subtitle">Persuasive Mechanismen testen • CSV/JSON-Export • Optionaler Server-Submit</p>
+        <p class="subtitle">Persuasive Mechanismen testen • nur ein Senden-Button am Ende</p>
       </div>
       <div class="meta">Bedingung: <strong id="cond">persuasive</strong></div>
     </header>
@@ -31,7 +33,7 @@
       <ul class="list">
         <li>Es werden nur anonyme Interaktionsdaten gespeichert (Klicks, Zeiten, Auswahl).</li>
         <li>Keine IP/Browserdaten, keine Personenbezüge.</li>
-        <li>Nur bei Klick auf „Daten an Server senden“ werden Daten an einen optionalen Endpunkt übertragen.</li>
+        <li>Die Daten werden erst beim Klick auf „Ergebnisse senden“ übertragen.</li>
       </ul>
       <label class="checkbox-row">
         <input type="checkbox" id="consent" />
@@ -100,20 +102,19 @@
     <!-- DEBRIEF -->
     <section id="screen-debrief" class="card hidden">
       <h2>Vielen Dank</h2>
-      <p class="hint">Sitzung beendet. Exportieren oder senden Sie die Daten.</p>
-      <div class="grid grid-3">
-        <button id="btn-export-csv" type="button" class="btn btn-primary">Export CSV</button>
-        <button id="btn-export-json" type="button" class="btn btn-outline">Export JSON</button>
-        <button id="btn-submit" type="button" class="btn btn-accent">Daten an Server senden</button>
+      <p class="hint">Sitzung beendet. Bitte senden Sie Ihre Ergebnisse.</p>
+      <div class="row">
+        <button id="btn-submit" type="button" class="btn btn-accent">Ergebnisse senden</button>
       </div>
       <div id="submit-status" class="meta mt"></div>
+
       <div class="meta mt">
         <div>Zusammenfassung</div>
         <ul id="summary" class="list mt"></ul>
       </div>
     </section>
 
-    <!-- Attribution Panel (zentriert) -->
+    <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
       <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
         <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
@@ -143,7 +144,7 @@
 
     // ===== Global State =====
     const CONDITION = 'persuasive';
-    const COLLECT_URL = window.COLLECT_URL || '';
+    const COLLECT_URL = window.COLLECT_URL || ''; // optionaler Endpunkt
     const state = {
       startedAt: null,
       events: [],
@@ -171,7 +172,7 @@
       if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
       if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
       if(step==='survey'){ renderSurvey(); }
-      if(step==='debrief'){ renderSummary(); autoSubmit(); }
+      if(step==='debrief'){ renderSummary(); /* kein autoSubmit */ }
     }
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
@@ -426,41 +427,40 @@
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
       return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, survey:state.survey, events:state.events };
     }
-    function exportJSON(){ blobDownload('ux_experiment.json', JSON.stringify(payload(), null, 2)); }
-    function exportCSV(){
-      const h = [
-        'condition','durationMs',
-        'exp1_variant','exp1_success','exp1_timeMs','exp1_clicks','exp1_errors','exp1_ttfClick','exp1_clickedCard','exp1_targetId','exp1_isTarget','exp1_reason',
-        'exp2_variant','exp2_success','exp2_timeMs','exp2_clicks','exp2_errors','exp2_ttfClick','exp2_clicked','exp2_expected','exp2_clickedPos','exp2_salientPos','exp2_reason',
-        'exp3_variant','exp3_success','exp3_timeMs','exp3_clicks','exp3_errors','exp3_ttfClick','exp3_bannerChoices','exp3_otherChoices','exp3_targetName','exp3_bannerCount','exp3_reason',
-        'exp4_variant','exp4_success','exp4_timeMs','exp4_clicks','exp4_errors','exp4_ttfClick','exp4_defaultOption','exp4_selectedOption','exp4_adopted','exp4_reason',
-        'exp5_variant','exp5_success','exp5_timeMs','exp5_clicks','exp5_errors','exp5_ttfClick','exp5_selected','exp5_scarceShown','exp5_scarceSide','exp5_reason'
-      ];
-      const esc = (v)=> '"'+String(v??'').replace(/"/g,'""')+'"';
-      const t = (m)=> m.finishedAt!=null && m.startedAt!=null ? Math.round(m.finishedAt-m.startedAt) : '';
-      const r = [
-        CONDITION,
-        state.startedAt? Math.round(now()-state.startedAt):0,
-        state.exp1.variant, state.exp1.success, t(state.exp1), state.exp1.clicks, state.exp1.errors, state.exp1.ttf||'', state.exp1.extra.clickedCard||'', state.exp1.extra.targetId||'', state.exp1.extra.isTarget||'', state.exp1.extra.reason||'',
-        state.exp2.variant, state.exp2.success, t(state.exp2), state.exp2.clicks, state.exp2.errors, state.exp2.ttf||'', (state.exp2.extra.clicked||''), (state.exp2.extra.expected||''), (state.exp2.extra.clickedPos||''), (state.exp2.extra.salientPos||''), (state.exp2.extra.reason||''),
-        state.exp3.variant, state.exp3.success, t(state.exp3), state.exp3.clicks, state.exp3.errors, state.exp3.ttf||'', (state.exp3.extra.bannerChoices||''), (state.exp3.extra.otherChoices||''), (state.exp3.extra.targetName||''), (state.exp3.extra.bannerCount||''), (state.exp3.extra.reason||''),
-        state.exp4.variant, state.exp4.success, t(state.exp4), state.exp4.clicks, state.exp4.errors, state.exp4.ttf||'', (state.exp4.extra.defaultOption||''), (state.exp4.extra.selectedOption||''), String(state.exp4.extra.adopted||false), (state.exp4.extra.reason||''),
-        state.exp5.variant, state.exp5.success, t(state.exp5), state.exp5.clicks, state.exp5.errors, state.exp5.ttf||'', (state.exp5.extra.selected||''), String(state.exp5.extra.scarceShown||''), (state.exp5.extra.scarceSide||''), (state.exp5.extra.reason||'')
-      ];
-      const csv = h.join(',')+"\n"+r.map(esc).join(',');
-      blobDownload('ux_experiment.csv', csv);
-    }
     async function submit(){
       const out = $('#submit-status');
-      if(!COLLECT_URL){ out.textContent = 'Kein COLLECT_URL konfiguriert.'; return; }
-      out.textContent = 'Sende…';
-      try{
-        const res = await fetch(COLLECT_URL,{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload()) });
-        if(!res.ok) throw new Error('HTTP '+res.status);
-        out.textContent = 'Gesendet';
-      }catch(e){ out.textContent = 'Fehler: '+(e && e.message? e.message : e); }
+      const btn = $('#btn-submit');
+
+      if(!COLLECT_URL){
+        out.textContent = 'Kein COLLECT_URL konfiguriert.';
+        return;
+      }
+
+      try {
+        btn.disabled = true;
+        btn.classList.add('btn-disabled');
+        btn.textContent = 'Sende …';
+        out.textContent = '';
+
+        const res = await fetch(COLLECT_URL, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload())
+        });
+
+        if(!res.ok){
+          throw new Error('HTTP '+res.status);
+        }
+
+        btn.textContent = 'Gesendet';
+        out.textContent = 'Vielen Dank – die Ergebnisse wurden erfolgreich übermittelt.';
+      } catch(e){
+        btn.disabled = false;
+        btn.classList.remove('btn-disabled');
+        btn.textContent = 'Ergebnisse senden';
+        out.textContent = 'Fehler beim Senden: ' + (e && e.message ? e.message : e);
+      }
     }
-    function autoSubmit(){ if(COLLECT_URL) submit(); }
 
     // ===== Summary =====
     function renderSummary(){
@@ -475,8 +475,6 @@
     }
 
     // ===== Wire global buttons =====
-    $('#btn-export-csv').onclick = exportCSV;
-    $('#btn-export-json').onclick = exportJSON;
     $('#btn-submit').onclick = submit;
 
     // Start button state init
