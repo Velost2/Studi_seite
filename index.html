@@ -108,11 +108,6 @@
         <button id="btn-submit" type="button" class="btn btn-accent">Ergebnisse senden</button>
       </div>
       <div id="submit-status" class="meta mt"></div>
-
-      <div class="meta mt">
-        <div>Zusammenfassung</div>
-        <ul id="summary" class="list mt"></ul>
-      </div>
     </section>
 
     <!-- Attribution Panel (Overlay) -->
@@ -168,7 +163,6 @@
       if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
       if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
       if(step==='survey'){ renderSurvey(); }
-      if(step==='debrief'){ renderSummary(); }
     }
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
