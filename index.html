@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UX-Experiment – Persuasive Design</title>
+  <link rel="stylesheet" href="hmm.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1 class="title">UX-Experiment-App</h1>
+        <p class="subtitle">Persuasive Mechanismen testen • CSV/JSON-Export • Optionaler Server-Submit</p>
+      </div>
+      <div class="meta">Bedingung: <strong id="cond">persuasive</strong></div>
+    </header>
+
+    <div class="progress"><div id="progress" class="progress__bar" style="width:0%"></div></div>
+
+    <!-- INTRO -->
+    <section id="screen-intro" class="card">
+      <h2>Teilnahme & Datenschutz</h2>
+      <ul class="list">
+        <li>Es werden nur anonyme Interaktionsdaten gespeichert (Klicks, Zeiten, Auswahl).</li>
+        <li>Keine IP/Browserdaten, keine Personenbezüge.</li>
+        <li>Nur bei Klick auf „Daten an Server senden“ werden Daten an einen optionalen Endpunkt übertragen.</li>
+      </ul>
+      <label class="checkbox-row">
+        <input type="checkbox" id="consent" />
+        <span>Ich stimme der anonymen Datenerhebung zu.</span>
+      </label>
+      <div class="row">
+        <button id="btn-start" class="btn btn-disabled" disabled>Start</button>
+      </div>
+    </section>
+
+    <!-- EXP 1: Proximity/Grouping -->
+    <section id="screen-exp1" class="card hidden">
+      <h2>Experiment 1: Proximity und Gruppierung</h2>
+      <p class="hint">Aufgabe: Wählen Sie ein Paket.</p>
+      <div id="exp1-cards" class="grid grid-3"></div>
+    </section>
+
+    <!-- EXP 2: Buttonform/-kontrast -->
+    <section id="screen-exp2" class="card hidden">
+      <h2>Experiment 2: Buttonform und -kontrast</h2>
+      <p class="hint">Aufgabe: Klicken Sie einen „Weiter“-Button.</p>
+      <div class="row gap">
+        <button id="exp2-left" type="button" class="btn">Weiter</button>
+        <button id="exp2-right" type="button" class="btn">Weiter</button>
+      </div>
+    </section>
+
+    <!-- EXP 3: Social Proof -->
+    <section id="screen-exp3" class="card hidden">
+      <h2>Experiment 3: Social Proof</h2>
+      <p class="hint">Aufgabe: Wählen Sie ein Produkt.</p>
+      <div id="exp3-banner" class="banner"></div>
+      <div id="exp3-grid" class="grid grid-3"></div>
+    </section>
+
+    <!-- EXP 4: Shipping Defaults -->
+    <section id="screen-exp4" class="card hidden">
+      <h2>Experiment 4: Voreinstellungen beim Versand</h2>
+      <p class="hint">Aufgabe: Wählen Sie eine Versandoption und speichern Sie.</p>
+      <div id="exp4-options" class="stack gap-sm"></div>
+      <div class="row"><button id="exp4-save" type="button" class="btn btn-primary">Speichern</button></div>
+    </section>
+
+    <!-- EXP 5: Material & Scarcity -->
+    <section id="screen-exp5" class="card hidden">
+      <h2>Experiment 5: Materialbenennung und Knappheit</h2>
+      <p class="hint">Aufgabe: Wählen Sie eine Variante.</p>
+      <div class="grid grid-2">
+        <div id="exp5-a" class="card soft"></div>
+        <div id="exp5-b" class="card soft"></div>
+      </div>
+    </section>
+
+    <!-- SURVEY -->
+    <section id="screen-survey" class="card hidden">
+      <h2>Abschlussfragebogen</h2>
+      <p class="hint">Bitte bewerten Sie Ihre Erfahrung (1–7) und ob Ihnen bestimmte Hinweise aufgefallen sind.</p>
+      <div id="likert"></div>
+      <div class="stack gap-sm">
+        <label class="label">Offenes Feedback</label>
+        <textarea id="openComment" class="input" rows="3"></textarea>
+      </div>
+      <div class="row"><button id="survey-finish" type="button" class="btn btn-primary">Abschließen</button></div>
+    </section>
+
+    <!-- DEBRIEF -->
+    <section id="screen-debrief" class="card hidden">
+      <h2>Vielen Dank</h2>
+      <p class="hint">Sitzung beendet. Exportieren oder senden Sie die Daten.</p>
+      <div class="grid grid-3">
+        <button id="btn-export-csv" type="button" class="btn btn-primary">Export CSV</button>
+        <button id="btn-export-json" type="button" class="btn btn-outline">Export JSON</button>
+        <button id="btn-submit" type="button" class="btn btn-accent">Daten an Server senden</button>
+      </div>
+      <div id="submit-status" class="meta mt"></div>
+      <div class="meta mt">
+        <div>Zusammenfassung</div>
+        <ul id="summary" class="list mt"></ul>
+      </div>
+    </section>
+
+    <!-- Attribution Panel (zentriert) -->
+    <div id="attr" class="overlay hidden">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
+        <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
+        <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
+        <div id="attr-options" class="chips"></div>
+        <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begründung (optional)"></textarea>
+        <div class="row end gap-sm mt">
+          <button id="attr-skip" type="button" class="btn btn-outline">Weiter ohne Angabe</button>
+          <button id="attr-save" type="button" class="btn btn-primary">Speichern & Weiter</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div>Single-file • keine Build-Tools nötig</div>
+      <div>Zeit seit Start: <span id="elapsed">0</span> s</div>
+    </footer>
+  </div>
+
+  <script>
+    // ===== Utilities =====
+    const $ = (sel) => document.querySelector(sel);
+    const screens = ["intro","exp1","exp2","exp3","exp4","exp5","survey","debrief"];
+    const now = () => performance.now();
+    const progress = (idx) => { $("#progress").style.width = Math.min(100, Math.max(0, (idx/7)*100)) + "%"; };
+    const blobDownload = (filename, text) => { const url = URL.createObjectURL(new Blob([text])); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); };
+
+    // ===== Global State =====
+    const CONDITION = 'persuasive';
+    const COLLECT_URL = window.COLLECT_URL || '';
+    const state = {
+      startedAt: null,
+      events: [],
+      step: 'intro',
+      consent: false,
+      exp1: { name:'proximity_grouping', variant:'proximity_targeted', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp2: { name:'cta_shape', variant: Math.random()<0.5?'round_high':'square_low', leftSalient: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp3: { name:'social_proof', variant:'present', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp4: { name:'shipping_defaults', variant: ['default_fast','default_standard','default_green'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp5: { name:'material_scarcity', variant: Math.random()<0.5?'scarce_present':'scarce_absent', scarceLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, openComment:'' },
+    };
+
+    // Stopwatch UI
+    let raf; let startRef=null;
+    function tick(){ if(startRef!=null){ const s = (performance.now()-startRef)/1000; $('#elapsed').textContent = String(Math.round(s)); } raf = requestAnimationFrame(tick); }
+
+    function go(step){
+      state.step = step; progress(screens.indexOf(step));
+      screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
+      if(step!=='intro' && step!=='debrief' && startRef===null){ startRef = performance.now(); tick(); }
+      if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
+      if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
+      if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
+      if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
+      if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
+      if(step==='survey'){ renderSurvey(); }
+      if(step==='debrief'){ renderSummary(); autoSubmit(); }
+    }
+
+    function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
+    function log(type, data){ state.events.push({ t: state.startedAt? Math.round(now()-state.startedAt):0, type, data }); }
+
+    // ===== Intro =====
+    $('#consent').addEventListener('change', (e)=>{
+      state.consent = e.target.checked;
+      const b = $('#btn-start');
+      if(state.consent){ b.disabled=false; b.className='btn btn-primary'; }
+      else { b.disabled=true; b.className='btn btn-disabled'; }
+    });
+    $('#btn-start').addEventListener('click', ()=>{ if(!state.consent) return; state.startedAt = now(); log('session_start',{ condition:CONDITION }); go('exp1'); });
+
+    // ===== EXP 1: Proximity/Grouping =====
+    const exp1Cards = [
+      { id:'starter', title:'Starter', price:'9,99 € / Monat', desc:'Basis-Tools: Aufgaben & Notizen' },
+      { id:'plus',    title:'Plus',    price:'10,09 € / Monat', desc:'Organisation: Kalender & Erinnerungen' },
+      { id:'pro',     title:'Pro',     price:'10,19 € / Monat', desc:'Teamwork: Freigaben & Rollen' },
+    ];
+    const exp1TargetId = ['starter','plus','pro'][Math.floor(Math.random()*3)];
+    function renderExp1(){
+      const wrap = $('#exp1-cards'); wrap.innerHTML='';
+      exp1Cards.forEach(c=>{
+        const isTarget = c.id===exp1TargetId;
+        const card = document.createElement('div');
+        card.className = `card soft flex-col ${isTarget?'card--tinted':''}`;
+        card.innerHTML = `
+          <div class="row between">
+            <div class="plan__title">${c.title}</div>
+            <div class="plan__price">${c.price}</div>
+          </div>
+          <div class="plan__desc">${c.desc}</div>
+          <div class="mt">
+            ${isTarget ? `
+              <div class="group-box">
+                <ul class="list small mb">
+                  <li>Unbegrenzte Projekte</li>
+                  <li>Grundlegende Analyse</li>
+                  <li>Support per E-Mail</li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-block exp1-choose">Wählen</button>
+              </div>
+            ` : `
+              <ul class="list small mt">
+                <li>Unbegrenzte Projekte</li>
+                <li>Grundlegende Analyse</li>
+                <li>Support per E-Mail</li>
+              </ul>
+              <div class="divider"></div>
+              <div class="row end">
+                <button type="button" class="btn btn-outline exp1-choose">Wählen</button>
+              </div>
+            `}
+          </div>`;
+        card.querySelectorAll('.exp1-choose').forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
+            state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
+            openAttribution({
+              title:'Kurze Einordnung – Exp 1',
+              options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Preis','Bekanntheit/Label','Sonstiges'],
+              onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
+            });
+          });
+        });
+        wrap.appendChild(card);
+      });
+    }
+
+    // ===== EXP 2: Buttonform/Kontrast =====
+    function renderExp2(){
+      const variant = state.exp2.variant; // 'round_high' oder 'square_low'
+      const leftSalient = state.exp2.leftSalient;
+      const leftStyle = (leftSalient ? variant : (variant==='round_high'?'square_low':'round_high'));
+      const rightStyle = (!leftSalient ? variant : (variant==='round_high'?'square_low':'round_high'));
+      const styleToClass = (s)=> s==='round_high' ? 'btn btn-primary btn-pill' : 'btn btn-outline';
+      const leftBtn = $('#exp2-left'); const rightBtn = $('#exp2-right');
+      leftBtn.className = styleToClass(leftStyle);
+      rightBtn.className = styleToClass(rightStyle);
+      const handler = (pos)=>{
+        if(state.exp2.ttf==null) state.exp2.ttf = Math.round(now()-state.exp2.startedAt);
+        state.exp2.clicks++;
+        const clickedStyle = pos==='left'? leftStyle : rightStyle;
+        const success = clickedStyle===variant; if(!success) state.exp2.errors++;
+        state.exp2.success = success; state.exp2.finishedAt = now();
+        state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
+        openAttribution({
+          title:'Kurze Einordnung – Exp 2',
+          options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
+        });
+      };
+      leftBtn.onclick = ()=>handler('left');
+      rightBtn.onclick = ()=>handler('right');
+    }
+
+    // ===== EXP 3: Social Proof =====
+    const products = [
+      { id:'basic', name:'Basic Bottle', subtitle:'Einfach, robust', price:12.99, rating:3.9, shipping:'2–3 Tage' },
+      { id:'reuse', name:'ReUse+ Bottle', subtitle:'Nachhaltig, wiederverwendbar', price:18.90, rating:4.6, shipping:'1–2 Tage', eco:true },
+      { id:'steel', name:'Steel Bottle', subtitle:'Doppelwand-Edelstahl', price:24.00, rating:4.4, shipping:'2–4 Tage' },
+    ];
+    const exp3TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
+    const exp3BannerCount = [198,210,224,231][Math.floor(Math.random()*4)];
+    function renderExp3(){
+      $('#exp3-banner').innerHTML = `
+        <div class="banner__title">Beliebt heute</div>
+        <div class="mt-2"><strong>${products.find(p=>p.id===exp3TargetId).name}</strong> wurde ${exp3BannerCount}× gekauft.</div>`;
+      const grid = $('#exp3-grid'); grid.innerHTML='';
+      const order = [0,1,2].sort(()=>Math.random()-0.5);
+      order.forEach(idx=>{
+        const p = products[idx]; const isTarget = p.id===exp3TargetId;
+        const card = document.createElement('div');
+        card.className = `card soft ${isTarget?'card--ring':''}`;
+        card.innerHTML = `
+          <div class="muted small">${p.subtitle}</div>
+          <div class="thumb ${isTarget?'thumb--alt':''}"></div>
+          <div class="item__name">${p.name} ${p.eco?'🌿':''}</div>
+          <div class="muted small">${p.price.toFixed(2)} € • ${p.rating} ★ • Versand: ${p.shipping}</div>
+          <button type="button" class="btn ${isTarget?'btn-primary':''} mt">In den Warenkorb</button>`;
+        card.querySelector('button').addEventListener('click', ()=>{
+          ttfSet(state.exp3); state.exp3.clicks++; state.exp3.success=true; state.exp3.finishedAt=now();
+          state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
+          openAttribution({
+            title:'Kurze Einordnung – Exp 3',
+            options:['Beliebtheitshinweis','Hervorhebung/Ring','Preis/Versand','Nachhaltigkeit','Sonstiges'],
+            onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
+          });
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    // ===== EXP 4: Shipping Defaults =====
+    function renderExp4(){
+      const opts = [
+        { id:'fast', label:'Schneller Versand (1–2 Tage) +3,00 €' },
+        { id:'standard', label:'Standard (2–3 Tage) 0,00 €' },
+        { id:'green', label:'Klimafreundlich (2–4 Tage) +0,50 €' },
+      ];
+      const wrap = $('#exp4-options'); wrap.innerHTML='';
+      opts.forEach(opt=>{
+        const lab = document.createElement('label'); lab.className='radio-row';
+        const inp = document.createElement('input'); inp.type='radio'; inp.name='ship';
+        if((state.exp4.variant==='default_fast'&&opt.id==='fast')||(state.exp4.variant==='default_standard'&&opt.id==='standard')||(state.exp4.variant==='default_green'&&opt.id==='green')) inp.checked=true;
+        inp.addEventListener('change', ()=>{
+          if(state.exp4.ttf==null) state.exp4.ttf = Math.round(now()-state.exp4.startedAt);
+          state.exp4.clicks++; state.exp4.extra.selectedOption = opt.id; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
+        });
+        const span = document.createElement('span'); span.textContent = opt.label;
+        lab.appendChild(inp); lab.appendChild(span);
+        wrap.appendChild(lab);
+      });
+      $('#exp4-save').onclick = ()=>{
+        const selected = state.exp4.extra.selectedOption || state.exp4.variant.replace('default_','');
+        state.exp4.success = true; state.exp4.finishedAt = now();
+        state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
+        state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
+        openAttribution({
+          title:'Kurze Einordnung – Exp 4',
+          options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
+          onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp5'); }
+        });
+      };
+    }
+
+    // ===== EXP 5: Material & Scarcity =====
+    function renderExp5(){
+      const scarcePresent = state.exp5.variant==='scarce_present';
+      const scarceLeft = state.exp5.scarceLeft;
+      const scarcityBox = `<div class="scarcity">Nur noch <strong>2</strong> auf Lager • Angebot endet in <strong>03:00</strong></div>`;
+      $('#exp5-a').innerHTML = `
+        <div class="item__name">Variante A – Trinkflasche · Polymer</div>
+        ${ scarcePresent && scarceLeft ? scarcityBox : '' }
+        <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
+        <div class="muted">Material: Polymer (BPA-frei)</div>
+        <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
+        <div class="muted mb">Versand: 2–3 Tage</div>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
+        <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
+      $('#exp5-b').innerHTML = `
+        <div class="item__name">Variante B – Trinkflasche · Plastik</div>
+        ${ scarcePresent && !scarceLeft ? scarcityBox : '' }
+        <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
+        <div class="muted">Material: Plastik (BPA-frei)</div>
+        <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
+        <div class="muted mb">Versand: 2–3 Tage</div>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
+        <button id="exp5-select-b" type="button" class="btn btn-outline">Auswählen</button>`;
+      $('#exp5-select-a').onclick = ()=>{
+        if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
+        state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
+        state.exp5.extra = { selected:'A_polymer', scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
+        openAttribution({
+          title:'Kurze Einordnung – Exp 5',
+          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Preis','Sonstiges'],
+          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('survey'); }
+        });
+      };
+      $('#exp5-select-b').onclick = ()=>{
+        if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
+        state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
+        state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
+        openAttribution({
+          title:'Kurze Einordnung – Exp 5',
+          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Preis','Sonstiges'],
+          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('survey'); }
+        });
+      };
+    }
+
+    // ===== Survey =====
+    function likertMount(containerId, id, label){
+      const root = document.createElement('div'); root.className='likert';
+      root.innerHTML = `<div class="likert__label">${label}</div>
+      <div class="likert__scale">${[1,2,3,4,5,6,7].map(n=>`<label class=\"likert__dot\"><input type=\"radio\" name=\"${id}\" value=\"${n}\" class=\"sr\"><span>${n}</span></label>`).join('')}</div>`;
+      root.querySelectorAll(`input[name="${id}"]`).forEach(inp=>{ inp.addEventListener('change', (e)=>{ state.survey[id] = Number(e.target.value); }); });
+      document.getElementById(containerId).appendChild(root);
+    }
+    function renderSurvey(){
+      const c = document.getElementById('likert'); c.innerHTML='';
+      [['ease','Die Nutzung war einfach'],['intrusiveness','Die Gestaltung war aufdringlich'],['trust','Ich vertraue dieser Anwendung'],['satisfaction','Ich bin insgesamt zufrieden'],['autonomy','Ich hatte die Kontrolle über meine Entscheidungen'],['effort','Es war anstrengend'],['frustration','Ich war frustriert'],['helpfulPersuasion','Die Hinweise waren hilfreich'],['noticedSocialProof','Mir ist ein Hinweis zur Beliebtheit aufgefallen'],['noticedDefault','Mir ist eine Voreinstellung aufgefallen']].forEach(([id,label])=>likertMount('likert', id, label));
+      document.getElementById('openComment').addEventListener('input', (e)=>{ state.survey.openComment = e.target.value; });
+      document.getElementById('survey-finish').onclick = ()=>{ go('debrief'); };
+    }
+
+    // ===== Attribution Overlay =====
+    function openAttribution({title, options, onDone}){
+      const root = document.getElementById('attr');
+      const box = document.getElementById('attr-options'); box.innerHTML='';
+      document.getElementById('attr-title').textContent = title;
+      const selected = new Set();
+      options.forEach(opt=>{
+        const b = document.createElement('button'); b.type='button'; b.className='chip'; b.textContent = opt;
+        b.addEventListener('click', ()=>{ if(selected.has(opt)){ selected.delete(opt); b.classList.remove('chip--active'); } else { selected.add(opt); b.classList.add('chip--active'); } });
+        box.appendChild(b);
+      });
+      document.getElementById('attr-save').onclick = ()=>{
+        const note = (document.getElementById('attr-note').value||'').trim();
+        const reason = Array.from(selected).join('|') + (note? (selected.size? ' :: ':'') + note : '');
+        root.classList.add('hidden');
+        document.getElementById('attr-note').value='';
+        onDone(reason);
+      };
+      document.getElementById('attr-skip').onclick = ()=>{ root.classList.add('hidden'); onDone(''); };
+      root.classList.remove('hidden');
+    }
+
+    // ===== Export/Submit =====
+    function payload(){
+      const dur = state.startedAt? Math.round(now()-state.startedAt):0;
+      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, survey:state.survey, events:state.events };
+    }
+    function exportJSON(){ blobDownload('ux_experiment.json', JSON.stringify(payload(), null, 2)); }
+    function exportCSV(){
+      const h = [
+        'condition','durationMs',
+        'exp1_variant','exp1_success','exp1_timeMs','exp1_clicks','exp1_errors','exp1_ttfClick','exp1_clickedCard','exp1_targetId','exp1_isTarget','exp1_reason',
+        'exp2_variant','exp2_success','exp2_timeMs','exp2_clicks','exp2_errors','exp2_ttfClick','exp2_clicked','exp2_expected','exp2_clickedPos','exp2_salientPos','exp2_reason',
+        'exp3_variant','exp3_success','exp3_timeMs','exp3_clicks','exp3_errors','exp3_ttfClick','exp3_bannerChoices','exp3_otherChoices','exp3_targetName','exp3_bannerCount','exp3_reason',
+        'exp4_variant','exp4_success','exp4_timeMs','exp4_clicks','exp4_errors','exp4_ttfClick','exp4_defaultOption','exp4_selectedOption','exp4_adopted','exp4_reason',
+        'exp5_variant','exp5_success','exp5_timeMs','exp5_clicks','exp5_errors','exp5_ttfClick','exp5_selected','exp5_scarceShown','exp5_scarceSide','exp5_reason'
+      ];
+      const esc = (v)=> '"'+String(v??'').replace(/"/g,'""')+'"';
+      const t = (m)=> m.finishedAt!=null && m.startedAt!=null ? Math.round(m.finishedAt-m.startedAt) : '';
+      const r = [
+        CONDITION,
+        state.startedAt? Math.round(now()-state.startedAt):0,
+        state.exp1.variant, state.exp1.success, t(state.exp1), state.exp1.clicks, state.exp1.errors, state.exp1.ttf||'', state.exp1.extra.clickedCard||'', state.exp1.extra.targetId||'', state.exp1.extra.isTarget||'', state.exp1.extra.reason||'',
+        state.exp2.variant, state.exp2.success, t(state.exp2), state.exp2.clicks, state.exp2.errors, state.exp2.ttf||'', (state.exp2.extra.clicked||''), (state.exp2.extra.expected||''), (state.exp2.extra.clickedPos||''), (state.exp2.extra.salientPos||''), (state.exp2.extra.reason||''),
+        state.exp3.variant, state.exp3.success, t(state.exp3), state.exp3.clicks, state.exp3.errors, state.exp3.ttf||'', (state.exp3.extra.bannerChoices||''), (state.exp3.extra.otherChoices||''), (state.exp3.extra.targetName||''), (state.exp3.extra.bannerCount||''), (state.exp3.extra.reason||''),
+        state.exp4.variant, state.exp4.success, t(state.exp4), state.exp4.clicks, state.exp4.errors, state.exp4.ttf||'', (state.exp4.extra.defaultOption||''), (state.exp4.extra.selectedOption||''), String(state.exp4.extra.adopted||false), (state.exp4.extra.reason||''),
+        state.exp5.variant, state.exp5.success, t(state.exp5), state.exp5.clicks, state.exp5.errors, state.exp5.ttf||'', (state.exp5.extra.selected||''), String(state.exp5.extra.scarceShown||''), (state.exp5.extra.scarceSide||''), (state.exp5.extra.reason||'')
+      ];
+      const csv = h.join(',')+"\n"+r.map(esc).join(',');
+      blobDownload('ux_experiment.csv', csv);
+    }
+    async function submit(){
+      const out = $('#submit-status');
+      if(!COLLECT_URL){ out.textContent = 'Kein COLLECT_URL konfiguriert.'; return; }
+      out.textContent = 'Sende…';
+      try{
+        const res = await fetch(COLLECT_URL,{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload()) });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        out.textContent = 'Gesendet';
+      }catch(e){ out.textContent = 'Fehler: '+(e && e.message? e.message : e); }
+    }
+    function autoSubmit(){ if(COLLECT_URL) submit(); }
+
+    // ===== Summary =====
+    function renderSummary(){
+      const s = $('#summary'); s.innerHTML='';
+      const add = (t)=>{ const li=document.createElement('li'); li.textContent=t; s.appendChild(li); };
+      add('Bedingung: '+CONDITION);
+      add('Exp1: Klick auf '+(state.exp1.extra.clickedCard||'')+' – Target '+(state.exp1.extra.targetId||'')+' – isTarget '+String(state.exp1.extra.isTarget||''));
+      add('Exp2: Klick '+(state.exp2.extra.clicked||'')+' – Pos '+(state.exp2.extra.clickedPos||''));
+      add('Exp3: Banner-Wahl '+(state.exp3.extra.bannerChoices||0)+' – Andere '+(state.exp3.extra.otherChoices||0)+' – Target '+(state.exp3.extra.targetName||''));
+      add('Exp4: Default '+(state.exp4.extra.defaultOption||'')+' – Gewählt '+(state.exp4.extra.selectedOption||'')+' – Adopted '+String(state.exp4.extra.adopted||false));
+      add('Exp5: Auswahl '+(state.exp5.extra.selected||'')+' – Scarcity sichtbar '+String(state.exp5.extra.scarceShown||''));
+    }
+
+    // ===== Wire global buttons =====
+    $('#btn-export-csv').onclick = exportCSV;
+    $('#btn-export-json').onclick = exportJSON;
+    $('#btn-submit').onclick = submit;
+
+    // Start button state init
+    $('#consent').dispatchEvent(new Event('change'));
+  </script>
+</body>
+</html>
