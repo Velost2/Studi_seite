@@ -11,11 +11,10 @@
           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
      })(window, document, "clarity", "script", "t4h7v8a2dt");
-</script>
-<script>
-  window.COLLECT_URL = "/.netlify/functions/collect";
-</script>
-
+  </script>
+  <script>
+    window.COLLECT_URL = "/.netlify/functions/collect";
+  </script>
 </head>
 <body>
   <div class="container">
@@ -132,7 +131,7 @@
 
     <footer class="footer">
       <div>Single-file • keine Build-Tools nötig</div>
-      <div>Zeit seit Start: <span id="elapsed">0</span> s</div>
+      <!-- Zeit-Anzeige entfernt -->
     </footer>
   </div>
 
@@ -146,7 +145,7 @@
 
     // ===== Global State =====
     const CONDITION = 'persuasive';
-    const COLLECT_URL = window.COLLECT_URL || ''; // optionaler Endpunkt
+    const COLLECT_URL = window.COLLECT_URL || '';
     const state = {
       startedAt: null,
       events: [],
@@ -160,21 +159,16 @@
       survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, openComment:'' },
     };
 
-    // Stopwatch UI
-    let raf; let startRef=null;
-    function tick(){ if(startRef!=null){ const s = (performance.now()-startRef)/1000; $('#elapsed').textContent = String(Math.round(s)); } raf = requestAnimationFrame(tick); }
-
     function go(step){
       state.step = step; progress(screens.indexOf(step));
       screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
-      if(step!=='intro' && step!=='debrief' && startRef===null){ startRef = performance.now(); tick(); }
       if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
       if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
       if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
       if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
       if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
       if(step==='survey'){ renderSurvey(); }
-      if(step==='debrief'){ renderSummary(); /* kein autoSubmit */ }
+      if(step==='debrief'){ renderSummary(); }
     }
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
@@ -391,8 +385,21 @@
     function likertMount(containerId, id, label){
       const root = document.createElement('div'); root.className='likert';
       root.innerHTML = `<div class="likert__label">${label}</div>
-      <div class="likert__scale">${[1,2,3,4,5,6,7].map(n=>`<label class=\"likert__dot\"><input type=\"radio\" name=\"${id}\" value=\"${n}\" class=\"sr\"><span>${n}</span></label>`).join('')}</div>`;
-      root.querySelectorAll(`input[name="${id}"]`).forEach(inp=>{ inp.addEventListener('change', (e)=>{ state.survey[id] = Number(e.target.value); }); });
+      <div class="likert__scale">${[1,2,3,4,5,6,7].map(n=>`<label class="likert__dot"><input type="radio" name="${id}" value="${n}" class="sr"><span>${n}</span></label>`).join('')}</div>`;
+      // State-Update bei Change
+      root.querySelectorAll(`input[name="${id}"]`).forEach(inp=>{
+        inp.addEventListener('change', (e)=>{ state.survey[id] = Number(e.target.value); });
+      });
+      // Fallback: Klick auf Label erzwingt Auswahl + Change
+      root.querySelectorAll('.likert__dot').forEach(lbl=>{
+        lbl.addEventListener('click', ()=>{
+          const input = lbl.querySelector('input');
+          if (!input.checked) {
+            input.checked = true;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      });
       document.getElementById(containerId).appendChild(root);
     }
     function renderSurvey(){
