@@ -59,6 +59,8 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .btn-accent:hover { background:#1d4ed8; }
 .btn-disabled { background:#9ca3af; color:#fff; cursor:not-allowed; }
 .btn-pill { border-radius: 999px; }
+/* Experiment 2: make the grey/outline button square */
+#screen-exp2 .btn-outline { border-radius: 0; }
 #exp4-save {
   margin-top: 1rem; /* oder 16px */
 }
