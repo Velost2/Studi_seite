@@ -38,11 +38,15 @@ export default async (req) => {
     });
   }
 
-  // Site-weiter Blob-Store (zero-config)
-  const store = getStore("ux-experiment-v2");
+  // Site-weiter Blob-Store (konfigurierbar per ENV)
+  // Setze in Netlify-Umgebungsvariablen z.B. BLOBS_STORE_NAME=ux-experiment-prod
+  // Optional: BLOBS_KEY_PREFIX=runs (Standard bleibt "runs")
+  const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-prod";
+  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs";
+  const store = getStore(storeName);
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
-  const key = `runs/${ts}_${id}.json`;
+  const key = `${keyPrefix}/${ts}_${id}.json`;
 
   await store.set(key, JSON.stringify(body));
 
