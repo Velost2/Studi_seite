@@ -162,36 +162,15 @@
     };
 
     function go(step){
-  // interner Zustand
-  state.step = step;
-
-  // --- virtuelle URL je Screen (ohne Reload, ohne History-Spam) ---
-  try {
-    const url = new URL(window.location.href);
-    url.searchParams.set('screen', step);              // z. B. ?screen=exp3
-    history.replaceState({ screen: step }, '', url.toString());
-  } catch {}
-
-  // --- Microsoft Clarity annotieren (optional, safe) ---
-  if (window.clarity) {
-    try {
-      window.clarity('set', 'screen', step);
-      window.clarity('event', 'screen_change_' + step);
-    } catch {}
-  }
-
-  // --- ab hier DEIN bestehender, funktionierender Teil unverändert ---
-  progress(screens.indexOf(step));
-  screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
-
-  if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
-  if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
-  if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
-  if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
-  if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
-  if(step==='survey'){ renderSurvey(); }
-}
-
+      state.step = step; progress(screens.indexOf(step));
+      screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
+      if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
+      if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
+      if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
+      if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
+      if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
+      if(step==='survey'){ renderSurvey(); }
+    }
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
     function log(type, data){ state.events.push({ t: state.startedAt? Math.round(now()-state.startedAt):0, type, data }); }
