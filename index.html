@@ -161,41 +161,35 @@
       survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, openComment:'' },
     };
 
-   function go(step){
-  // internen Zustand setzen
+    function go(step){
+  // interner Zustand
   state.step = step;
 
-  // --- virtuelle URL je Screen (für Clarity-Heatmaps) ---
+  // --- virtuelle URL je Screen (ohne Reload, ohne History-Spam) ---
   try {
     const url = new URL(window.location.href);
-    url.searchParams.set('screen', step);          // z. B. ?screen=exp3
-    history.pushState({ screen: step }, '', url);  // ohne Reload
+    url.searchParams.set('screen', step);              // z. B. ?screen=exp3
+    history.replaceState({ screen: step }, '', url.toString());
   } catch {}
 
-  // --- Microsoft Clarity annotieren ---
+  // --- Microsoft Clarity annotieren (optional, safe) ---
   if (window.clarity) {
     try {
-      window.clarity('set', 'screen', step);              // Eigenschaft zum Filtern
-      window.clarity('event', 'screen_change_' + step);   // Event-Log
+      window.clarity('set', 'screen', step);
+      window.clarity('event', 'screen_change_' + step);
     } catch {}
   }
 
-  // --- bestehende Anzeige-/Timer-Logik ---
+  // --- ab hier DEIN bestehender, funktionierender Teil unverändert ---
   progress(screens.indexOf(step));
-  screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id !== step));
+  screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
 
-  if (step !== 'intro' && step !== 'debrief' && startRef === null) {
-    startRef = performance.now();
-    tick();
-  }
-
-  if (step === 'exp1' && !state.exp1.startedAt) { state.exp1.startedAt = now(); renderExp1(); }
-  if (step === 'exp2' && !state.exp2.startedAt) { state.exp2.startedAt = now(); renderExp2(); }
-  if (step === 'exp3' && !state.exp3.startedAt) { state.exp3.startedAt = now(); renderExp3(); }
-  if (step === 'exp4' && !state.exp4.startedAt) { state.exp4.startedAt = now(); renderExp4(); }
-  if (step === 'exp5' && !state.exp5.startedAt) { state.exp5.startedAt = now(); renderExp5(); }
-  if (step === 'survey') { renderSurvey(); }
-  if (step === 'debrief') { /* kein autoSubmit hier */ }
+  if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
+  if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
+  if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
+  if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
+  if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
+  if(step==='survey'){ renderSurvey(); }
 }
 
 
@@ -219,121 +213,53 @@
     ];
     const exp1TargetId = ['starter','plus','pro'][Math.floor(Math.random()*3)];
     function renderExp1(){
-  const wrap = $('#exp1-cards'); 
-  wrap.innerHTML='';
-
-  const isGroupingA = state.exp1.variant === 'grouping_A';
-  const isCtaC      = state.exp1.variant === 'cta_C';
-
-  exp1Cards.forEach(c=>{
-    const isTarget = c.id === exp1TargetId;
-
-    // Basiskarte
-    const card = document.createElement('div');
-    // In Variante A bekommt das Ziel eine kompakte, die anderen eine "gestreckte" Darstellung
-    card.className = `card soft flex-col ${isGroupingA && !isTarget ? 'card--stretched' : ''} ${isTarget ? 'card--tinted' : ''}`;
-
-    // Gemeinsamer Kopf
-    const head = `
-      <div class="row between">
-        <div class="plan__title">${c.title}</div>
-        <div class="plan__price">${c.price}</div>
-      </div>
-      <div class="plan__desc">${c.desc}</div>
-    `;
-
-    // Featureliste
-    const features = `
-      <ul class="list small">
-        <li>Unbegrenzte Projekte</li>
-        <li>Grundlegende Analyse</li>
-        <li>Support per E-Mail</li>
-      </ul>
-    `;
-
-    // CTA-Buttons (primär vs. dezent)
-    const ctaPrimary = `<button type="button" class="btn btn-primary btn-block exp1-choose">Wählen</button>`;
-    const ctaQuiet   = `<button type="button" class="btn btn-outline exp1-choose">Wählen</button>`;
-
-    // Layoutregeln je Variante
-    let bodyHTML = '';
-
-    if (isGroupingA) {
-      // Variante A: Ziel = kompakt (Features + CTA in "group-box")
-      // Nicht-Ziel = gestreckt (Features, Divider, Footer-CTA + zusätzlicher Abstand)
-      if (isTarget) {
-        bodyHTML = `
+      const wrap = $('#exp1-cards'); wrap.innerHTML='';
+      exp1Cards.forEach(c=>{
+        const isTarget = c.id===exp1TargetId;
+        const card = document.createElement('div');
+        card.className = `card soft flex-col ${isTarget?'card--tinted':''}`;
+        card.innerHTML = `
+          <div class="row between">
+            <div class="plan__title">${c.title}</div>
+            <div class="plan__price">${c.price}</div>
+          </div>
+          <div class="plan__desc">${c.desc}</div>
           <div class="mt">
-            <div class="group-box">
-              ${features}
-              <div class="mt-sm">${ctaPrimary}</div>
-            </div>
+            ${isTarget ? `
+              <div class="group-box">
+                <ul class="list small mb">
+                  <li>Unbegrenzte Projekte</li>
+                  <li>Grundlegende Analyse</li>
+                  <li>Support per E-Mail</li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-block exp1-choose">Wählen</button>
+              </div>
+            ` : `
+              <ul class="list small mt">
+                <li>Unbegrenzte Projekte</li>
+                <li>Grundlegende Analyse</li>
+                <li>Support per E-Mail</li>
+              </ul>
+              <div class="divider"></div>
+              <div class="row end">
+                <button type="button" class="btn btn-outline exp1-choose">Wählen</button>
+              </div>
+            `}
           </div>`;
-      } else {
-        bodyHTML = `
-          <div class="mt">
-            ${features}
-            <div class="spacer"></div>
-            <div class="divider"></div>
-            <div class="row end mt-sm">${ctaQuiet}</div>
-          </div>`;
-      }
-    }
-
-    if (isCtaC) {
-      // Variante C: Alle Karten gleich – ABER Ziel hat den CTA direkt unter Features,
-      // die anderen nur den getrennten Footer-CTA
-      if (isTarget) {
-        bodyHTML = `
-          <div class="mt">
-            ${features}
-            <div class="mt-sm">${ctaPrimary}</div>
-          </div>`;
-      } else {
-        bodyHTML = `
-          <div class="mt">
-            ${features}
-            <div class="divider"></div>
-            <div class="row end mt-sm">${ctaQuiet}</div>
-          </div>`;
-      }
-    }
-
-    card.innerHTML = head + bodyHTML;
-
-    // Klick-Handler
-    card.querySelectorAll('.exp1-choose').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        ttfSet(state.exp1); 
-        state.exp1.clicks++; 
-        state.exp1.success=true; 
-        state.exp1.finishedAt=now();
-        // alles mitschreiben
-        state.exp1.extra = { 
-          clickedCard: c.id, 
-          targetId: exp1TargetId, 
-          isTarget, 
-          variant: state.exp1.variant 
-        };
-        openAttribution({
-          title:'Kurze Einordnung – Exp 1',
-          options:[
-            'Nähe des Buttons',
-            'Kohärente Gruppierung',
-            'Position (links/rechts)',
-            'Preis',
-            'Leistungsumfang',
-            'Sonstiges'
-          ],
-          onDone:(reason)=>{ state.exp1.extra.reason = reason; go('exp2'); }
+        card.querySelectorAll('.exp1-choose').forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
+            state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
+            openAttribution({
+              title:'Kurze Einordnung – Exp 1',
+              options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Preis','Bekanntheit/Label','Sonstiges'],
+              onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
+            });
+          });
         });
+        wrap.appendChild(card);
       });
-    });
-
-    wrap.appendChild(card);
-  });
-}
-
+    }
 
     // ===== EXP 2: Buttonform/Kontrast =====
     function renderExp2(){
