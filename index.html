@@ -13,6 +13,18 @@
      })(window, document, "clarity", "script", "t4h7v8a2dt");
   </script>
   <script>
+(function waitClarity(tries=0){
+  if (typeof window.clarity === "function") {
+    console.log("[Clarity] ready");
+  } else if (tries < 20) {
+    setTimeout(()=>waitClarity(tries+1), 300);
+  } else {
+    console.warn("[Clarity] not detected after ~6s");
+  }
+})();
+</script>
+
+  <script>
     window.COLLECT_URL = "/.netlify/functions/collect";
   </script>
 </head>
