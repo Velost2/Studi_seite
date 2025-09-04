@@ -108,3 +108,23 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 
 /* ===== Helpers ===== */
 .hidden { display:none; }
+/* Exp1 – visuelle Unterstützung für Variante A */
+.card--stretched .divider { margin-top: 1rem; }
+.card--stretched .row.end { margin-top: 0.5rem; }
+
+/* Zusätzlicher künstlicher Abstand, um "gestreckt" zu wirken */
+.spacer { height: 20px; }
+
+/* Kompakter Gruppierungsblock */
+.group-box {
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+/* Leichtes Tintenfeld für das Target (optional) */
+.card--tinted {
+  background: #fcfcff;
+}
+
