@@ -161,16 +161,43 @@
       survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, openComment:'' },
     };
 
-    function go(step){
-      state.step = step; progress(screens.indexOf(step));
-      screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
-      if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
-      if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
-      if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
-      if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
-      if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
-      if(step==='survey'){ renderSurvey(); }
-    }
+   function go(step){
+  // internen Zustand setzen
+  state.step = step;
+
+  // --- virtuelle URL je Screen (für Clarity-Heatmaps) ---
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.set('screen', step);          // z. B. ?screen=exp3
+    history.pushState({ screen: step }, '', url);  // ohne Reload
+  } catch {}
+
+  // --- Microsoft Clarity annotieren ---
+  if (window.clarity) {
+    try {
+      window.clarity('set', 'screen', step);              // Eigenschaft zum Filtern
+      window.clarity('event', 'screen_change_' + step);   // Event-Log
+    } catch {}
+  }
+
+  // --- bestehende Anzeige-/Timer-Logik ---
+  progress(screens.indexOf(step));
+  screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id !== step));
+
+  if (step !== 'intro' && step !== 'debrief' && startRef === null) {
+    startRef = performance.now();
+    tick();
+  }
+
+  if (step === 'exp1' && !state.exp1.startedAt) { state.exp1.startedAt = now(); renderExp1(); }
+  if (step === 'exp2' && !state.exp2.startedAt) { state.exp2.startedAt = now(); renderExp2(); }
+  if (step === 'exp3' && !state.exp3.startedAt) { state.exp3.startedAt = now(); renderExp3(); }
+  if (step === 'exp4' && !state.exp4.startedAt) { state.exp4.startedAt = now(); renderExp4(); }
+  if (step === 'exp5' && !state.exp5.startedAt) { state.exp5.startedAt = now(); renderExp5(); }
+  if (step === 'survey') { renderSurvey(); }
+  if (step === 'debrief') { /* kein autoSubmit hier */ }
+}
+
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
     function log(type, data){ state.events.push({ t: state.startedAt? Math.round(now()-state.startedAt):0, type, data }); }
