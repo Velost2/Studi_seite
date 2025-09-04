@@ -177,11 +177,10 @@
   // interner Zustand
   state.step = step;
 
-  // --- virtuelle URL je Screen (ohne Reload, ohne History-Spam) ---
+  // --- virtuelle URL konstant halten (keine ?screen-Query) ---
   try {
-    const url = new URL(window.location.href);
-    url.searchParams.set('screen', step);              // z. B. ?screen=exp3
-    history.replaceState({ screen: step }, '', url.toString());
+    const constantUrl = window.location.origin + window.location.pathname; // z. B. '/survey' oder aktuelle Seite
+    history.replaceState({ screen: step }, '', constantUrl);
   } catch {}
 
   // --- Microsoft Clarity annotieren (optional, safe) ---
