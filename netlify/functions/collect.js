@@ -39,10 +39,10 @@ export default async (req) => {
   }
 
   // Site-weiter Blob-Store (konfigurierbar per ENV)
-  // Setze in Netlify-Umgebungsvariablen z.B. BLOBS_STORE_NAME=ux-experiment-prod
-  // Optional: BLOBS_KEY_PREFIX=runs (Standard bleibt "runs")
-  const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-prod";
-  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs";
+  // Standard: gleicher Store wie bisher, aber neuer Ordner (runs-v2/)
+  // Optional via ENV: BLOBS_STORE_NAME, BLOBS_KEY_PREFIX
+  const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-v2";
+  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v2";
   const store = getStore(storeName);
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
