@@ -39,7 +39,7 @@ export default async (req) => {
   }
 
   // Site-weiter Blob-Store (zero-config)
-  const store = getStore("ux-experiment");
+  const store = getStore("ux-experiment-v2");
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
   const key = `runs/${ts}_${id}.json`;
