@@ -102,11 +102,20 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 
 /* ===== Overlay / Modal ===== */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); display:grid; place-items:center; padding:16px; z-index: 50; }
-.modal { width:100%; max-width: 640px; background:#fff; border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
+.modal { position:relative; width:100%; max-width: 640px; background:#fff; border-radius:16px; padding:12px 20px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
 .modal__title { margin:0 0 6px; font-size: 16px; font-weight: 700; }
+.modal__close { position:absolute; top:10px; right:10px; border:none; background:#f3f4f6; color:#111827; border-radius:999px; width:28px; height:28px; font-size:18px; line-height:1; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.modal__close:hover { background:#e5e7eb; }
+.modal__drag { width:100%; height:20px; display:flex; align-items:center; justify-content:center; margin: 0 0 8px; cursor: grab; }
+.modal__drag::before { content:""; width:96px; height:6px; background:#e5e7eb; border-radius:999px; }
+.modal--dragging .modal__drag { cursor: grabbing; }
 .chips { display:flex; flex-wrap:wrap; gap:8px; margin: 8px 0 12px; }
 .chip { padding:6px 10px; border:1px solid #d1d5db; border-radius:999px; background:#fff; font-size:13px; cursor:pointer; }
 .chip--active { background:#111827; color:#fff; border-color:#111827; }
+
+/* Floating reopen button for attribution */
+.fab { position:fixed; right:16px; bottom:16px; z-index:60; border:none; border-radius:999px; padding:10px 14px; font-weight:600; background:#111827; color:#fff; cursor:pointer; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+.fab:hover { background:#000; }
 
 /* ===== Helpers ===== */
 .hidden { display:none; }
@@ -130,3 +139,9 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
   background: #fcfcff;
 }
 
+/* ===== Scarcity emphasis (Exp 5) ===== */
+.scarcity--emph { display:flex; align-items:center; gap:8px; font-weight:600; background:#fff7ed; border-color:#fdba74; color:#7c2d12; }
+.scarcity--emph strong { color:#b45309; }
+.scarcity__icon { width:18px; height:18px; border-radius:999px; background:#f59e0b; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; }
+@keyframes pulse-emph { 0% { box-shadow: 0 0 0 0 rgba(245,158,11,.45); } 70% { box-shadow: 0 0 0 8px rgba(245,158,11,0); } 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); } }
+.scarcity--pulse { animation: pulse-emph 1.8s ease-out infinite; }

@@ -37,6 +37,9 @@
           es gibt keine richtigen oder falschen Antworten.<br> 
           Ihre Angaben bleiben dabei vollständig anonym</p>
       </div>
+      <div class="header-actions">
+        <button id="btn-back" type="button" class="btn btn-outline hidden">Zurück</button>
+      </div>
     </header>
 
     <div class="progress"><div id="progress" class="progress__bar" style="width:0%"></div></div>
@@ -61,7 +64,9 @@
     <!-- EXP 1: Proximity/Grouping -->
     <section id="screen-exp1" class="card hidden">
       <h2>Experiment 1: Proximity und Gruppierung</h2>
-      <p class="hint">Aufgabe: Wählen Sie ein Paket.</p>
+      <p class="hint">Aufgabe: Wählen Sie ein Paket. <br>
+        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
+      </p>
       <div id="exp1-cards" class="grid grid-3"></div>
     </section>
 
@@ -78,7 +83,9 @@
     <!-- EXP 3: Social Proof -->
     <section id="screen-exp3" class="card hidden">
       <h2>Experiment 3: Social Proof</h2>
-      <p class="hint">Aufgabe: Wählen Sie ein Produkt.</p>
+      <p class="hint">Aufgabe: Wählen Sie ein Produkt.<br>
+        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
+      </p>
       <div id="exp3-banner" class="banner"></div>
       <div id="exp3-grid" class="grid grid-3"></div>
     </section>
@@ -105,7 +112,9 @@
     <!-- SURVEY -->
     <section id="screen-survey" class="card hidden">
       <h2>Abschlussfragebogen</h2>
-      <p class="hint">Bitte bewerten Sie Ihre Erfahrung (1–7) und ob Ihnen bestimmte Hinweise aufgefallen sind.</p>
+      <p class="hint">Bitte bewerten Sie Ihre Erfahrung (1–10) und ob Ihnen bestimmte Hinweise aufgefallen sind.<br>
+        1 bedeutet „trifft gar nicht zu“, 10 bedeutet „trifft voll zu“.
+      </p>
       <div id="likert"></div>
       <div class="stack gap-sm">
         <label class="label">Offenes Feedback</label>
@@ -127,16 +136,19 @@
     <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
       <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
+        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen">×</button>
+        <div id="attr-drag" class="modal__drag" aria-hidden="true" title="Zum Verschieben hier ziehen"></div>
         <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
         <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
         <div id="attr-options" class="chips"></div>
         <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begründung (optional)"></textarea>
-        <div class="row end gap-sm mt">
+        <div class="row end gap mt">
           <button id="attr-skip" type="button" class="btn btn-outline">Weiter ohne Angabe</button>
           <button id="attr-save" type="button" class="btn btn-primary">Speichern & Weiter</button>
         </div>
       </div>
     </div>
+    <button id="attr-reopen" type="button" class="fab hidden" title="Einordnung erneut öffnen">Einordnung</button>
 
     <footer class="footer">
       <div>Vielen Dank für die Hilfe!</div>
@@ -151,6 +163,18 @@
     const now = () => performance.now();
     const progress = (idx) => { $("#progress").style.width = Math.min(100, Math.max(0, (idx/7)*100)) + "%"; };
     const blobDownload = (filename, text) => { const url = URL.createObjectURL(new Blob([text])); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); };
+    let _attrCleanup = null;
+    function dismissAttribution(){
+      const root = document.getElementById('attr');
+      if(!root) return;
+      root.classList.add('hidden');
+      const reopen = document.getElementById('attr-reopen');
+      if(reopen) reopen.classList.remove('hidden');
+      if(typeof _attrCleanup === 'function'){
+        try { _attrCleanup(); } catch {}
+        _attrCleanup = null;
+      }
+    }
 
     // ===== Global State =====
     const CONDITION = 'persuasive';
@@ -190,6 +214,12 @@
       window.clarity('event', 'screen_change_' + step);
     } catch {}
   }
+
+  // Back-Button Sichtbarkeit steuern
+  try {
+    const backBtn = document.getElementById('btn-back');
+    if(backBtn){ backBtn.classList.toggle('hidden', screens.indexOf(step) <= 0); }
+  } catch {}
 
   // --- ab hier DEIN bestehender, funktionierender Teil unverändert ---
   progress(screens.indexOf(step));
@@ -373,10 +403,11 @@
     function renderExp5(){
       const scarcePresent = state.exp5.variant==='scarce_present';
       const scarceLeft = state.exp5.scarceLeft;
+      const scarcityBox2 = `<div class="scarcity scarcity--emph scarcity--pulse" aria-live="polite"><span class="scarcity__icon">!</span><span>Nur noch <strong>2</strong> auf Lager &ndash; Angebot endet in <strong>03:00</strong></span></div>`;
       const scarcityBox = `<div class="scarcity">Nur noch <strong>2</strong> auf Lager • Angebot endet in <strong>03:00</strong></div>`;
       $('#exp5-a').innerHTML = `
         <div class="item__name">Variante A – Trinkflasche · Polymer</div>
-        ${ scarcePresent && scarceLeft ? scarcityBox : '' }
+        ${ scarcePresent && scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
         <div class="muted">Material: Polymer (BPA-frei)</div>
         <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
@@ -385,7 +416,7 @@
         <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
       $('#exp5-b').innerHTML = `
         <div class="item__name">Variante B – Trinkflasche · Plastik</div>
-        ${ scarcePresent && !scarceLeft ? scarcityBox : '' }
+        ${ scarcePresent && !scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
         <div class="muted">Material: Plastik (BPA-frei)</div>
         <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
@@ -418,7 +449,7 @@
     function likertMount(containerId, id, label){
       const root = document.createElement('div'); root.className='likert';
       root.innerHTML = `<div class="likert__label">${label}</div>
-      <div class="likert__scale">${[1,2,3,4,5,6,7].map(n=>`<label class="likert__dot"><input type="radio" name="${id}" value="${n}" class="sr"><span>${n}</span></label>`).join('')}</div>`;
+      <div class="likert__scale">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<label class="likert__dot"><input type="radio" name="${id}" value="${n}" class="sr"><span>${n}</span></label>`).join('')}</div>`;
       // State-Update bei Change
       root.querySelectorAll(`input[name="${id}"]`).forEach(inp=>{
         inp.addEventListener('change', (e)=>{ state.survey[id] = Number(e.target.value); });
@@ -445,6 +476,14 @@
     // ===== Attribution Overlay =====
     function openAttribution({title, options, onDone}){
       const root = document.getElementById('attr');
+      const modal = root.querySelector('.modal');
+      const closeBtn = document.getElementById('attr-close');
+      const reopenBtn = document.getElementById('attr-reopen');
+
+      // clean previous handlers if any
+      if(typeof _attrCleanup === 'function'){ try { _attrCleanup(); } catch {} }
+
+      // build options
       const box = document.getElementById('attr-options'); box.innerHTML='';
       document.getElementById('attr-title').textContent = title;
       const selected = new Set();
@@ -453,14 +492,96 @@
         b.addEventListener('click', ()=>{ if(selected.has(opt)){ selected.delete(opt); b.classList.remove('chip--active'); } else { selected.add(opt); b.classList.add('chip--active'); } });
         box.appendChild(b);
       });
+
+      // helper to fully finish and cleanup
+      const finish = (reason)=>{
+        root.classList.add('hidden');
+        if(reopenBtn) reopenBtn.classList.add('hidden');
+        document.getElementById('attr-note').value='';
+        try { if(typeof _attrCleanup === 'function') _attrCleanup(); } catch {}
+        _attrCleanup = null;
+        onDone(reason);
+      };
+
+      // save/skip act as forward
       document.getElementById('attr-save').onclick = ()=>{
         const note = (document.getElementById('attr-note').value||'').trim();
         const reason = Array.from(selected).join('|') + (note? (selected.size? ' :: ':'') + note : '');
-        root.classList.add('hidden');
-        document.getElementById('attr-note').value='';
-        onDone(reason);
+        finish(reason);
       };
-      document.getElementById('attr-skip').onclick = ()=>{ root.classList.add('hidden'); onDone(''); };
+      document.getElementById('attr-skip').onclick = ()=>{ finish(''); };
+
+      // Close behavior (just hide, do NOT call onDone)
+      const hideOnly = ()=>{
+        root.classList.add('hidden');
+        if(reopenBtn) reopenBtn.classList.remove('hidden');
+      };
+      if(closeBtn) closeBtn.onclick = hideOnly;
+      // click outside modal closes
+      const onOverlayClick = (e)=>{ if(e.target === root) hideOnly(); };
+      root.addEventListener('click', onOverlayClick);
+      // ESC closes
+      const onKey = (e)=>{ if(e.key === 'Escape'){ hideOnly(); } };
+      document.addEventListener('keydown', onKey);
+
+      // draggable: drag by visible handle
+      let dragging = false; let sx=0, sy=0, sl=0, st=0;
+      const titleEl = document.getElementById('attr-title');
+      const dragEl = document.getElementById('attr-drag') || titleEl;
+      const onDown = (e)=>{
+        dragging = true;
+        const rect = modal.getBoundingClientRect();
+        // switch to fixed positioning at current spot
+        modal.style.position = 'fixed';
+        modal.style.left = rect.left + 'px';
+        modal.style.top = rect.top + 'px';
+        modal.style.transform = 'none';
+        sx = (e.touches? e.touches[0].clientX : e.clientX);
+        sy = (e.touches? e.touches[0].clientY : e.clientY);
+        sl = rect.left; st = rect.top;
+        document.body.style.userSelect = 'none';
+        modal.classList.add('modal--dragging');
+      };
+      const onMove = (e)=>{
+        if(!dragging) return;
+        const cx = (e.touches? e.touches[0].clientX : e.clientX);
+        const cy = (e.touches? e.touches[0].clientY : e.clientY);
+        const nl = sl + (cx - sx);
+        const nt = st + (cy - sy);
+        modal.style.left = nl + 'px';
+        modal.style.top = nt + 'px';
+      };
+      const onUp = ()=>{ dragging = false; document.body.style.userSelect=''; modal.classList.remove('modal--dragging'); };
+      if(dragEl){
+        dragEl.addEventListener('mousedown', onDown);
+        dragEl.addEventListener('touchstart', onDown, {passive:true});
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onMove, {passive:true});
+      document.addEventListener('mouseup', onUp);
+      document.addEventListener('touchend', onUp);
+
+      // expose cleanup for dismissAttribution/back navigation
+      _attrCleanup = ()=>{
+        try { root.removeEventListener('click', onOverlayClick); } catch {}
+        try { document.removeEventListener('keydown', onKey); } catch {}
+        try { document.removeEventListener('mousemove', onMove); } catch {}
+        try { document.removeEventListener('touchmove', onMove); } catch {}
+        try { document.removeEventListener('mouseup', onUp); } catch {}
+        try { document.removeEventListener('touchend', onUp); } catch {}
+        if(dragEl){
+          try { dragEl.removeEventListener('mousedown', onDown); } catch {}
+          try { dragEl.removeEventListener('touchstart', onDown); } catch {}
+        }
+      };
+
+      // allow reopening when previously closed
+      if(reopenBtn){
+        reopenBtn.onclick = ()=>{ root.classList.remove('hidden'); reopenBtn.classList.add('hidden'); };
+      }
+
+      // show modal and hide reopen button while active
+      if(reopenBtn) reopenBtn.classList.add('hidden');
       root.classList.remove('hidden');
     }
 
@@ -518,6 +639,17 @@
 
     // ===== Wire global buttons =====
     $('#btn-submit').onclick = submit;
+    // Back navigation
+    const backBtn = document.getElementById('btn-back');
+    if(backBtn){
+      backBtn.addEventListener('click', ()=>{
+        // if overlay open, dismiss it first
+        const attr = document.getElementById('attr');
+        if(attr && !attr.classList.contains('hidden')){ dismissAttribution(); }
+        const idx = screens.indexOf(state.step);
+        if(idx > 0){ go(screens[idx-1]); }
+      });
+    }
 
     // Start button state init
     $('#consent').dispatchEvent(new Event('change'));
