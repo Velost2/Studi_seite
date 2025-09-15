@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -50,7 +50,7 @@
       <ul class="list">
         <li>Es werden nur anonyme Interaktionsdaten gespeichert (Klicks, Zeiten, Auswahl).</li>
         <li>Keine IP/Browserdaten, keine Personenbezüge.</li>
-        <li>Die Daten werden erst beim Klick auf „Ergebnisse senden“ übertragen.</li>
+        <li>Die Daten werden erst beim Klick auf Ergebnisse senden übertragen.</li>
       </ul>
       <label class="checkbox-row">
         <input type="checkbox" id="consent" />
@@ -65,7 +65,7 @@
     <section id="screen-exp1" class="card hidden">
       <h2>Schritt 1</h2>
       <p class="hint">Aufgabe: Wählen Sie ein Paket. <br>
-        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
+        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichtet.)
       </p>
       <div id="exp1-cards" class="grid grid-3"></div>
     </section>
@@ -73,7 +73,7 @@
     <!-- EXP 2: Buttonform/-kontrast -->
     <section id="screen-exp2" class="card hidden">
       <h2>Schritt 2</h2>
-      <p class="hint">Aufgabe: Klicken Sie einen „Weiter“-Button.</p>
+      <p class="hint">Aufgabe: Klicken Sie einen Weiter-Button.</p>
       <div class="row gap">
         <button id="exp2-left" type="button" class="btn">Weiter</button>
         <button id="exp2-right" type="button" class="btn">Weiter</button>
@@ -84,7 +84,7 @@
     <section id="screen-exp3" class="card hidden">
       <h2>Schritt 3</h2>
       <p class="hint">Aufgabe: Wählen Sie ein Produkt.<br>
-        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
+        (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichtet.)
       </p>
       <div id="exp3-banner" class="banner"></div>
       <div id="exp3-grid" class="grid grid-3"></div>
@@ -116,7 +116,7 @@
       <div class="row"><button id="exp13-cta" type="button" class="btn btn-primary">Weiter</button></div>
     </section>
 
-    <!-- EXP 6: Fitts's Law (Größe/Distanz) -->
+    <!-- EXP 6: Fitts's Law (Gre/Distanz) -->
     <section id="screen-exp6" class="card hidden">
       <h2>Schritt 6</h2>
       <p class="hint">Klicken Sie eine Option.</p>
@@ -159,8 +159,8 @@
             <p>Abschnitt 5: Datenschutz. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
             <p>Abschnitt 6: Mehr Text zum Scrollen. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
-          <div class="mt small">Technische Details: …</div>
-          <div class="mt small">Kleingedrucktes: …</div>
+          <div class="mt small">Technische Details: </div>
+          <div class="mt small">Kleingedrucktes: </div>
         </details>
         <div class="row mt"><button id="exp9pd-cta" type="button" class="btn btn-primary">Weiter</button></div>
       </div>
@@ -221,8 +221,8 @@
     <!-- SURVEY -->
     <section id="screen-survey" class="card hidden">
       <h2>Abschlussfragebogen</h2>
-      <p class="hint">Bitte bewerten Sie Ihre Erfahrung (1–10) und ob Ihnen bestimmte Hinweise aufgefallen sind.<br>
-        1 bedeutet „trifft gar nicht zu“, 10 bedeutet „trifft voll zu“.
+      <p class="hint">Bitte bewerten Sie Ihre Erfahrung (110) und ob Ihnen bestimmte Hinweise aufgefallen sind.<br>
+        1 bedeutet trifft gar nicht zu, 10 bedeutet trifft voll zu.
       </p>
       <div id="likert"></div>
       <div class="stack gap-sm">
@@ -245,12 +245,12 @@
     <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
       <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
-        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen">×</button>
+        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen"></button>
         <div id="attr-drag" class="modal__drag" aria-hidden="true" title="Zum Verschieben hier ziehen"></div>
         <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
         <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
         <div id="attr-options" class="chips"></div>
-        <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begründung (optional)"></textarea>
+        <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begrndung (optional)"></textarea>
         <div class="row end gap mt">
           <button id="attr-skip" type="button" class="btn btn-outline">Weiter ohne Angabe</button>
           <button id="attr-save" type="button" class="btn btn-primary">Speichern & Weiter</button>
@@ -343,7 +343,7 @@
     if(backBtn){ backBtn.classList.toggle('hidden', screens.indexOf(step) <= 0); }
   } catch {}
 
-  // --- ab hier DEIN bestehender, funktionierender Teil unverändert ---
+  // --- ab hier DEIN bestehender, funktionierender Teil unverndert ---
   progress(screens.indexOf(step));
   screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
 
@@ -388,7 +388,7 @@
       ...c,
       id: ['a','b','c'][i],
       title: `Paket ${['A','B','C'][i]}`,
-      price: '9,99 EUR / Monat',
+      price: '9,99 € / Monat',
       desc: 'Tools: Aufgaben, Notizen, Kalender, Freigaben'
     }));
     const exp1TargetId = ['a','b','c'][Math.floor(Math.random()*3)];
@@ -431,7 +431,7 @@
             ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
             state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
             openAttribution({
-              title:'Kurze Einordnung � Schritt 1',
+              title:'Kurze Einordnung – Schritt 1',
               options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Sonstiges'],
               onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
@@ -460,7 +460,7 @@
         state.exp2.success = success; state.exp2.finishedAt = now();
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
-          title:'Kurze Einordnung � Schritt 2',
+          title:'Kurze Einordnung – Schritt 2',
           options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
@@ -476,18 +476,18 @@
       { id:'steel', name:'Steel Bottle', subtitle:'Doppelwand-Edelstahl', price:24.00, rating:4.4, shipping:'2–4 Tage' },
     ];
     // Unify product offer details for fairness
-    products = products.map(p=>({ ...p, subtitle:'Leicht, robust', price:19.90, rating:4.4, shipping:'2-3 Tage', eco:false }));
+    products = products.map(p=>({ ...p, subtitle:'Leicht, robust', price:19.90, rating:4.4, shipping:'2–3 Tage', eco:false }));
     const exp3TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
     const exp3BannerCount = [198,210,224,231][Math.floor(Math.random()*4)];
     function renderExp3(){
       $('#exp3-banner').innerHTML = `
         <div class="banner__title">Beliebt heute</div>
-        <div class="mt-2"><strong>${products.find(p=>p.id===exp3TargetId).name}</strong> wurde ${exp3BannerCount}× gekauft.</div>`;
+        <div class="mt-2"><strong>${products.find(p=>p.id===exp3TargetId).name}</strong> wurde ${exp3BannerCount} gekauft.</div>`;
       // Override with emphasized social-proof banner (similar style as scarcity)
       $('#exp3-banner').innerHTML = `
         <div class="socialproof socialproof--emph socialproof--pulse" aria-live="polite">
-          <span class="socialproof__icon">✓</span>
-          <span>Heute beliebt: <strong>${products.find(p=>p.id===exp3TargetId).name}</strong> – <strong>${exp3BannerCount}</strong> mal gekauft</span>
+          <span class="socialproof__icon"></span>
+          <span>Heute beliebt: <strong>${products.find(p=>p.id===exp3TargetId).name}</strong>  <strong>${exp3BannerCount}</strong> mal gekauft</span>
         </div>`;
       const grid = $('#exp3-grid'); grid.innerHTML='';
       const order = [0,1,2].sort(()=>Math.random()-0.5);
@@ -498,8 +498,8 @@
         card.innerHTML = `
           <div class="muted small">${p.subtitle}</div>
           <div class="thumb ${isTarget?'thumb--alt':''}"></div>
-          <div class="item__name">${p.name} ${p.eco?'🌿':''}</div>
-          <div class="muted small">${p.price.toFixed(2)} € • ${p.rating} ★ • Versand: ${p.shipping}</div>
+          <div class="item__name">${p.name} ${p.eco?'':''}</div>
+          <div class="muted small">€ ${p.price.toFixed(2)}  ${p.rating.toFixed(1)}★  Versand: ${p.shipping}</div>
           <button type="button" class="btn ${isTarget?'btn-primary':''} mt">In den Warenkorb</button>`;
         /*
         // Normalisierung zur Reduktion von Störfaktoren (keine Hervorhebung/Farbunterschiede)
@@ -509,14 +509,14 @@
           const nameEl = card.querySelector('.item__name'); if(nameEl){ nameEl.textContent = p.name; }
           const infoEls = card.querySelectorAll('.muted.small');
           if(infoEls[0]) infoEls[0].textContent = 'Leicht, robust';
-          if(infoEls[1]) infoEls[1].textContent = `${(19.90).toFixed(2)} EUR · ${(4.4).toFixed(1)}* · Versand: 2-3 Tage`;
+          if(infoEls[1]) infoEls[1].textContent = `€ ${(19.90).toFixed(2)}  ${(4.4).toFixed(1)}★  Versand: 2–3 Tage`;
           const btnEl = card.querySelector('button'); if(btnEl){ btnEl.className = 'btn mt'; }
         } catch {} */
         card.querySelector('button').addEventListener('click', ()=>{
           ttfSet(state.exp3); state.exp3.clicks++; state.exp3.success=true; state.exp3.finishedAt=now();
           state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
           openAttribution({
-            title:'Kurze Einordnung � Schritt 3',
+            title:'Kurze Einordnung – Schritt 3',
             options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
             onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
@@ -528,9 +528,9 @@
     // ===== EXP 4: Shipping Defaults =====
     function renderExp4(){
       const opts = [
-        { id:'fast', label:'Schneller Versand (1–2 Tage) +3,00 €' },
-        { id:'standard', label:'Standard (2–3 Tage) 0,00 €' },
-        { id:'green', label:'Klimafreundlich (2–4 Tage) +0,50 €' },
+        { id:'fast', label:'Schneller Versand (1–2 Tage) +3,00 € ' },
+        { id:'standard', label:'Standard (2–3 Tage) 0,00 € ' },
+        { id:'green', label:'Klimafreundlich (2–4 Tage) +0,50 € ' },
       ];
       const wrap = $('#exp4-options'); wrap.innerHTML='';
       opts.forEach(opt=>{
@@ -551,7 +551,7 @@
         state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
         state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
         openAttribution({
-          title:'Kurze Einordnung � Schritt 4',
+          title:'Kurze Einordnung – Schritt 4',
           options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
           onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp5'); }
         });
@@ -563,31 +563,31 @@
       const scarcePresent = state.exp5.variant==='scarce_present';
       const scarceLeft = state.exp5.scarceLeft;
       const scarcityBox2 = `<div class="scarcity scarcity--emph scarcity--pulse" aria-live="polite"><span class="scarcity__icon">!</span><span>Nur noch <strong>2</strong> auf Lager &ndash; Angebot endet in <strong>03:00</strong></span></div>`;
-      const scarcityBox = `<div class="scarcity">Nur noch <strong>2</strong> auf Lager • Angebot endet in <strong>03:00</strong></div>`;
+      const scarcityBox = `<div class="scarcity">Nur noch <strong>2</strong> auf Lager  Angebot endet in <strong>03:00</strong></div>`;
       $('#exp5-a').innerHTML = `
-        <div class="item__name">Variante A – Trinkflasche · Polymer</div>
+        <div class="item__name">Variante A  Trinkflasche  Polymer</div>
         ${ scarcePresent && scarceLeft ? scarcityBox2 : '' }
-        <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
+        <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Polymer (BPA-frei)</div>
-        <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
+        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
         <div class="muted mb">Versand: 2–3 Tage</div>
-        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Splmaschinengeeignet</li></ul>
         <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
       $('#exp5-b').innerHTML = `
-        <div class="item__name">Variante B – Trinkflasche · Plastik</div>
+        <div class="item__name">Variante B  Trinkflasche  Plastik</div>
         ${ scarcePresent && !scarceLeft ? scarcityBox2 : '' }
-        <div class="muted">Volumen: 750 ml • Gewicht: 180 g</div>
+        <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Plastik (BPA-frei)</div>
-        <div class="muted">Preis: 19,90 € • Bewertung: 4,4 ★</div>
+        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
         <div class="muted mb">Versand: 2–3 Tage</div>
-        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Splmaschinengeeignet</li></ul>
         <button id="exp5-select-b" type="button" class="btn btn-outline">Auswählen</button>`;
       $('#exp5-select-a').onclick = ()=>{
         if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'A_polymer', scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung � Schritt 5',
+          title:'Kurze Einordnung – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -597,7 +597,7 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung � Schritt 5',
+          title:'Kurze Einordnung – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -631,7 +631,7 @@
         ['ease','Die Nutzung war einfach'],
         ['satisfaction','Ich bin insgesamt zufrieden'],
         ['trust','Ich vertraue dieser Anwendung'],
-        ['autonomy','Ich hatte die Kontrolle ueber meine Entscheidungen'],
+        ['autonomy','Ich hatte die Kontrolle über meine Entscheidungen'],
         ['intrusiveness','Die Gestaltung war aufdringlich'],
         ['effort','Es war anstrengend'],
         ['helpfulPersuasion','Die Hinweise waren hilfreich']
@@ -780,15 +780,16 @@
       let explored = 0; let firstHover = new Set();
       for(let i=0;i<setSize;i++){
         const c = document.createElement('div'); c.className='card soft';
-        c.innerHTML = `<div class=\"item__name\">Option ${i+1}</div><div class=\"muted small\">Gleicher Inhalt</div><button class=\"btn mt\">Wählen</button>`;
+        // Ohne Zusatzzeile "Gleicher Inhalt" – nur Titel + Button
+        c.innerHTML = `<div class=\"item__name\">Option ${i+1}</div><button class=\"btn mt\">Wählen</button>`;
         c.addEventListener('mouseenter', ()=>{ if(!firstHover.has(i)){ firstHover.add(i); explored++; } });
         c.querySelector('button').onclick = ()=>{
           if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
           state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
           state.exp8.extra = { setSize, choiceIndex: i, explored };
           openAttribution({
-            title:'Einordnung � Schritt 8',
-            options:['�berblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gef�hl','Sonstiges'],
+            title:'Einordnung – Schritt 8',
+            options:['Überblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gefühl','Sonstiges'],
             onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
           });
         };
@@ -851,8 +852,8 @@
         state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
         state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
         openAttribution({
-          title:'Einordnung � Schritt 7',
-          options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gef�hl','Sonstiges'],
+          title:'Einordnung – Schritt 7',
+          options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
           onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
         });
       };
@@ -876,7 +877,7 @@
           btn.classList.add('press-animate');
           setTimeout(()=>btn.classList.remove('press-animate'), 140);
         }
-        // Verlängertes Fenster, um Mehrfachklicks zu erfassen
+      // Verlängertes Fenster, um Mehrfachklicks zu erfassen
         setTimeout(()=>{
           state.exp9.clicks = clickCount; state.exp9.success=true; state.exp9.finishedAt=now();
           state.exp9.extra = { feedback: v, clicks: clickCount, dblClicks, waitMs: WAIT_MS };
@@ -933,7 +934,7 @@
         if(state.exp10.ttf==null) state.exp10.ttf = Math.round(now()-state.exp10.startedAt);
         state.exp10.clicks++; state.exp10.success=true; state.exp10.finishedAt=now();
         state.exp10.extra = Object.assign((state.exp10.extra||{}), { errorsInline, errorsSubmit, corrections });
-        // Direktes Overlay für Nutzungsfeedback, ohne den Screen zu wechseln
+        // Direktes Overlay fr Nutzungsfeedback, ohne den Screen zu wechseln
         openAttribution({
           title:'Wie angenehm war die Nutzung?',
           options:['Sehr unangenehm','Eher unangenehm','Neutral','Eher angenehm','Sehr angenehm'],
@@ -993,13 +994,13 @@
 
     // ===== EXP 12: Sticky CTA =====
     function renderExp12(){
-      // Drastisch geändert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
+      // Drastisch gendert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
       const emphShadow = state.exp12.variant==='emph_shadow';
       const emphLeft = state.exp12.emphLeft;
       if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
       state.exp12.clicks++;
       openAttribution({
-        title:'Was hätte Ihre Wahl beeinflusst? (Aufgabe 12)',
+        title:'Was htte Ihre Wahl beeinflusst? (Aufgabe 12)',
         options:['Schatten (Hervorhebung)','Outline (Rahmen)','Position (links/rechts)','Sonstiges'],
         onDone:(reason)=>{
           state.exp12.success=true; state.exp12.finishedAt=now();
@@ -1017,7 +1018,7 @@
         const grid = document.getElementById('exp12-grid'); if(!grid){ go('exp13'); return; }
         const emphShadow = state.exp12.variant==='emph_shadow';
         const emphLeft = state.exp12.emphLeft;
-        const make = (emph)=>{ const d=document.createElement('div'); d.className = emph? 'card' : 'card soft'; d.innerHTML = '<div class="thumb"></div><div class="item__name">Karte</div><div class="muted small">Gleicher Inhalt</div><button class="btn mt">Wählen</button>'; return d; };
+        const make = (emph)=>{ const d=document.createElement('div'); d.className = emph? 'card' : 'card soft'; d.innerHTML = '<div class="thumb"></div><div class="item__name">Karte</div><button class="btn mt">Wählen</button>'; return d; };
         const left = make(emphLeft ? emphShadow : !emphShadow);
         const right = make(!emphLeft ? emphShadow : !emphShadow);
         grid.appendChild(left); grid.appendChild(right);
@@ -1026,7 +1027,7 @@
           state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, clickedPos: pos };
           openAttribution({
-            title:'Einordnung � Schritt 12',
+            title:'Einordnung – Schritt 12',
             options:['Schatten','Outline','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
@@ -1051,7 +1052,7 @@
           state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
           state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Einordnung � Schritt 13',
+            title:'Einordnung – Schritt 13',
             options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
           });
@@ -1120,11 +1121,11 @@
       const s = $('#summary'); s.innerHTML='';
       const add = (t)=>{ const li=document.createElement('li'); li.textContent=t; s.appendChild(li); };
       add('Bedingung: '+CONDITION);
-      add('Exp1: Klick auf '+(state.exp1.extra.clickedCard||'')+' – Target '+(state.exp1.extra.targetId||'')+' – isTarget '+String(state.exp1.extra.isTarget||''));
-      add('Exp2: Klick '+(state.exp2.extra.clicked||'')+' – Pos '+(state.exp2.extra.clickedPos||''));
-      add('Exp3: Banner-Wahl '+(state.exp3.extra.bannerChoices||0)+' – Andere '+(state.exp3.extra.otherChoices||0)+' – Target '+(state.exp3.extra.targetName||''));
-      add('Exp4: Default '+(state.exp4.extra.defaultOption||'')+' – Gewählt '+(state.exp4.extra.selectedOption||'')+' – Adopted '+String(state.exp4.extra.adopted||false));
-      add('Exp5: Auswahl '+(state.exp5.extra.selected||'')+' – Scarcity sichtbar '+String(state.exp5.extra.scarceShown||''));
+      add('Exp1: Klick auf '+(state.exp1.extra.clickedCard||'')+'  Target '+(state.exp1.extra.targetId||'')+'  isTarget '+String(state.exp1.extra.isTarget||''));
+      add('Exp2: Klick '+(state.exp2.extra.clicked||'')+'  Pos '+(state.exp2.extra.clickedPos||''));
+      add('Exp3: Banner-Wahl '+(state.exp3.extra.bannerChoices||0)+'  Andere '+(state.exp3.extra.otherChoices||0)+'  Target '+(state.exp3.extra.targetName||''));
+      add('Exp4: Default '+(state.exp4.extra.defaultOption||'')+'  Gewählt '+(state.exp4.extra.selectedOption||'')+'  Adopted '+String(state.exp4.extra.adopted||false));
+      add('Exp5: Auswahl '+(state.exp5.extra.selected||'')+'  Scarcity sichtbar '+String(state.exp5.extra.scarceShown||''));
     }
 
     // ===== Wire global buttons =====
@@ -1147,3 +1148,5 @@
 </body>
 </html>
 <!-- hello -->
+
+

@@ -1,4 +1,4 @@
-// netlify/functions/cleanup_old_runs.js
+﻿// netlify/functions/cleanup_old_runs.js
 // Einfache Bereinigung von Blobs in einem Store
 // - Unterstützt GET und POST
 // - Wenn ADMIN_TOKEN gesetzt ist, wird es geprüft; sonst keine Auth nötig (einfacher Start)
@@ -107,3 +107,4 @@ export default async (req) => {
 
   return new Response(JSON.stringify(result), { status: 200, headers: cors });
 };
+
