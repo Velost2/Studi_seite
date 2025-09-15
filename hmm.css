@@ -61,6 +61,7 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .btn-pill { border-radius: 999px; }
 /* Experiment 2: make the grey/outline button square */
 #screen-exp2 .btn-outline { border-radius: 0; }
+/* Experiment 2: gleiche Form für beide Buttons (nur Kontrast variiert) */
 #exp4-save {
   margin-top: 1rem; /* oder 16px */
 }
@@ -145,3 +146,19 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .scarcity__icon { width:18px; height:18px; border-radius:999px; background:#f59e0b; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; }
 @keyframes pulse-emph { 0% { box-shadow: 0 0 0 0 rgba(245,158,11,.45); } 70% { box-shadow: 0 0 0 8px rgba(245,158,11,0); } 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); } }
 .scarcity--pulse { animation: pulse-emph 1.8s ease-out infinite; }
+
+/* ===== Social Proof (positive emphasis) ===== */
+.socialproof { font-size:12px; padding:8px; border-radius:8px; background:#ecfdf5; border:1px solid #a7f3d0; margin: 6px 0 8px; color:#065f46; }
+.socialproof--emph { font-weight:600; }
+.socialproof--emph strong { color:#047857; }
+.socialproof__icon { width:18px; height:18px; border-radius:999px; background:#10b981; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:12px; line-height:1; }
+@keyframes pulse-positive { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,.35); } 70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
+.socialproof--pulse { animation: pulse-positive 1.8s ease-out infinite; }
+
+/* ===== New experiments ===== */
+.toast { position:sticky; top:0; left:0; right:0; background:#fee2e2; color:#7f1d1d; border:1px solid #fecaca; padding:8px 12px; border-radius:10px; }
+.sticky { position:fixed; left:0; right:0; bottom:0; background:rgba(255,255,255,.9); border-top:1px solid #e5e7eb; backdrop-filter: blur(6px); }
+.sticky__inner { max-width:960px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; }
+.card--halo { padding:20px; border-radius:16px; box-shadow: 0 0 0 2px rgba(17,24,39,.06); }
+.press-state { filter: brightness(0.95); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.press-animate { transform: scale(0.98); transition: transform 120ms ease-out; }

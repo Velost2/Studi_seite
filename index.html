@@ -63,7 +63,7 @@
 
     <!-- EXP 1: Proximity/Grouping -->
     <section id="screen-exp1" class="card hidden">
-      <h2>Experiment 1: Proximity und Gruppierung</h2>
+      <h2>Schritt 1</h2>
       <p class="hint">Aufgabe: Wählen Sie ein Paket. <br>
         (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
       </p>
@@ -72,7 +72,7 @@
 
     <!-- EXP 2: Buttonform/-kontrast -->
     <section id="screen-exp2" class="card hidden">
-      <h2>Experiment 2: Buttonform und -kontrast</h2>
+      <h2>Schritt 2</h2>
       <p class="hint">Aufgabe: Klicken Sie einen „Weiter“-Button.</p>
       <div class="row gap">
         <button id="exp2-left" type="button" class="btn">Weiter</button>
@@ -82,7 +82,7 @@
 
     <!-- EXP 3: Social Proof -->
     <section id="screen-exp3" class="card hidden">
-      <h2>Experiment 3: Social Proof</h2>
+      <h2>Schritt 3</h2>
       <p class="hint">Aufgabe: Wählen Sie ein Produkt.<br>
         (Diese Angaben sind nur Platzhalter, es geht um die Gestaltung, Sie werden nicht zum Kauf o.ä. verpflichted.)
       </p>
@@ -92,7 +92,7 @@
 
     <!-- EXP 4: Shipping Defaults -->
     <section id="screen-exp4" class="card hidden">
-      <h2>Experiment 4: Voreinstellungen beim Versand</h2>
+      <h2>Schritt 4</h2>
       <p class="hint">Aufgabe: Wählen Sie eine Versandoption und speichern Sie.</p>
       <div id="exp4-options" class="stack gap-sm"></div>
       <div class="row"><button id="exp4-save" type="button" class="btn btn-primary">
@@ -101,11 +101,120 @@
 
     <!-- EXP 5: Material & Scarcity -->
     <section id="screen-exp5" class="card hidden">
-      <h2>Experiment 5: Materialbenennung und Knappheit</h2>
+      <h2>Schritt 5</h2>
       <p class="hint">Aufgabe: Wählen Sie eine Variante.</p>
       <div class="grid grid-2">
         <div id="exp5-a" class="card soft"></div>
         <div id="exp5-b" class="card soft"></div>
+      </div>
+    </section>
+
+    <!-- EXP 13: CTA Microcopy -->
+    <section id="screen-exp13" class="card hidden">
+      <h2>Schritt 13</h2>
+      <p class="hint">Klicken Sie den Button.</p>
+      <div class="row"><button id="exp13-cta" type="button" class="btn btn-primary">Weiter</button></div>
+    </section>
+
+    <!-- EXP 6: Fitts's Law (Größe/Distanz) -->
+    <section id="screen-exp6" class="card hidden">
+      <h2>Schritt 6</h2>
+      <p class="hint">Klicken Sie eine Option.</p>
+      <div id="exp6-wrap" class="stack" style="align-items:center; gap:16px; min-height:280px; justify-content:center;">
+        <div class="row gap">
+          <button id="exp6-a" type="button" class="btn">Option A</button>
+          <button id="exp6-b" type="button" class="btn">Option B</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXP 7: Positionsbias (Reihenfolge/Alignment) -->
+    <section id="screen-exp7" class="card hidden">
+      <h2>Schritt 7</h2>
+      <p class="hint">Wählen Sie eine Karte.</p>
+      <div id="exp7-grid" class="grid grid-2"></div>
+    </section>
+
+    <!-- EXP 8: Choice Overload (Mengenstaffel) -->
+    <section id="screen-exp8" class="card hidden">
+      <h2>Schritt 8</h2>
+      <p class="hint">Wählen Sie eine Option.</p>
+      <div id="exp8-grid" class="grid"></div>
+    </section>
+
+    <!-- EXP 9pd: Progressive Disclosure -->
+    <section id="screen-exp9pd" class="card hidden">
+      <h2>Schritt 9</h2>
+      <p class="hint">Entscheiden Sie sich für die Option.</p>
+      <div id="exp9pd-card" class="card soft">
+        <div class="item__name">Produkt</div>
+        <ul class="list small"><li>Kernfeature 1</li><li>Kernfeature 2</li></ul>
+        <details id="exp9pd-details">
+          <summary>Details einblenden</summary>
+          <div class="mt small" id="exp9pd-body">
+            <p>Langer Beispieltext. Dieser Abschnitt enthält zusätzliche Informationen, die optional sind.</p>
+            <p>Weitere Hinweise und Bedingungen. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Abschnitt 3: Hinweise zur Nutzung. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Abschnitt 4: Rechtliches. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Abschnitt 5: Datenschutz. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p>Abschnitt 6: Mehr Text zum Scrollen. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="mt small">Technische Details: …</div>
+          <div class="mt small">Kleingedrucktes: …</div>
+        </details>
+        <div class="row mt"><button id="exp9pd-cta" type="button" class="btn btn-primary">Weiter</button></div>
+      </div>
+    </section>
+
+    <!-- EXP 10: Feedback-Latenz & Mikro-Animation -->
+    <section id="screen-exp9" class="card hidden">
+      <h2>Schritt 10</h2>
+      <p class="hint">Klicken Sie den Weiter-Button.</p>
+      <div class="row"><button id="exp9-cta" type="button" class="btn btn-primary">Weiter</button></div>
+    </section>
+
+    <!-- EXP 10: Inline-Validation vs. Fehler-Toast -->
+    <section id="screen-exp10" class="card hidden">
+      <h2>Schritt 11</h2>
+      <p class="hint">Füllen Sie das kurze Formular aus.</p>
+      <div id="exp10-form" class="stack gap-sm" style="max-width:460px;">
+        <label class="label">Eingabe (min. 3 Zeichen)</label>
+        <input id="exp10-email" type="text" class="input" placeholder="z. B. nutzer123" />
+        <div id="exp10-email-err" class="meta" style="color:#b91c1c; display:none;">Mindestens 3 Zeichen.</div>
+        <label class="label">Passwort (min. 6 Zeichen)</label>
+        <input id="exp10-pass" type="password" class="input" />
+        <div class="meta" id="exp10-pass-count" style="color:#6b7280;">Noch 6 Zeichen</div>
+        <div id="exp10-pass-err" class="meta" style="color:#b91c1c; display:none;">Mindestens 6 Zeichen.</div>
+        <div class="row gap mt">
+          <button id="exp10-submit" type="button" class="btn btn-primary">Absenden</button>
+        </div>
+        <div id="exp10-toast" class="toast hidden">Bitte Eingaben prüfen.</div>
+      </div>
+    </section>
+
+    <!-- EXP 11: Visuelle Dichte & Weißraum -->
+    <section id="screen-exp11" class="card hidden">
+      <h2>Schritt 11</h2>
+      <p class="hint">Wählen Sie eine Karte.</p>
+      <div id="exp11-grid" class="grid grid-3"></div>
+    </section>
+
+    <!-- EXP 12: Card Emphasis (Schatten vs. Outline) -->
+    <section id="screen-exp12" class="card hidden">
+      <h2>Schritt 12</h2>
+      <p class="hint">Lesen Sie kurz und schließen Sie ab.</p>
+      <div class="stack gap-sm">
+        <div class="card soft">Kurzer Beispieltext mit identischem Inhalt.</div>
+        <div class="card soft">Weiterer Textblock als Platzhalter, um Scrollen zu ermöglichen.</div>
+        <div class="card soft">Noch ein Block mit identischem Inhalt.</div>
+        <div class="card soft">Zusätzlicher Text zur Simulation längerer Seiten.</div>
+        <div class="row"><button id="exp12-inline" type="button" class="btn btn-primary">Abschließen</button></div>
+      </div>
+      <div id="exp12-sticky" class="sticky hidden">
+        <div class="sticky__inner">
+          <div>Bereit zum Abschluss?</div>
+          <button id="exp12-sticky-btn" type="button" class="btn btn-primary">Abschließen</button>
+        </div>
       </div>
     </section>
 
@@ -159,9 +268,12 @@
   <script>
     // ===== Utilities =====
     const $ = (sel) => document.querySelector(sel);
-    const screens = ["intro","exp1","exp2","exp3","exp4","exp5","survey","debrief"];
+    const screens = ["intro","exp1","exp2","exp3","exp4","exp5","exp6","exp7","exp8","exp9pd","exp9","exp10","exp12","exp13","survey","debrief"];
     const now = () => performance.now();
-    const progress = (idx) => { $("#progress").style.width = Math.min(100, Math.max(0, (idx/7)*100)) + "%"; };
+    const progress = (idx) => {
+      const denom = Math.max(1, screens.length - 1);
+      $("#progress").style.width = Math.min(100, Math.max(0, (idx/denom)*100)) + "%";
+    };
     const blobDownload = (filename, text) => { const url = URL.createObjectURL(new Blob([text])); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); };
     let _attrCleanup = null;
     function dismissAttribution(){
@@ -194,12 +306,22 @@
       exp3: { name:'social_proof', variant:'present', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp4: { name:'shipping_defaults', variant: ['default_fast','default_standard','default_green'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp5: { name:'material_scarcity', variant: Math.random()<0.5?'scarce_present':'scarce_absent', scarceLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-      survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, openComment:'' },
+      exp6: { name:'fitts_law', variant: ['size_32','size_44','size_56'][Math.floor(Math.random()*3)], far: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp7: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp8: { name:'choice_overload', variant: Math.random()<0.5?'set12':'set4', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp9pd:{ name:'progressive_disclosure', variant: Math.random()<0.5?'toggle':'all_open', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp9: { name:'feedback_latency', variant: ['none','state','state_motion'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp10:{ name:'inline_vs_toast', variant: Math.random()<0.5?'inline':'toast', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp11:{ name:'white_space', variant: Math.random()<0.5?'primary_white':'equal_compact', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp12:{ name:'emphasis_cards', variant: Math.random()<0.5?'emph_shadow':'emph_outline', emphLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp13:{ name:'cta_icon', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, noticedGrouping:null, noticedScarcity:null, noticedOrder:null, noticedFeedbackLatency:null, noticedPD:null, noticedChoiceOverload:null, noticedCardEmphasis:null, noticedCtaIcon:null, openComment:'' },
     };
 
     function go(step){
   // interner Zustand
   state.step = step;
+  try { dismissAttribution(); } catch {}
 
   // --- virtuelle URL konstant halten (keine ?screen-Query) ---
   try {
@@ -230,6 +352,15 @@
   if(step==='exp3' && !state.exp3.startedAt){ state.exp3.startedAt = now(); renderExp3(); }
   if(step==='exp4' && !state.exp4.startedAt){ state.exp4.startedAt = now(); renderExp4(); }
   if(step==='exp5' && !state.exp5.startedAt){ state.exp5.startedAt = now(); renderExp5(); }
+  if(step==='exp6' && !state.exp6.startedAt){ state.exp6.startedAt = now(); renderExp6(); }
+  if(step==='exp7' && !state.exp7.startedAt){ state.exp7.startedAt = now(); renderExp7(); }
+  if(step==='exp8' && !state.exp8.startedAt){ state.exp8.startedAt = now(); renderExp8(); }
+  if(step==='exp9pd' && !state.exp9pd.startedAt){ state.exp9pd.startedAt = now(); renderExp9pd(); }
+  if(step==='exp9' && !state.exp9.startedAt){ state.exp9.startedAt = now(); renderExp9(); }
+  if(step==='exp10'&& !state.exp10.startedAt){ state.exp10.startedAt = now(); renderExp10(); }
+  if(step==='exp11'&& !state.exp11.startedAt){ state.exp11.startedAt = now(); renderExp11(); }
+  if(step==='exp12'&& !state.exp12.startedAt){ state.exp12.startedAt = now(); renderExp12(); }
+  if(step==='exp13'&& !state.exp13.startedAt){ state.exp13.startedAt = now(); renderExp13(); }
   if(step==='survey'){ renderSurvey(); }
 }
 
@@ -247,12 +378,20 @@
     $('#btn-start').addEventListener('click', ()=>{ if(!state.consent) return; state.startedAt = now(); log('session_start',{ condition:CONDITION }); go('exp1'); });
 
     // ===== EXP 1: Proximity/Grouping =====
-    const exp1Cards = [
+    let exp1Cards = [
       { id:'starter', title:'Starter', price:'9,99 € / Monat', desc:'Basis-Tools: Aufgaben & Notizen' },
       { id:'plus',    title:'Plus',    price:'9,99 € / Monat', desc:'Organisation: Kalender & Erinnerungen' },
       { id:'pro',     title:'Pro',     price:'9,99 € / Monat', desc:'Teamwork: Freigaben & Rollen' },
     ];
-    const exp1TargetId = ['starter','plus','pro'][Math.floor(Math.random()*3)];
+    // Unify offers (same price/features) and neutral labels
+    exp1Cards = exp1Cards.map((c,i)=>({
+      ...c,
+      id: ['a','b','c'][i],
+      title: `Paket ${['A','B','C'][i]}`,
+      price: '9,99 EUR / Monat',
+      desc: 'Tools: Aufgaben, Notizen, Kalender, Freigaben'
+    }));
+    const exp1TargetId = ['a','b','c'][Math.floor(Math.random()*3)];
     function renderExp1(){
       const wrap = $('#exp1-cards'); wrap.innerHTML='';
       exp1Cards.forEach(c=>{
@@ -292,12 +431,13 @@
             ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
             state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
             openAttribution({
-              title:'Kurze Einordnung – Exp 1',
-              options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Preis','Bekanntheit/Label','Sonstiges'],
+              title:'Kurze Einordnung � Schritt 1',
+              options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Sonstiges'],
               onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
           });
         });
+        
         wrap.appendChild(card);
       });
     }
@@ -320,7 +460,7 @@
         state.exp2.success = success; state.exp2.finishedAt = now();
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
-          title:'Kurze Einordnung – Exp 2',
+          title:'Kurze Einordnung � Schritt 2',
           options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
@@ -330,17 +470,25 @@
     }
 
     // ===== EXP 3: Social Proof =====
-    const products = [
+    let products = [
       { id:'basic', name:'Basic Bottle', subtitle:'Einfach, robust', price:12.99, rating:3.9, shipping:'2–3 Tage' },
       { id:'reuse', name:'ReUse+ Bottle', subtitle:'Nachhaltig, wiederverwendbar', price:18.90, rating:4.6, shipping:'1–2 Tage', eco:true },
       { id:'steel', name:'Steel Bottle', subtitle:'Doppelwand-Edelstahl', price:24.00, rating:4.4, shipping:'2–4 Tage' },
     ];
+    // Unify product offer details for fairness
+    products = products.map(p=>({ ...p, subtitle:'Leicht, robust', price:19.90, rating:4.4, shipping:'2-3 Tage', eco:false }));
     const exp3TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
     const exp3BannerCount = [198,210,224,231][Math.floor(Math.random()*4)];
     function renderExp3(){
       $('#exp3-banner').innerHTML = `
         <div class="banner__title">Beliebt heute</div>
         <div class="mt-2"><strong>${products.find(p=>p.id===exp3TargetId).name}</strong> wurde ${exp3BannerCount}× gekauft.</div>`;
+      // Override with emphasized social-proof banner (similar style as scarcity)
+      $('#exp3-banner').innerHTML = `
+        <div class="socialproof socialproof--emph socialproof--pulse" aria-live="polite">
+          <span class="socialproof__icon">✓</span>
+          <span>Heute beliebt: <strong>${products.find(p=>p.id===exp3TargetId).name}</strong> – <strong>${exp3BannerCount}</strong> mal gekauft</span>
+        </div>`;
       const grid = $('#exp3-grid'); grid.innerHTML='';
       const order = [0,1,2].sort(()=>Math.random()-0.5);
       order.forEach(idx=>{
@@ -353,12 +501,23 @@
           <div class="item__name">${p.name} ${p.eco?'🌿':''}</div>
           <div class="muted small">${p.price.toFixed(2)} € • ${p.rating} ★ • Versand: ${p.shipping}</div>
           <button type="button" class="btn ${isTarget?'btn-primary':''} mt">In den Warenkorb</button>`;
+        /*
+        // Normalisierung zur Reduktion von Störfaktoren (keine Hervorhebung/Farbunterschiede)
+        try {
+          card.className = 'card soft';
+          const thumb = card.querySelector('.thumb'); if(thumb){ thumb.className = 'thumb'; }
+          const nameEl = card.querySelector('.item__name'); if(nameEl){ nameEl.textContent = p.name; }
+          const infoEls = card.querySelectorAll('.muted.small');
+          if(infoEls[0]) infoEls[0].textContent = 'Leicht, robust';
+          if(infoEls[1]) infoEls[1].textContent = `${(19.90).toFixed(2)} EUR · ${(4.4).toFixed(1)}* · Versand: 2-3 Tage`;
+          const btnEl = card.querySelector('button'); if(btnEl){ btnEl.className = 'btn mt'; }
+        } catch {} */
         card.querySelector('button').addEventListener('click', ()=>{
           ttfSet(state.exp3); state.exp3.clicks++; state.exp3.success=true; state.exp3.finishedAt=now();
           state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
           openAttribution({
-            title:'Kurze Einordnung – Exp 3',
-            options:['Beliebtheitshinweis','Hervorhebung/Ring','Preis/Versand','Nachhaltigkeit','Sonstiges'],
+            title:'Kurze Einordnung � Schritt 3',
+            options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
             onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
         });
@@ -392,7 +551,7 @@
         state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
         state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
         openAttribution({
-          title:'Kurze Einordnung – Exp 4',
+          title:'Kurze Einordnung � Schritt 4',
           options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
           onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp5'); }
         });
@@ -428,9 +587,9 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'A_polymer', scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung – Exp 5',
-          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Preis','Sonstiges'],
-          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('survey'); }
+          title:'Kurze Einordnung � Schritt 5',
+          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
+          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
       };
       $('#exp5-select-b').onclick = ()=>{
@@ -438,9 +597,9 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung – Exp 5',
-          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Preis','Sonstiges'],
-          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('survey'); }
+          title:'Kurze Einordnung � Schritt 5',
+          options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
+          onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
       };
     }
@@ -464,11 +623,19 @@
           }
         });
       });
-      document.getElementById(containerId).appendChild(root);
+      const note = document.createElement('input'); note.type='text'; note.className='input mt'; note.placeholder='Zusätzliches Feedback'; try { note.value = state.survey[id+'_note'] || ''; } catch {} note.addEventListener('input', (e)=>{ try { state.survey[id+'_note'] = e.target.value; } catch {} }); root.appendChild(note); document.getElementById(containerId).appendChild(root);
     }
     function renderSurvey(){
       const c = document.getElementById('likert'); c.innerHTML='';
-      [['ease','Die Nutzung war einfach'],['intrusiveness','Die Gestaltung war aufdringlich'],['trust','Ich vertraue dieser Anwendung'],['satisfaction','Ich bin insgesamt zufrieden'],['autonomy','Ich hatte die Kontrolle über meine Entscheidungen'],['effort','Es war anstrengend'],['frustration','Ich war frustriert'],['helpfulPersuasion','Die Hinweise waren hilfreich'],['noticedSocialProof','Mir ist ein Hinweis zur Beliebtheit aufgefallen'],['noticedDefault','Mir ist eine Voreinstellung aufgefallen']].forEach(([id,label])=>likertMount('likert', id, label));
+      [
+        ['ease','Die Nutzung war einfach'],
+        ['satisfaction','Ich bin insgesamt zufrieden'],
+        ['trust','Ich vertraue dieser Anwendung'],
+        ['autonomy','Ich hatte die Kontrolle ueber meine Entscheidungen'],
+        ['intrusiveness','Die Gestaltung war aufdringlich'],
+        ['effort','Es war anstrengend'],
+        ['helpfulPersuasion','Die Hinweise waren hilfreich']
+      ].forEach(([id,label])=>likertMount('likert', id, label));
       document.getElementById('openComment').addEventListener('input', (e)=>{ state.survey.openComment = e.target.value; });
       document.getElementById('survey-finish').onclick = ()=>{ go('debrief'); };
     }
@@ -585,10 +752,319 @@
       root.classList.remove('hidden');
     }
 
+    // ===== EXP 6: Fitts's Law =====
+    function renderExp6(){
+      const size = state.exp6.variant.replace('size_','');
+      const distancePx = 300 + (state.exp6.far ? 150 : 0);
+      const wrap = document.getElementById('exp6-wrap');
+      wrap.style.marginTop = distancePx + 'px';
+      const a = document.getElementById('exp6-a');
+      const b = document.getElementById('exp6-b');
+      [a,b].forEach(btn=>{ btn.style.minWidth=size+'px'; btn.style.minHeight=size+'px'; btn.style.padding='8px'; });
+      const onClick = ()=>{
+        if(state.exp6.ttf==null) state.exp6.ttf = Math.round(now()-state.exp6.startedAt);
+        state.exp6.clicks++; state.exp6.success=true; state.exp6.finishedAt=now();
+        state.exp6.extra = { size, distancePx };
+        go('exp7');
+      };
+      a.onclick = onClick; b.onclick = onClick;
+      const screen = document.getElementById('screen-exp6');
+      screen.addEventListener('click', (e)=>{ if(e.target!==a && e.target!==b) state.exp6.errors++; });
+    }
+
+    // ===== EXP 8: Choice Overload =====
+    function renderExp8(){
+      const grid = document.getElementById('exp8-grid'); grid.innerHTML='';
+      const setSize = state.exp8.variant==='set12' ? 12 : 4;
+      grid.className = 'grid ' + (setSize===12 ? 'grid-3' : 'grid-2');
+      let explored = 0; let firstHover = new Set();
+      for(let i=0;i<setSize;i++){
+        const c = document.createElement('div'); c.className='card soft';
+        c.innerHTML = `<div class=\"item__name\">Option ${i+1}</div><div class=\"muted small\">Gleicher Inhalt</div><button class=\"btn mt\">Wählen</button>`;
+        c.addEventListener('mouseenter', ()=>{ if(!firstHover.has(i)){ firstHover.add(i); explored++; } });
+        c.querySelector('button').onclick = ()=>{
+          if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
+          state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
+          state.exp8.extra = { setSize, choiceIndex: i, explored };
+          openAttribution({
+            title:'Einordnung � Schritt 8',
+            options:['�berblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gef�hl','Sonstiges'],
+            onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
+          });
+        };
+        grid.appendChild(c);
+      }
+    }
+
+    // ===== EXP 9pd: Progressive Disclosure =====
+    function renderExp9pd(){
+      const v = state.exp9pd.variant; // 'toggle' | 'all_open'
+      const det = document.getElementById('exp9pd-details');
+      if(v==='all_open') det.setAttribute('open',''); else det.removeAttribute('open');
+      // Zwei gleichwertige Optionen (A/B) einfügen
+      const card = document.getElementById('exp9pd-card');
+      let opt = document.getElementById('exp9pd-opts');
+      if(!opt){
+        opt = document.createElement('div'); opt.id='exp9pd-opts'; opt.className='stack mt';
+        opt.innerHTML = `
+          <label class="radio-row"><input type="radio" name="p9opt" value="A"><span>Variante A</span></label>
+          <label class="radio-row"><input type="radio" name="p9opt" value="B"><span>Variante B</span></label>`;
+        card.insertBefore(opt, card.querySelector('.row.mt'));
+      }
+      const cta = document.getElementById('exp9pd-cta');
+      cta.disabled = true; cta.classList.add('btn-disabled');
+      let selected = null;
+      opt.querySelectorAll('input[name="p9opt"]').forEach(r=>{
+        r.addEventListener('change', (e)=>{
+          selected = e.target.value;
+          cta.disabled = false; cta.classList.remove('btn-disabled');
+        });
+      });
+      let openCount = 0; let detailsOpened = v==='all_open';
+      let openStart = v==='all_open' ? now() : null; let totalOpenMs = v==='all_open' ? 0 : 0;
+      det.addEventListener('toggle', ()=>{
+        detailsOpened = det.open; if(det.open){ openCount++; openStart = now(); } else { if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; } }
+      });
+      document.getElementById('exp9pd-cta').onclick = ()=>{
+        if(state.exp9pd.ttf==null) state.exp9pd.ttf = Math.round(now()-state.exp9pd.startedAt);
+        state.exp9pd.clicks++; state.exp9pd.success=true; state.exp9pd.finishedAt=now();
+        if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; }
+        state.exp9pd.extra = { detailsOpened, openCount, selected, openMs: Math.round(totalOpenMs) };
+        go('exp9');
+      };
+    }
+
+    // ===== EXP 7: Positionsbias =====
+    function renderExp7(){
+      const grid = document.getElementById('exp7-grid'); grid.innerHTML='';
+      const leftFirst = state.exp7.variant==='left_target';
+      const makeCard = ()=>{
+        const d = document.createElement('div'); d.className='card soft';
+        d.innerHTML = `<div class="thumb"></div><div class="item__name">Option</div><button class="btn mt">Wählen</button>`;
+        return d;
+      };
+      const left = makeCard(); const right = makeCard();
+      grid.appendChild(leftFirst? left : right);
+      grid.appendChild(leftFirst? right : left);
+      const clickHandler = (pos)=>{
+        if(state.exp7.ttf==null) state.exp7.ttf = Math.round(now()-state.exp7.startedAt);
+        state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
+        state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
+        openAttribution({
+          title:'Einordnung � Schritt 7',
+          options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gef�hl','Sonstiges'],
+          onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
+        });
+      };
+      left.querySelector('button').onclick = ()=>clickHandler('left');
+      right.querySelector('button').onclick = ()=>clickHandler('right');
+    }
+
+    // ===== EXP 9: Feedback-Latenz & Mikro-Animation =====
+    function renderExp9(){
+      const btn = document.getElementById('exp9-cta');
+      const v = state.exp9.variant; // 'none' | 'state' | 'state_motion'
+      let clickCount = 0; let dblClicks = 0; let firstClickAt = null;
+      const onDbl = ()=>{ dblClicks++; };
+      btn.addEventListener('dblclick', onDbl);
+      const WAIT_MS = (v==='none' ? 1500 : 150); // variant-spezifisches Fenster
+      btn.onclick = ()=>{
+        clickCount++;
+        if(firstClickAt==null){ firstClickAt = now(); if(state.exp9.ttf==null) state.exp9.ttf = Math.round(firstClickAt - state.exp9.startedAt); }
+        if(v==='state' || v==='state_motion') btn.classList.add('press-state');
+        if(v==='state_motion'){
+          btn.classList.add('press-animate');
+          setTimeout(()=>btn.classList.remove('press-animate'), 140);
+        }
+        // Verlängertes Fenster, um Mehrfachklicks zu erfassen
+        setTimeout(()=>{
+          state.exp9.clicks = clickCount; state.exp9.success=true; state.exp9.finishedAt=now();
+          state.exp9.extra = { feedback: v, clicks: clickCount, dblClicks, waitMs: WAIT_MS };
+          try { btn.removeEventListener('dblclick', onDbl); } catch {}
+          go('exp10');
+        }, WAIT_MS);
+      };
+    }
+
+    // ===== EXP 10: Inline vs Toast Validation =====
+    function renderExp10(){
+      const inline = state.exp10.variant==='inline';
+      const email = document.getElementById('exp10-email');
+      const pass = document.getElementById('exp10-pass');
+      const emailErr = document.getElementById('exp10-email-err');
+      const passErr = document.getElementById('exp10-pass-err');
+      const passCount = document.getElementById('exp10-pass-count');
+      const toast = document.getElementById('exp10-toast');
+      const submit = document.getElementById('exp10-submit');
+      // Anpassung: kein echter E-Mail-Test, sondern neutraler Benutzername
+      const labels = document.querySelectorAll('#exp10-form .label');
+      if(labels && labels[0]) labels[0].textContent = 'Eingabe (min. 3 Zeichen)';
+      try { email.type = 'text'; email.placeholder = 'z. B. nutzer123'; emailErr.textContent = 'Mindestens 3 Zeichen.'; } catch {}
+      const validUser = (v)=> (v||'').trim().length >= 3;
+      let emailBad=true, passBad=true, corrections=0, errorsInline=0, errorsSubmit=0;
+      // Rehydrate previously entered values
+      try {
+        const saved = (state.exp10.extra = state.exp10.extra || {});
+        if(typeof saved.fieldValue === 'string'){ email.value = saved.fieldValue; }
+        if(typeof saved.passValue === 'string'){ pass.value = saved.passValue; }
+      } catch {}
+      function valEmail(){ const bad = !validUser(email.value); if(inline){ emailErr.style.display= bad?'block':'none'; if(emailBad && !bad) corrections++; if(bad) errorsInline++; } emailBad = bad; }
+      function valPass(){
+        const len = (pass.value||'').length;
+        const remain = Math.max(0, 6-len);
+        if(passCount){ passCount.textContent = remain>0 ? `Noch ${remain} Zeichen` : 'OK'; }
+        const bad = len<6;
+        if(inline){ passErr.style.display= bad?'block':'none'; if(passBad && !bad) corrections++; if(bad) errorsInline++; }
+        passBad = bad;
+      }
+      // Always persist values to state
+      try { email.addEventListener('input', ()=>{ (state.exp10.extra = state.exp10.extra || {}).fieldValue = email.value; }); } catch {}
+      try { pass.addEventListener('input',  ()=>{ (state.exp10.extra = state.exp10.extra || {}).passValue  = pass.value;  }); } catch {}
+      if(inline){ email.addEventListener('input', valEmail); pass.addEventListener('input', valPass); }
+      // initial counter update
+      try { valPass(); } catch {}
+      submit.onclick = ()=>{
+        if(!inline){ emailErr.style.display='none'; passErr.style.display='none'; }
+        valEmail(); valPass();
+        if(emailBad || passBad){
+          if(!inline){ errorsSubmit++; toast.classList.remove('hidden'); setTimeout(()=>toast.classList.add('hidden'), 1500); }
+          return;
+        }
+        if(state.exp10.ttf==null) state.exp10.ttf = Math.round(now()-state.exp10.startedAt);
+        state.exp10.clicks++; state.exp10.success=true; state.exp10.finishedAt=now();
+        state.exp10.extra = Object.assign((state.exp10.extra||{}), { errorsInline, errorsSubmit, corrections });
+        // Direktes Overlay für Nutzungsfeedback, ohne den Screen zu wechseln
+        openAttribution({
+          title:'Wie angenehm war die Nutzung?',
+          options:['Sehr unangenehm','Eher unangenehm','Neutral','Eher angenehm','Sehr angenehm'],
+          onDone:(reason)=>{
+            // Im exp11-Container protokollieren, aber nicht zu exp11 springen
+            state.exp11 = state.exp11 || {};
+            if(state.exp11.startedAt==null) state.exp11.startedAt = state.exp10.finishedAt;
+            state.exp11.clicks = (state.exp11.clicks||0) + 1;
+            state.exp11.success = true;
+            state.exp11.finishedAt = now();
+            state.exp11.extra = Object.assign((state.exp11.extra||{}), { pleasantness: reason });
+            go('exp12');
+          }
+        });
+      };
+    }
+
+    // ===== EXP 11: Weißraum =====
+    function renderExp11(){
+      // Modal-Feedback statt Grid, Hintergrundtext korrigieren
+      try {
+        const hintEl = document.querySelector('#screen-exp11 .hint');
+        if(hintEl) hintEl.textContent = 'Bitte bewerten Sie kurz die Nutzung.';
+        const g = document.getElementById('exp11-grid');
+        if(g){ g.classList.add('hidden'); g.innerHTML=''; }
+      } catch {}
+      // Modal öffnen
+      try {
+        openAttribution({
+          title:'Wie angenehm war die Nutzung?',
+          options:['Sehr unangenehm','Eher unangenehm','Neutral','Eher angenehm','Sehr angenehm'],
+          onDone:(reason)=>{
+            if(state.exp11.ttf==null) state.exp11.ttf = Math.round(now()-state.exp11.startedAt);
+            state.exp11.clicks++; state.exp11.success=true; state.exp11.finishedAt=now();
+            state.exp11.extra = { pleasantness: reason };
+            go('exp12');
+          }
+        });
+        return;
+      } catch {}
+      const grid = document.getElementById('exp11-grid'); grid.innerHTML='';
+      const primaryIdx = Math.floor(Math.random()*3);
+      const halo = state.exp11.variant==='primary_white';
+      for(let i=0;i<3;i++){
+        const card = document.createElement('div');
+        card.className = 'card soft' + (halo && i===primaryIdx ? ' card--halo' : '');
+        card.innerHTML = `<div class=\"thumb\"></div><div class=\"item__name\">Karte</div><button class=\"btn mt\">Wählen</button>`;
+        card.querySelector('button').onclick = ()=>{
+          if(state.exp11.ttf==null) state.exp11.ttf = Math.round(now()-state.exp11.startedAt);
+          state.exp11.clicks++; state.exp11.success=true; state.exp11.finishedAt=now();
+          state.exp11.extra = { whiteSpacePrimary: halo, clickedPrimary: (i===primaryIdx) };
+          go('exp12');
+        };
+        grid.appendChild(card);
+      }
+    }
+
+    // ===== EXP 12: Sticky CTA =====
+    function renderExp12(){
+      // Drastisch geändert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
+      const emphShadow = state.exp12.variant==='emph_shadow';
+      const emphLeft = state.exp12.emphLeft;
+      if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
+      state.exp12.clicks++;
+      openAttribution({
+        title:'Was hätte Ihre Wahl beeinflusst? (Aufgabe 12)',
+        options:['Schatten (Hervorhebung)','Outline (Rahmen)','Position (links/rechts)','Sonstiges'],
+        onDone:(reason)=>{
+          state.exp12.success=true; state.exp12.finishedAt=now();
+          state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, reason };
+          go('exp13');
+        }
+      });
+    }
+
+    // Override EXP 12 to sichtbares Karten-Layout mit Overlay nach Klick
+    try {
+      renderExp12 = function(){
+        const section = document.getElementById('screen-exp12');
+        if(section){ section.innerHTML = '<h2>Schritt 12<\/h2><p class="hint">Wählen Sie eine Karte.<\/p><div id="exp12-grid" class="grid grid-2"><\/div>'; }
+        const grid = document.getElementById('exp12-grid'); if(!grid){ go('exp13'); return; }
+        const emphShadow = state.exp12.variant==='emph_shadow';
+        const emphLeft = state.exp12.emphLeft;
+        const make = (emph)=>{ const d=document.createElement('div'); d.className = emph? 'card' : 'card soft'; d.innerHTML = '<div class="thumb"></div><div class="item__name">Karte</div><div class="muted small">Gleicher Inhalt</div><button class="btn mt">Wählen</button>'; return d; };
+        const left = make(emphLeft ? emphShadow : !emphShadow);
+        const right = make(!emphLeft ? emphShadow : !emphShadow);
+        grid.appendChild(left); grid.appendChild(right);
+        const handler = (pos)=>{
+          if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
+          state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
+          state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, clickedPos: pos };
+          openAttribution({
+            title:'Einordnung � Schritt 12',
+            options:['Schatten','Outline','Position (links/rechts)','Sonstiges'],
+            onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
+          });
+        };
+        left.querySelector('button').onclick = ()=>handler('left');
+        right.querySelector('button').onclick = ()=>handler('right');
+      }
+    } catch {}
+
+    // Override EXP 13 to Icon-vs-Text with two buttons + overlay
+    try {
+      renderExp13 = function(){
+        const section = document.getElementById('screen-exp13');
+        if(section){ section.innerHTML = '<h2>Schritt 13<\/h2><p class="hint">Klicken Sie einen Button.<\/p><div class="row gap"><button id="exp13-left" type="button" class="btn btn-primary">Weiter<\/button><button id="exp13-right" type="button" class="btn btn-primary">Weiter<\/button><\/div>'; }
+        const left = document.getElementById('exp13-left'); const right = document.getElementById('exp13-right');
+        if(!left || !right){ go('survey'); return; }
+        const iconLeft = !!state.exp13.iconLeft;
+        const applyIcon = (el)=>{ el.innerHTML = '<span style="margin-right:6px">&#10003;<\/span>Weiter'; };
+        if(iconLeft){ applyIcon(left); } else { applyIcon(right); }
+        const handler = (pos)=>{
+          if(state.exp13.ttf==null) state.exp13.ttf = Math.round(now()-state.exp13.startedAt);
+          state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
+          state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
+          openAttribution({
+            title:'Einordnung � Schritt 13',
+            options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
+            onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
+          });
+        };
+        left.onclick = ()=>handler('left');
+        right.onclick = ()=>handler('right');
+      }
+    } catch {}
+
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
-      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, survey:state.survey, events:state.events };
+      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, exp6:state.exp6, exp7:state.exp7, exp8:state.exp8, exp9pd:state.exp9pd, exp9:state.exp9, exp10:state.exp10, exp11:state.exp11, exp12:state.exp12, exp13:state.exp13, survey:state.survey, events:state.events };
     }
     async function submit(){
       const out = $('#submit-status');
@@ -623,6 +1099,20 @@
         btn.textContent = 'Ergebnisse senden';
         out.textContent = 'Fehler beim Senden: ' + (e && e.message ? e.message : e);
       }
+    }
+
+    // ===== EXP 13: CTA Icon vs. Text =====
+    function renderExp13(){
+      const btn = document.getElementById('exp13-cta');
+      if(!btn){ go('survey'); return; }
+      const v = state.exp13.variant; // 'generic' | 'actionable'
+      btn.textContent = v==='actionable' ? 'Jetzt abschließen' : 'Weiter';
+      btn.onclick = ()=>{
+        if(state.exp13.ttf==null) state.exp13.ttf = Math.round(now()-state.exp13.startedAt);
+        state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
+        state.exp13.extra = { copy: v };
+        go('survey');
+      };
     }
 
     // ===== Summary =====
