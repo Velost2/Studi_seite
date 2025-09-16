@@ -111,7 +111,7 @@
 
     <!-- EXP 13: CTA Microcopy -->
     <section id="screen-exp13" class="card hidden">
-      <h2>Schritt 13</h2>
+      <h2>Schritt 12</h2>
       <p class="hint">Klicken Sie den Button.</p>
       <div class="row"><button id="exp13-cta" type="button" class="btn btn-primary">Weiter</button></div>
     </section>
@@ -199,24 +199,7 @@
       <div id="exp11-grid" class="grid grid-3"></div>
     </section>
 
-    <!-- EXP 12: Card Emphasis (Schatten vs. Outline) -->
-    <section id="screen-exp12" class="card hidden">
-      <h2>Schritt 12</h2>
-      <p class="hint">Lesen Sie kurz und schließen Sie ab.</p>
-      <div class="stack gap-sm">
-        <div class="card soft">Kurzer Beispieltext mit identischem Inhalt.</div>
-        <div class="card soft">Weiterer Textblock als Platzhalter, um Scrollen zu ermöglichen.</div>
-        <div class="card soft">Noch ein Block mit identischem Inhalt.</div>
-        <div class="card soft">Zusätzlicher Text zur Simulation längerer Seiten.</div>
-        <div class="row"><button id="exp12-inline" type="button" class="btn btn-primary">Abschließen</button></div>
-      </div>
-      <div id="exp12-sticky" class="sticky hidden">
-        <div class="sticky__inner">
-          <div>Bereit zum Abschluss?</div>
-          <button id="exp12-sticky-btn" type="button" class="btn btn-primary">Abschließen</button>
-        </div>
-      </div>
-    </section>
+    
 
     <!-- SURVEY -->
     <section id="screen-survey" class="card hidden">
@@ -268,7 +251,7 @@
   <script>
     // ===== Utilities =====
     const $ = (sel) => document.querySelector(sel);
-    const screens = ["intro","exp1","exp2","exp3","exp4","exp5","exp6","exp7","exp8","exp9pd","exp9","exp10","exp12","exp13","survey","debrief"];
+    const screens = ["intro","exp1","exp2","exp3","exp4","exp5","exp6","exp7","exp8","exp9pd","exp9","exp10","exp13","survey","debrief"];
     const now = () => performance.now();
     const progress = (idx) => {
       const denom = Math.max(1, screens.length - 1);
@@ -313,7 +296,7 @@
       exp9: { name:'feedback_latency', variant: ['none','state','state_motion'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp10:{ name:'inline_vs_toast', variant: Math.random()<0.5?'inline':'toast', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp11:{ name:'white_space', variant: Math.random()<0.5?'primary_white':'equal_compact', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-      exp12:{ name:'emphasis_cards', variant: Math.random()<0.5?'emph_shadow':'emph_outline', emphLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      
       exp13:{ name:'cta_icon', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       survey: { ease:null, intrusiveness:null, trust:null, satisfaction:null, autonomy:null, effort:null, frustration:null, helpfulPersuasion:null, noticedSocialProof:null, noticedDefault:null, noticedGrouping:null, noticedScarcity:null, noticedOrder:null, noticedFeedbackLatency:null, noticedPD:null, noticedChoiceOverload:null, noticedCardEmphasis:null, noticedCtaIcon:null, openComment:'' },
     };
@@ -359,7 +342,7 @@
   if(step==='exp9' && !state.exp9.startedAt){ state.exp9.startedAt = now(); renderExp9(); }
   if(step==='exp10'&& !state.exp10.startedAt){ state.exp10.startedAt = now(); renderExp10(); }
   if(step==='exp11'&& !state.exp11.startedAt){ state.exp11.startedAt = now(); renderExp11(); }
-  if(step==='exp12'&& !state.exp12.startedAt){ state.exp12.startedAt = now(); renderExp12(); }
+  
   if(step==='exp13'&& !state.exp13.startedAt){ state.exp13.startedAt = now(); renderExp13(); }
   if(step==='survey'){ renderSurvey(); }
 }
@@ -946,7 +929,7 @@
             state.exp11.success = true;
             state.exp11.finishedAt = now();
             state.exp11.extra = Object.assign((state.exp11.extra||{}), { pleasantness: reason });
-            go('exp12');
+            go('exp13');
           }
         });
       };
@@ -970,7 +953,7 @@
             if(state.exp11.ttf==null) state.exp11.ttf = Math.round(now()-state.exp11.startedAt);
             state.exp11.clicks++; state.exp11.success=true; state.exp11.finishedAt=now();
             state.exp11.extra = { pleasantness: reason };
-            go('exp12');
+            go('exp13');
           }
         });
         return;
@@ -986,14 +969,14 @@
           if(state.exp11.ttf==null) state.exp11.ttf = Math.round(now()-state.exp11.startedAt);
           state.exp11.clicks++; state.exp11.success=true; state.exp11.finishedAt=now();
           state.exp11.extra = { whiteSpacePrimary: halo, clickedPrimary: (i===primaryIdx) };
-          go('exp12');
+          go('exp13');
         };
         grid.appendChild(card);
       }
     }
 
     // ===== EXP 12: Sticky CTA =====
-    function renderExp12(){
+    function renderExp12(){ go('exp13'); return;
       // Drastisch gendert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
       const emphShadow = state.exp12.variant==='emph_shadow';
       const emphLeft = state.exp12.emphLeft;
@@ -1012,7 +995,7 @@
 
     // Override EXP 12 to sichtbares Karten-Layout mit Overlay nach Klick
     try {
-      renderExp12 = function(){
+      renderExp12 = function(){ go('exp13'); return;
         const section = document.getElementById('screen-exp12');
         if(section){ section.innerHTML = '<h2>Schritt 12<\/h2><p class="hint">Wählen Sie eine Karte.<\/p><div id="exp12-grid" class="grid grid-2"><\/div>'; }
         const grid = document.getElementById('exp12-grid'); if(!grid){ go('exp13'); return; }
@@ -1041,7 +1024,7 @@
     try {
       renderExp13 = function(){
         const section = document.getElementById('screen-exp13');
-        if(section){ section.innerHTML = '<h2>Schritt 13<\/h2><p class="hint">Klicken Sie einen Button.<\/p><div class="row gap"><button id="exp13-left" type="button" class="btn btn-primary">Weiter<\/button><button id="exp13-right" type="button" class="btn btn-primary">Weiter<\/button><\/div>'; }
+        if(section){ section.innerHTML = '<h2>Schritt 12<\/h2><p class="hint">Klicken Sie einen Button.<\/p><div class="row gap"><button id="exp13-left" type="button" class="btn btn-primary">Weiter<\/button><button id="exp13-right" type="button" class="btn btn-primary">Weiter<\/button><\/div>'; }
         const left = document.getElementById('exp13-left'); const right = document.getElementById('exp13-right');
         if(!left || !right){ go('survey'); return; }
         const iconLeft = !!state.exp13.iconLeft;
@@ -1052,7 +1035,7 @@
           state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
           state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Einordnung – Schritt 13',
+            title:'Einordnung - Schritt 12',
             options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
           });
@@ -1062,10 +1045,43 @@
       }
     } catch {}
 
+    // Re-Override EXP 12 to sticky vs. inline (vermeidet Duplikat zu Schritt 3)
+    try {
+      renderExp12 = function(){ go('exp13'); return;
+        const v = state.exp12.variant; // 'sticky' | 'inline'
+        const inlineBtn = document.getElementById('exp12-inline');
+        const stickyBar = document.getElementById('exp12-sticky');
+        const stickyBtn = document.getElementById('exp12-sticky-btn');
+
+        const useSticky = (v === 'sticky');
+        if(useSticky){
+          if(inlineBtn) inlineBtn.classList.add('hidden');
+          if(stickyBar) stickyBar.classList.remove('hidden');
+        } else {
+          if(inlineBtn) inlineBtn.classList.remove('hidden');
+          if(stickyBar) stickyBar.classList.add('hidden');
+        }
+
+        const onClick = (type)=>{
+          if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
+          state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
+          state.exp12.extra = { cta: type, variant: v };
+          openAttribution({
+            title:'Einordnung – Schritt 12',
+            options:['Sticky-Leiste','Inline-Button','Position (oben/unten)','Sonstiges'],
+            onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
+          });
+        };
+
+        if(inlineBtn) inlineBtn.onclick = ()=>onClick('inline');
+        if(stickyBtn) stickyBtn.onclick = ()=>onClick('sticky');
+      }
+    } catch {}
+
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
-      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, exp6:state.exp6, exp7:state.exp7, exp8:state.exp8, exp9pd:state.exp9pd, exp9:state.exp9, exp10:state.exp10, exp11:state.exp11, exp12:state.exp12, exp13:state.exp13, survey:state.survey, events:state.events };
+      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp5:state.exp5, exp6:state.exp6, exp7:state.exp7, exp8:state.exp8, exp9pd:state.exp9pd, exp9:state.exp9, exp10:state.exp10, exp11:state.exp11, exp13:state.exp13, survey:state.survey, events:state.events };
     }
     async function submit(){
       const out = $('#submit-status');
@@ -1148,5 +1164,4 @@
 </body>
 </html>
 <!-- hello -->
-
 
