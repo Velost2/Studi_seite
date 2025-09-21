@@ -38,6 +38,9 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .mt { margin-top: 12px; }
 .mb { margin-bottom: 12px; }
 .divider { border-top:1px solid #e5e7eb; margin: 12px 0 0; }
+/* Step 1: increase space between divider and choose button */
+#screen-exp1 .divider { margin: 12px 0 24px; }
+#screen-exp1 .divider + .row.end { margin-top: 0; }
 
 .grid { display:grid; gap:16px; }
 .grid-2 { grid-template-columns: repeat(1,minmax(0,1fr)); }
@@ -105,8 +108,13 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); display:grid; place-items:center; padding:16px; z-index: 50; }
 .modal { position:relative; width:100%; max-width: 640px; background:#fff; border-radius:16px; padding:12px 20px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
 .modal__title { margin:0 0 6px; font-size: 16px; font-weight: 700; }
-.modal__close { position:absolute; top:10px; right:10px; border:none; background:#f3f4f6; color:#111827; border-radius:999px; width:28px; height:28px; font-size:18px; line-height:1; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+.modal__close { position:absolute; top:10px; right:10px; border:none; background:#f3f4f6; color:#111827; border-radius:999px; width:28px; height:28px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; font-size:0; line-height:0; }
 .modal__close:hover { background:#e5e7eb; }
+/* Draw a perfectly centered cross instead of relying on the × glyph */
+.modal__close::before,
+.modal__close::after { content:""; position:absolute; top:50%; left:50%; width:12px; height:2px; background:#111827; border-radius:1px; transform-origin:center; }
+.modal__close::before { transform: translate(-50%, -50%) rotate(45deg); }
+.modal__close::after  { transform: translate(-50%, -50%) rotate(-45deg); }
 .modal__drag { width:100%; height:20px; display:flex; align-items:center; justify-content:center; margin: 0 0 8px; cursor: grab; }
 .modal__drag::before { content:""; width:96px; height:6px; background:#e5e7eb; border-radius:999px; }
 .modal--dragging .modal__drag { cursor: grabbing; }
@@ -164,3 +172,31 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .press-animate { transform: scale(0.98); transition: transform 120ms ease-out; }
 
 
+
+
+/* ===== Experiment 6 layout ===== */
+.exp6-grid { display:grid; gap:16px; justify-items:stretch; }
+@media (min-width: 640px){
+  .exp6-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 639px){
+  .exp6-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); width:100%; }
+}
+.exp6-card { display:flex; flex-direction:column; gap:8px; max-width:320px; text-align:left; }
+.exp6-card .badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#4338ca; font-weight:600; width:max-content; }
+.exp6-card ul { margin: 4px 0 12px; }
+.exp6-card .muted { color:#4b5563; font-size:13px; }
+.exp6-card .btn { align-self:flex-start; }
+
+/* ===== Mobile floating back button ===== */
+@media (max-width: 768px){
+  #btn-back {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 60;
+    border-radius: 999px;
+    padding: 10px 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+}

@@ -228,7 +228,7 @@
     <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
       <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
-        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen"></button>
+        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen" title="Schließen">&times;</button>
         <div id="attr-drag" class="modal__drag" aria-hidden="true" title="Zum Verschieben hier ziehen"></div>
         <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
         <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
@@ -552,7 +552,7 @@
         ${ scarcePresent && scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Polymer (BPA-frei)</div>
-        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
+        <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
         <div class="muted mb">Versand: 2–3 Tage</div>
         <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Splmaschinengeeignet</li></ul>
         <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
@@ -561,7 +561,7 @@
         ${ scarcePresent && !scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Plastik (BPA-frei)</div>
-        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
+        <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
         <div class="muted mb">Versand: 2–3 Tage</div>
         <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Splmaschinengeeignet</li></ul>
         <button id="exp5-select-b" type="button" class="btn btn-outline">Auswählen</button>`;
@@ -1078,6 +1078,130 @@
       }
     } catch {}
 
+    // ===== Overrides: Exp 7, 8, 9pd content =====
+    try {
+      // Exp 7: Positionsbias with identical, neutral cards
+      renderExp7 = function(){
+        const grid = document.getElementById('exp7-grid'); if(!grid) return; grid.innerHTML='';
+        const leftFirst = state.exp7.variant==='left_target';
+        const makeCard = ()=>{
+          const d = document.createElement('div'); d.className='card soft';
+          d.innerHTML = `
+            <div class="thumb"></div>
+            <div class="item__name">Trinkflasche 750 ml</div>
+            <div class="muted small">BPA-frei, auslaufsicher &bull; Versand: 2&ndash;3 Tage</div>
+            <div class="muted small">Preis: 19,90 &euro; &bull; Bewertung: 4,4 &#9733;</div>
+            <button class="btn mt">W&auml;hlen</button>`;
+          return d;
+        };
+        const left = makeCard(); const right = makeCard();
+        grid.appendChild(leftFirst? left : right);
+        grid.appendChild(leftFirst? right : left);
+        const clickHandler = (pos)=>{
+          if(state.exp7.ttf==null) state.exp7.ttf = Math.round(now()-state.exp7.startedAt);
+          state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
+          state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
+          openAttribution({
+            title:'Einordnung - Schritt 7',
+            options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gef&uuml;hl','Sonstiges'],
+            onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
+          });
+        };
+        left.querySelector('button').onclick = ()=>clickHandler('left');
+        right.querySelector('button').onclick = ()=>clickHandler('right');
+      };
+    } catch {}
+
+    try {
+      // Exp 8: Choice overload with identical cards (only set size varies)
+      renderExp8 = function(){
+        const grid = document.getElementById('exp8-grid'); if(!grid) return; grid.innerHTML='';
+        const setSize = state.exp8.variant==='set12' ? 12 : 4;
+        grid.className = 'grid ' + (setSize===12 ? 'grid-3' : 'grid-2');
+        let explored = 0; let firstHover = new Set();
+        const cardHtml = `
+          <div class="thumb"></div>
+          <div class="item__name">Trinkflasche 750 ml</div>
+          <div class="muted small">BPA-frei, auslaufsicher &bull; Versand: 2&ndash;3 Tage</div>
+          <div class="muted small">Preis: 19,90 &euro; &bull; Bewertung: 4,4 &#9733;</div>
+          <button class="btn mt">W&auml;hlen</button>`;
+        for(let i=0;i<setSize;i++){
+          const c = document.createElement('div'); c.className='card soft'; c.innerHTML = cardHtml;
+          c.addEventListener('mouseenter', ()=>{ if(!firstHover.has(i)){ firstHover.add(i); explored++; } });
+          c.querySelector('button').onclick = ()=>{
+            if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
+            state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
+            state.exp8.extra = { setSize, choiceIndex: i, explored };
+            openAttribution({
+              title:'Einordnung - Schritt 8',
+              options:['&Uuml;berblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gef&uuml;hl','Sonstiges'],
+              onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
+            });
+          };
+          grid.appendChild(c);
+        }
+      };
+    } catch {}
+
+    try {
+      // Exp 9pd: replace details text with neutral filler
+      renderExp9pd = function(){
+        const v = state.exp9pd.variant; // 'toggle' | 'all_open'
+        const det = document.getElementById('exp9pd-details');
+        if(det){ if(v==='all_open') det.setAttribute('open',''); else det.removeAttribute('open'); }
+        const body = document.getElementById('exp9pd-body');
+        if(body){
+          body.innerHTML = `
+            <p>Robuste 750&nbsp;ml Trinkflasche f&uuml;r den Alltag, auslaufsicher und leicht. Ideal f&uuml;r Sport, Uni und Arbeit.</p>
+            <p>Material &amp; Sicherheit: Tritan-Kunststoff (BPA-frei), geruchs- und geschmacksneutral. Frei von Weichmachern.</p>
+            <p>Pflege: Sp&uuml;lmaschinengeeignet (oberes Fach). F&uuml;r eine l&auml;ngere Lebensdauer wird Handw&auml;sche empfohlen.</p>
+            <p>Garantie &amp; Service: 2&nbsp;Jahre Gew&auml;hrleistung, 30&nbsp;Tage R&uuml;ckgaberecht. Deutscher Kundensupport per E-Mail.</p>
+            <p>Nachhaltigkeit: Recyclingf&auml;hige Verpackung, Versand klimaneutral. Bitte Flasche am Lebensende dem Recycling zuf&uuml;hren.</p>
+            <p>Ma&szlig;e &amp; Gewicht: 24,5&nbsp;cm &times; 7,2&nbsp;cm; 180&nbsp;g. Lieferumfang: Flasche inkl. Deckel mit Dichtungsring.</p>`;
+          // Update the two info lines below the body, if present
+          const tech = body.nextElementSibling; const legal = tech ? tech.nextElementSibling : null;
+          if(tech) tech.innerHTML = 'Technische Details: Volumen 750&nbsp;ml &bull; Ma&szlig;e 24,5&nbsp;&times;&nbsp;7,2&nbsp;cm &bull; Gewicht 180&nbsp;g &bull; Material Tritan (BPA-frei)';
+          if(legal) legal.innerHTML = 'Kleingedrucktes: 2&nbsp;Jahre Gew&auml;hrleistung gem&auml;&szlig; deutschem Recht; 30&nbsp;Tage Widerruf; Preise inkl. MwSt.';
+        }
+        // Build the simple A/B choice as in the base version
+        const card = document.getElementById('exp9pd-card');
+        let opt = document.getElementById('exp9pd-opts');
+        if(!opt && card){
+          opt = document.createElement('div'); opt.id='exp9pd-opts'; opt.className='stack mt';
+          opt.innerHTML = '<label class="radio-row"><input type="radio" name="p9opt" value="A"><span>Variante A</span></label>\n<label class="radio-row"><input type="radio" name="p9opt" value="B"><span>Variante B</span></label>';
+          const insertBeforeEl = card.querySelector('.row.mt'); if(insertBeforeEl) card.insertBefore(opt, insertBeforeEl);
+        }
+        const cta = document.getElementById('exp9pd-cta');
+        if(cta){ cta.disabled = true; cta.classList.add('btn-disabled'); }
+        let selected = null;
+        if(opt){
+          opt.querySelectorAll('input[name="p9opt"]').forEach(r=>{
+            r.addEventListener('change', (e)=>{
+              selected = e.target.value;
+              if(cta){ cta.disabled = false; cta.classList.remove('btn-disabled'); }
+            });
+          });
+        }
+        let openCount = 0; let detailsOpened = v==='all_open';
+        let openStart = v==='all_open' ? now() : null; let totalOpenMs = v==='all_open' ? 0 : 0;
+        if(det){
+          det.addEventListener('toggle', ()=>{
+            detailsOpened = det.open; if(det.open){ openCount++; openStart = now(); } else { if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; } }
+          });
+        }
+        const btn = document.getElementById('exp9pd-cta');
+        if(btn){
+          btn.onclick = ()=>{
+            if(state.exp9pd.ttf==null) state.exp9pd.ttf = Math.round(now()-state.exp9pd.startedAt);
+            state.exp9pd.clicks++; state.exp9pd.success=true; state.exp9pd.finishedAt=now();
+            if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; }
+            state.exp9pd.extra = { detailsOpened, openCount, selected, openMs: Math.round(totalOpenMs) };
+            go('exp9');
+          };
+        }
+      };
+    } catch {}
+
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
@@ -1164,4 +1288,3 @@
 </body>
 </html>
 <!-- hello -->
-
