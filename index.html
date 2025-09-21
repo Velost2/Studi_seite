@@ -227,10 +227,10 @@
 
     <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
-      <div class="modal" role="dialog" aria-modal="true" aria-label="Kurzes Feedback">
-        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen" title="Schließen">&times;</button>
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
+        <button id="attr-close" type="button" class="modal__close" aria-label="Schließen"></button>
         <div id="attr-drag" class="modal__drag" aria-hidden="true" title="Zum Verschieben hier ziehen"></div>
-        <h3 id="attr-title" class="modal__title">Kurzes Feedback</h3>
+        <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
         <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
         <div id="attr-options" class="chips"></div>
         <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begründung (optional)"></textarea>
@@ -240,7 +240,7 @@
         </div>
       </div>
     </div>
-    <button id="attr-reopen" type="button" class="fab hidden" title="Feedback erneut öffnen">Feedback</button>
+    <button id="attr-reopen" type="button" class="fab hidden" title="Einordnung erneut öffnen">Einordnung</button>
 
     <footer class="footer">
       <div>Vielen Dank für die Hilfe!</div>
@@ -294,7 +294,7 @@
       exp8: { name:'choice_overload', variant: Math.random()<0.5?'set12':'set4', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp9pd:{ name:'progressive_disclosure', variant: Math.random()<0.5?'toggle':'all_open', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp9: { name:'feedback_latency', variant: ['none','state','state_motion'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-      exp10:{ name:'inline_vs_toast', variant: Math.random()<0.5?'inline':'toast', counter: Math.random()<0.5?'count':'static', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp10:{ name:'inline_vs_toast', variant: Math.random()<0.5?'inline':'toast', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp11:{ name:'white_space', variant: Math.random()<0.5?'primary_white':'equal_compact', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       
       exp13:{ name:'cta_icon', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
@@ -414,7 +414,7 @@
             ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
             state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
             openAttribution({
-              title:'Feedback – Schritt 1',
+              title:'Kurze Einordnung – Schritt 1',
               options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Sonstiges'],
               onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
@@ -443,7 +443,7 @@
         state.exp2.success = success; state.exp2.finishedAt = now();
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
-          title:'Feedback – Schritt 2',
+          title:'Kurze Einordnung – Schritt 2',
           options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
@@ -499,7 +499,7 @@
           ttfSet(state.exp3); state.exp3.clicks++; state.exp3.success=true; state.exp3.finishedAt=now();
           state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
           openAttribution({
-            title:'Feedback – Schritt 3',
+            title:'Kurze Einordnung – Schritt 3',
             options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
             onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
@@ -534,7 +534,7 @@
         state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
         state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
         openAttribution({
-          title:'Feedback – Schritt 4',
+          title:'Kurze Einordnung – Schritt 4',
           options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
           onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp5'); }
         });
@@ -552,25 +552,25 @@
         ${ scarcePresent && scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Polymer (BPA-frei)</div>
-        <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
+        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
         <div class="muted mb">Versand: 2–3 Tage</div>
-        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Sp&uuml;lmaschinenfest</li></ul>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
         <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
       $('#exp5-b').innerHTML = `
         <div class="item__name">Variante B  Trinkflasche  Plastik</div>
         ${ scarcePresent && !scarceLeft ? scarcityBox2 : '' }
         <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
         <div class="muted">Material: Plastik (BPA-frei)</div>
-        <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
+        <div class="muted">Preis: 19,90   Bewertung: 4,4 </div>
         <div class="muted mb">Versand: 2–3 Tage</div>
-        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Sp&uuml;lmaschinenfest</li></ul>
+        <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinengeeignet</li></ul>
         <button id="exp5-select-b" type="button" class="btn btn-outline">Auswählen</button>`;
       $('#exp5-select-a').onclick = ()=>{
         if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'A_polymer', scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Feedback – Schritt 5',
+          title:'Kurze Einordnung – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -580,7 +580,7 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Feedback – Schritt 5',
+          title:'Kurze Einordnung – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -771,7 +771,7 @@
           state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
           state.exp8.extra = { setSize, choiceIndex: i, explored };
           openAttribution({
-            title:'Feedback – Schritt 8',
+            title:'Einordnung – Schritt 8',
             options:['Überblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gefühl','Sonstiges'],
             onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
           });
@@ -835,7 +835,7 @@
         state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
         state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
         openAttribution({
-          title:'Feedback – Schritt 7',
+          title:'Einordnung – Schritt 7',
           options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
           onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
         });
@@ -885,7 +885,6 @@
       if(labels && labels[0]) labels[0].textContent = 'Eingabe (min. 3 Zeichen)';
       try { email.type = 'text'; email.placeholder = 'z. B. nutzer123'; emailErr.textContent = 'Mindestens 3 Zeichen.'; } catch {}
       const validUser = (v)=> (v||'').trim().length >= 3;
-      const showCounter = (state.exp10.counter || 'count') === 'count';
       let emailBad=true, passBad=true, corrections=0, errorsInline=0, errorsSubmit=0;
       // Rehydrate previously entered values
       try {
@@ -897,7 +896,7 @@
       function valPass(){
         const len = (pass.value||'').length;
         const remain = Math.max(0, 6-len);
-        if(passCount && showCounter){ passCount.textContent = remain>0 ? `Noch ${remain} Zeichen` : 'OK'; }
+        if(passCount){ passCount.textContent = remain>0 ? `Noch ${remain} Zeichen` : 'OK'; }
         const bad = len<6;
         if(inline){ passErr.style.display= bad?'block':'none'; if(passBad && !bad) corrections++; if(bad) errorsInline++; }
         passBad = bad;
@@ -905,12 +904,9 @@
       // Always persist values to state
       try { email.addEventListener('input', ()=>{ (state.exp10.extra = state.exp10.extra || {}).fieldValue = email.value; }); } catch {}
       try { pass.addEventListener('input',  ()=>{ (state.exp10.extra = state.exp10.extra || {}).passValue  = pass.value;  }); } catch {}
-      // Attach listeners
-      if(inline){ email.addEventListener('input', valEmail); }
-      if(showCounter){ try { pass.addEventListener('input', valPass); } catch {} }
-      else { if(passCount) passCount.textContent = 'Mindestens 6 Zeichen'; }
-      // initial validation + optional counter update
-      try { if(showCounter) valPass(); else { /* ensure initial validity check */ valPass(); if(passCount) passCount.textContent = 'Mindestens 6 Zeichen'; } } catch {}
+      if(inline){ email.addEventListener('input', valEmail); pass.addEventListener('input', valPass); }
+      // initial counter update
+      try { valPass(); } catch {}
       submit.onclick = ()=>{
         if(!inline){ emailErr.style.display='none'; passErr.style.display='none'; }
         valEmail(); valPass();
@@ -981,7 +977,7 @@
 
     // ===== EXP 12: Sticky CTA =====
     function renderExp12(){ go('exp13'); return;
-      // Drastisch geändert: Card-Emphasis (Schatten vs. Outline) als Feedback-Overlay
+      // Drastisch gendert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
       const emphShadow = state.exp12.variant==='emph_shadow';
       const emphLeft = state.exp12.emphLeft;
       if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
@@ -1014,7 +1010,7 @@
           state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, clickedPos: pos };
           openAttribution({
-            title:'Feedback – Schritt 12',
+            title:'Einordnung – Schritt 12',
             options:['Schatten','Outline','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
@@ -1039,7 +1035,7 @@
           state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
           state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Feedback - Schritt 12',
+            title:'Einordnung - Schritt 12',
             options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
           });
@@ -1071,7 +1067,7 @@
           state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { cta: type, variant: v };
           openAttribution({
-            title:'Feedback – Schritt 12',
+            title:'Einordnung – Schritt 12',
             options:['Sticky-Leiste','Inline-Button','Position (oben/unten)','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
@@ -1080,130 +1076,6 @@
         if(inlineBtn) inlineBtn.onclick = ()=>onClick('inline');
         if(stickyBtn) stickyBtn.onclick = ()=>onClick('sticky');
       }
-    } catch {}
-
-    // ===== Overrides: Exp 7, 8, 9pd content =====
-    try {
-      // Exp 7: Positionsbias with identical, neutral cards
-      renderExp7 = function(){
-        const grid = document.getElementById('exp7-grid'); if(!grid) return; grid.innerHTML='';
-        const leftFirst = state.exp7.variant==='left_target';
-        const makeCard = ()=>{
-          const d = document.createElement('div'); d.className='card soft';
-          d.innerHTML = `
-            <div class="thumb"></div>
-            <div class="item__name">Trinkflasche 750 ml</div>
-            <div class="muted small">BPA-frei, auslaufsicher &bull; Versand: 2&ndash;3 Tage</div>
-            <div class="muted small">Preis: 19,90 &euro; &bull; Bewertung: 4,4 &#9733;</div>
-            <button class="btn mt">W&auml;hlen</button>`;
-          return d;
-        };
-        const left = makeCard(); const right = makeCard();
-        grid.appendChild(leftFirst? left : right);
-        grid.appendChild(leftFirst? right : left);
-        const clickHandler = (pos)=>{
-          if(state.exp7.ttf==null) state.exp7.ttf = Math.round(now()-state.exp7.startedAt);
-          state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
-          state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
-          openAttribution({
-            title:'Feedback - Schritt 7',
-            options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
-            onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
-          });
-        };
-        left.querySelector('button').onclick = ()=>clickHandler('left');
-        right.querySelector('button').onclick = ()=>clickHandler('right');
-      };
-    } catch {}
-
-    try {
-      // Exp 8: Choice overload with identical cards (only set size varies)
-      renderExp8 = function(){
-        const grid = document.getElementById('exp8-grid'); if(!grid) return; grid.innerHTML='';
-        const setSize = state.exp8.variant==='set12' ? 12 : 4;
-        grid.className = 'grid ' + (setSize===12 ? 'grid-3' : 'grid-2');
-        let explored = 0; let firstHover = new Set();
-        const cardHtml = `
-          <div class="thumb"></div>
-          <div class="item__name">Trinkflasche 750 ml</div>
-          <div class="muted small">BPA-frei, auslaufsicher &bull; Versand: 2&ndash;3 Tage</div>
-          <div class="muted small">Preis: 19,90 &euro; &bull; Bewertung: 4,4 &#9733;</div>
-          <button class="btn mt">W&auml;hlen</button>`;
-        for(let i=0;i<setSize;i++){
-          const c = document.createElement('div'); c.className='card soft'; c.innerHTML = cardHtml;
-          c.addEventListener('mouseenter', ()=>{ if(!firstHover.has(i)){ firstHover.add(i); explored++; } });
-          c.querySelector('button').onclick = ()=>{
-            if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
-            state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
-            state.exp8.extra = { setSize, choiceIndex: i, explored };
-            openAttribution({
-              title:'Feedback - Schritt 8',
-              options:['Überblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gefühl','Sonstiges'],
-              onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
-            });
-          };
-          grid.appendChild(c);
-        }
-      };
-    } catch {}
-
-    try {
-      // Exp 9pd: replace details text with neutral filler
-      renderExp9pd = function(){
-        const v = state.exp9pd.variant; // 'toggle' | 'all_open'
-        const det = document.getElementById('exp9pd-details');
-        if(det){ if(v==='all_open') det.setAttribute('open',''); else det.removeAttribute('open'); }
-        const body = document.getElementById('exp9pd-body');
-        if(body){
-          body.innerHTML = `
-            <p>Robuste 750&nbsp;ml Trinkflasche f&uuml;r den Alltag, auslaufsicher und leicht. Ideal f&uuml;r Sport, Uni und Arbeit.</p>
-            <p>Material &amp; Sicherheit: Tritan-Kunststoff (BPA-frei), geruchs- und geschmacksneutral. Frei von Weichmachern.</p>
-            <p>Pflege: Sp&uuml;lmaschinengeeignet (oberes Fach). F&uuml;r eine l&auml;ngere Lebensdauer wird Handw&auml;sche empfohlen.</p>
-            <p>Garantie &amp; Service: 2&nbsp;Jahre Gew&auml;hrleistung, 30&nbsp;Tage R&uuml;ckgaberecht. Deutscher Kundensupport per E-Mail.</p>
-            <p>Nachhaltigkeit: Recyclingf&auml;hige Verpackung, Versand klimaneutral. Bitte Flasche am Lebensende dem Recycling zuf&uuml;hren.</p>
-            <p>Ma&szlig;e &amp; Gewicht: 24,5&nbsp;cm &times; 7,2&nbsp;cm; 180&nbsp;g. Lieferumfang: Flasche inkl. Deckel mit Dichtungsring.</p>`;
-          // Update the two info lines below the body, if present
-          const tech = body.nextElementSibling; const legal = tech ? tech.nextElementSibling : null;
-          if(tech) tech.innerHTML = 'Technische Details: Volumen 750&nbsp;ml &bull; Ma&szlig;e 24,5&nbsp;&times;&nbsp;7,2&nbsp;cm &bull; Gewicht 180&nbsp;g &bull; Material Tritan (BPA-frei)';
-          if(legal) legal.innerHTML = 'Kleingedrucktes: 2&nbsp;Jahre Gew&auml;hrleistung gem&auml;&szlig; deutschem Recht; 30&nbsp;Tage Widerruf; Preise inkl. MwSt.';
-        }
-        // Build the simple A/B choice as in the base version
-        const card = document.getElementById('exp9pd-card');
-        let opt = document.getElementById('exp9pd-opts');
-        if(!opt && card){
-          opt = document.createElement('div'); opt.id='exp9pd-opts'; opt.className='stack mt';
-          opt.innerHTML = '<label class="radio-row"><input type="radio" name="p9opt" value="A"><span>Variante A</span></label>\n<label class="radio-row"><input type="radio" name="p9opt" value="B"><span>Variante B</span></label>';
-          const insertBeforeEl = card.querySelector('.row.mt'); if(insertBeforeEl) card.insertBefore(opt, insertBeforeEl);
-        }
-        const cta = document.getElementById('exp9pd-cta');
-        if(cta){ cta.disabled = true; cta.classList.add('btn-disabled'); }
-        let selected = null;
-        if(opt){
-          opt.querySelectorAll('input[name="p9opt"]').forEach(r=>{
-            r.addEventListener('change', (e)=>{
-              selected = e.target.value;
-              if(cta){ cta.disabled = false; cta.classList.remove('btn-disabled'); }
-            });
-          });
-        }
-        let openCount = 0; let detailsOpened = v==='all_open';
-        let openStart = v==='all_open' ? now() : null; let totalOpenMs = v==='all_open' ? 0 : 0;
-        if(det){
-          det.addEventListener('toggle', ()=>{
-            detailsOpened = det.open; if(det.open){ openCount++; openStart = now(); } else { if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; } }
-          });
-        }
-        const btn = document.getElementById('exp9pd-cta');
-        if(btn){
-          btn.onclick = ()=>{
-            if(state.exp9pd.ttf==null) state.exp9pd.ttf = Math.round(now()-state.exp9pd.startedAt);
-            state.exp9pd.clicks++; state.exp9pd.success=true; state.exp9pd.finishedAt=now();
-            if(openStart!=null){ totalOpenMs += Math.max(0, now()-openStart); openStart=null; }
-            state.exp9pd.extra = { detailsOpened, openCount, selected, openMs: Math.round(totalOpenMs) };
-            go('exp9');
-          };
-        }
-      };
     } catch {}
 
     // ===== Export/Submit =====
@@ -1292,3 +1164,4 @@
 </body>
 </html>
 <!-- hello -->
+
