@@ -227,10 +227,10 @@
 
     <!-- Attribution Panel (Overlay) -->
     <div id="attr" class="overlay hidden">
-      <div class="modal" role="dialog" aria-modal="true" aria-label="Kurze Einordnung">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Kurzes Feedback">
         <button id="attr-close" type="button" class="modal__close" aria-label="Schließen" title="Schließen">&times;</button>
         <div id="attr-drag" class="modal__drag" aria-hidden="true" title="Zum Verschieben hier ziehen"></div>
-        <h3 id="attr-title" class="modal__title">Kurze Einordnung</h3>
+        <h3 id="attr-title" class="modal__title">Kurzes Feedback</h3>
         <p class="hint">Was hat Ihre Entscheidung beeinflusst? (Mehrfachauswahl möglich, optional)</p>
         <div id="attr-options" class="chips"></div>
         <textarea id="attr-note" class="input" rows="3" placeholder="Kurze Begründung (optional)"></textarea>
@@ -240,7 +240,7 @@
         </div>
       </div>
     </div>
-    <button id="attr-reopen" type="button" class="fab hidden" title="Einordnung erneut öffnen">Einordnung</button>
+    <button id="attr-reopen" type="button" class="fab hidden" title="Feedback erneut öffnen">Feedback</button>
 
     <footer class="footer">
       <div>Vielen Dank für die Hilfe!</div>
@@ -414,7 +414,7 @@
             ttfSet(state.exp1); state.exp1.clicks++; state.exp1.success=true; state.exp1.finishedAt=now();
             state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
             openAttribution({
-              title:'Kurze Einordnung – Schritt 1',
+              title:'Feedback – Schritt 1',
               options:['Nähe des Buttons','Gruppierung/Abstand','Position (links/rechts)','Sonstiges'],
               onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
@@ -443,7 +443,7 @@
         state.exp2.success = success; state.exp2.finishedAt = now();
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
-          title:'Kurze Einordnung – Schritt 2',
+          title:'Feedback – Schritt 2',
           options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
@@ -499,7 +499,7 @@
           ttfSet(state.exp3); state.exp3.clicks++; state.exp3.success=true; state.exp3.finishedAt=now();
           state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
           openAttribution({
-            title:'Kurze Einordnung – Schritt 3',
+            title:'Feedback – Schritt 3',
             options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
             onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
@@ -534,7 +534,7 @@
         state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
         state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
         openAttribution({
-          title:'Kurze Einordnung – Schritt 4',
+          title:'Feedback – Schritt 4',
           options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
           onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp5'); }
         });
@@ -570,7 +570,7 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'A_polymer', scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung – Schritt 5',
+          title:'Feedback – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -580,7 +580,7 @@
         state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
         state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
         openAttribution({
-          title:'Kurze Einordnung – Schritt 5',
+          title:'Feedback – Schritt 5',
           options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'],
           onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); }
         });
@@ -771,7 +771,7 @@
           state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
           state.exp8.extra = { setSize, choiceIndex: i, explored };
           openAttribution({
-            title:'Einordnung – Schritt 8',
+            title:'Feedback – Schritt 8',
             options:['Überblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gefühl','Sonstiges'],
             onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
           });
@@ -835,7 +835,7 @@
         state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
         state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
         openAttribution({
-          title:'Einordnung – Schritt 7',
+          title:'Feedback – Schritt 7',
           options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
           onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
         });
@@ -977,7 +977,7 @@
 
     // ===== EXP 12: Sticky CTA =====
     function renderExp12(){ go('exp13'); return;
-      // Drastisch gendert: Card-Emphasis (Schatten vs. Outline) als Einordnung im Overlay
+      // Drastisch geändert: Card-Emphasis (Schatten vs. Outline) als Feedback-Overlay
       const emphShadow = state.exp12.variant==='emph_shadow';
       const emphLeft = state.exp12.emphLeft;
       if(state.exp12.ttf==null) state.exp12.ttf = Math.round(now()-state.exp12.startedAt);
@@ -1010,7 +1010,7 @@
           state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, clickedPos: pos };
           openAttribution({
-            title:'Einordnung – Schritt 12',
+            title:'Feedback – Schritt 12',
             options:['Schatten','Outline','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
@@ -1035,7 +1035,7 @@
           state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
           state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Einordnung - Schritt 12',
+            title:'Feedback - Schritt 12',
             options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
           });
@@ -1067,7 +1067,7 @@
           state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { cta: type, variant: v };
           openAttribution({
-            title:'Einordnung – Schritt 12',
+            title:'Feedback – Schritt 12',
             options:['Sticky-Leiste','Inline-Button','Position (oben/unten)','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
@@ -1102,7 +1102,7 @@
           state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
           state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Einordnung - Schritt 7',
+            title:'Feedback - Schritt 7',
             options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gef&uuml;hl','Sonstiges'],
             onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
           });
@@ -1133,7 +1133,7 @@
             state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
             state.exp8.extra = { setSize, choiceIndex: i, explored };
             openAttribution({
-              title:'Einordnung - Schritt 8',
+              title:'Feedback - Schritt 8',
               options:['&Uuml;berblick/Struktur','Position/Reihenfolge','Visuelle Dichte','Aus Gef&uuml;hl','Sonstiges'],
               onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9pd'); }
             });
