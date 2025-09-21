@@ -1078,6 +1078,51 @@
       }
     } catch {}
 
+    // ===== Override: Exp 5 material logic =====
+    try {
+      renderExp5 = function(){
+        const scarcePresent = state.exp5.variant==='scarce_present';
+        const scarceLeft = state.exp5.scarceLeft;
+        const materialA = scarcePresent ? 'Plastik' : 'Polymer';
+        const materialB = 'Plastik';
+        const scarcityBox2 = `<div class="scarcity scarcity--emph scarcity--pulse" aria-live="polite"><span class="scarcity__icon">!</span><span>Nur noch <strong>2</strong> auf Lager &ndash; Angebot endet in <strong>03:00</strong></span></div>`;
+        const a = document.getElementById('exp5-a');
+        const b = document.getElementById('exp5-b');
+        if(!a || !b){ return; }
+        a.innerHTML = `
+          <div class="item__name">Variante A  Trinkflasche  ${materialA}</div>
+          ${ scarcePresent && scarceLeft ? scarcityBox2 : '' }
+          <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
+          <div class="muted">Material: ${materialA} (BPA-frei)</div>
+          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
+          <div class="muted mb">Versand: 2-3 Tage</div>
+          <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Sp&uuml;lmaschinenfest</li></ul>
+          <button id="exp5-select-a" type="button" class="btn btn-outline">Ausw&auml;hlen</button>`;
+        b.innerHTML = `
+          <div class="item__name">Variante B  Trinkflasche  ${materialB}</div>
+          ${ scarcePresent && !scarceLeft ? scarcityBox2 : '' }
+          <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
+          <div class="muted">Material: ${materialB} (BPA-frei)</div>
+          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
+          <div class="muted mb">Versand: 2-3 Tage</div>
+          <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Sp&uuml;lmaschinenfest</li></ul>
+          <button id="exp5-select-b" type="button" class="btn btn-outline">Ausw&auml;hlen</button>`;
+        document.getElementById('exp5-select-a').onclick = ()=>{
+          if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
+          state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
+          const selA = (materialA==='Plastik') ? 'A_plastic' : 'A_polymer';
+          state.exp5.extra = { selected: selA, scarceShown: scarcePresent && scarceLeft, scarceSide: scarceLeft?'A':'B' };
+          openAttribution({ title:'Feedback - Schritt 5', options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); } });
+        };
+        document.getElementById('exp5-select-b').onclick = ()=>{
+          if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
+          state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
+          state.exp5.extra = { selected:'B_plastic', scarceShown: scarcePresent && !scarceLeft, scarceSide: scarceLeft?'A':'B' };
+          openAttribution({ title:'Feedback - Schritt 5', options:['Materialbezeichnung','Knappheits-Hinweis','Position (links/rechts)','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp6'); } });
+        };
+      };
+    } catch {}
+
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
@@ -1164,4 +1209,3 @@
 </body>
 </html>
 <!-- hello -->
-
