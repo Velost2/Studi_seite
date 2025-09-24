@@ -146,17 +146,37 @@
     </section>
 
     <!-- EXP 8: CTA-Signifier (Icon vs. kein Icon) -->
-    <section id="screen-exp8" class="card hidden">
-      <h2>Schritt 8</h2>
-      <p class="hint">Klicken Sie den Weiter-Button.</p>
-      <div class="row"><button id="exp8-cta" type="button" class="btn btn-primary">Weiter</button></div>
-    </section>
+    
 
     <!-- EXP 9b: Social Proof (Label oben) -->
     <section id="screen-exp9b" class="card hidden">
-      <h2>Schritt 9</h2>
+      <h2>Schritt 8</h2>
       <p class="hint">Wählen Sie ein Produkt.</p>
       <div id="exp9b-grid" class="grid grid-3"></div>
+    </section>
+
+    <!-- EXP 10: CTA-Signifier erneut (Icon vs. kein Icon) -->
+    <section id="screen-exp10icon" class="card hidden">
+      <h2>Schritt 9</h2>
+      <p class="hint">Klicken Sie einen Weiter-Button.</p>
+      <div class="row gap">
+        <button id="exp10icon-left" type="button" class="btn btn-primary">Weiter</button>
+        <button id="exp10icon-right" type="button" class="btn btn-primary">Weiter</button>
+      </div>
+    </section>
+
+    <!-- EXP 11: Good Continuation (lineare Anordnung) -->
+    <section id="screen-exp11gc" class="card hidden">
+      <h2>Schritt 10</h2>
+      <p class="hint">Wählen Sie die größte Zahl.</p>
+      <div id="exp11gc-wrap" class="card soft" style="position:relative; min-height:180px; padding:16px;"></div>
+    </section>
+
+    <!-- EXP 12: Figure–Ground (subtile Hervorhebung) -->
+    <section id="screen-exp12fg" class="card hidden">
+      <h2>Schritt 11</h2>
+      <p class="hint">Wählen Sie ein Paket.</p>
+      <div id="exp12fg-cards" class="grid grid-3"></div>
     </section>
 
     <!-- EXP 7: Positionsbias (Reihenfolge/Alignment) -->
@@ -219,7 +239,7 @@
   <script>
     // ===== Utilities =====
     const $ = (sel) => document.querySelector(sel);
-    const screens = ["intro","exp1","exp2","exp3","exp4","exp4pref","exp5","exp2b","exp6","exp7","exp8","exp9b","survey","debrief"];
+    const screens = ["intro","exp1","exp2","exp3","exp4","exp4pref","exp5","exp2b","exp6","exp7","exp9b","exp10icon","exp11gc","exp12fg","survey","debrief"];
     const now = () => performance.now();
     const progress = (idx) => {
       const denom = Math.max(1, screens.length - 1);
@@ -261,6 +281,9 @@
       exp2b:{ name:'cta_color', blackLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp6: { name:'single_button', variant:'default', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp8: { name:'cta_signifier', variant: Math.random()<0.5?'with_icon':'no_icon', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp10icon: { name:'cta_signifier_2', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp11gc: { name:'good_continuation', variant: Math.random()<0.5?'linear':'scatter', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp12fg: { name:'figure_ground', variant: Math.random()<0.5?'all_equal':'one_emph', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp7: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       
       
@@ -310,6 +333,9 @@
   if(step==='exp7' && !state.exp7.startedAt){ state.exp7.startedAt = now(); renderExp7(); }
   if(step==='exp8' && !state.exp8.startedAt){ state.exp8.startedAt = now(); renderExp8(); }
   if(step==='exp9b'&& !state.exp9b?.startedAt){ state.exp9b = state.exp9b || { name:'social_proof_v2', variant:'subtitle_note', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} }; state.exp9b.startedAt = now(); renderExp9b(); }
+  if(step==='exp10icon' && !state.exp10icon.startedAt){ state.exp10icon.startedAt = now(); renderExp10icon(); }
+  if(step==='exp11gc' && !state.exp11gc.startedAt){ state.exp11gc.startedAt = now(); renderExp11gc(); }
+  if(step==='exp12fg' && !state.exp12fg.startedAt){ state.exp12fg.startedAt = now(); renderExp12fg(); }
   if(step==='survey'){ renderSurvey(); }
 }
 
@@ -449,7 +475,7 @@
         const card = document.createElement('div');
         // Keine Hervorhebung der Zielkarte
         card.className = 'card soft';
-        const popularNote = isTarget ? `<div class="muted small">Beliebt heute: · ${exp3BannerCount} mal gekauft</div>` : '';
+        const popularNote = isTarget ? `<div class="muted small">Beliebt heute, ${exp3BannerCount} mal gekauft:</div>` : '';
         card.innerHTML = `
           <div class="muted small">${p.subtitle}</div>
           <div class="thumb"></div>
@@ -819,12 +845,123 @@
           state.exp9b.clicks++; state.exp9b.success=true; state.exp9b.finishedAt=now();
           state.exp9b.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp9bTargetId).name, bannerCount: exp9bBannerCount };
           openAttribution({
-            title:'Einordnung - Schritt 9',
+            title:'Einordnung - Schritt 8',
             options:['Beliebtheitshinweis','Sonstiges'],
-            onDone:(reason)=>{ state.exp9b.extra.reason=reason; go('survey'); }
+            onDone:(reason)=>{ state.exp9b.extra.reason=reason; go('exp10icon'); }
           });
         });
         grid.appendChild(card);
+      });
+    }
+
+    // ===== EXP 10: CTA-Signifier (with icon vs. no icon) =====
+    function renderExp10icon(){
+      const left = document.getElementById('exp10icon-left');
+      const right = document.getElementById('exp10icon-right');
+      if(!left || !right){ go('survey'); return; }
+      const iconLeft = !!state.exp10icon.iconLeft;
+      const withIcon = (el)=>{ el.innerHTML = 'Weiter <span aria-hidden="true" style="margin-left:6px">&#10140;</span>'; };
+      const noIcon = (el)=>{ el.textContent = 'Weiter'; };
+      if(iconLeft){ withIcon(left); noIcon(right); } else { noIcon(left); withIcon(right); }
+      const handler = (pos)=>{
+        if(state.exp10icon.ttf==null) state.exp10icon.ttf = Math.round(now()-state.exp10icon.startedAt);
+        state.exp10icon.clicks++; state.exp10icon.success=true; state.exp10icon.finishedAt=now();
+        state.exp10icon.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
+        openAttribution({
+          title:'Einordnung - Schritt 9',
+          options:['Icon/Zeichen','Nur Text','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          onDone:(reason)=>{ state.exp10icon.extra.reason = reason; go('exp11gc'); }
+        });
+      };
+      left.onclick = ()=>handler('left');
+      right.onclick = ()=>handler('right');
+    }
+
+    // ===== EXP 11: Good Continuation =====
+    function renderExp11gc(){
+      const wrap = document.getElementById('exp11gc-wrap');
+      if(!wrap){ go('survey'); return; }
+      wrap.innerHTML = '';
+      const variant = state.exp11gc.variant; // 'linear' | 'scatter'
+
+      const nums = [1,2,3,4,5,6,7,8,9];
+      const target = 9;
+
+      if(variant === 'linear'){
+        const row = document.createElement('div');
+        row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'center'; row.style.flexWrap = 'nowrap';
+        nums.forEach(n=>{ const b=document.createElement('button'); b.className='btn'; b.textContent=String(n); b.dataset.n=String(n); row.appendChild(b); });
+        wrap.appendChild(row);
+      } else {
+        wrap.style.height = '220px';
+        wrap.style.position = 'relative';
+        const placed = [];
+        function overlaps(x,y){ return placed.some(p=> Math.hypot(p.x-x, p.y-y) < 44); }
+        nums.forEach(n=>{
+          const b=document.createElement('button'); b.className='btn'; b.textContent=String(n); b.dataset.n=String(n);
+          b.style.position='absolute';
+          let x,y,tries=0; do { x=16+Math.random()* (wrap.clientWidth-64); y=16+Math.random()* (180); tries++; } while(overlaps(x,y) && tries<50);
+          placed.push({x,y}); b.style.left = x+'px'; b.style.top = y+'px'; wrap.appendChild(b);
+        });
+      }
+
+      const buttons = wrap.querySelectorAll('button.btn');
+      buttons.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(state.exp11gc.ttf==null) state.exp11gc.ttf = Math.round(now()-state.exp11gc.startedAt);
+          state.exp11gc.clicks++;
+          const n = Number(btn.dataset.n||'0');
+          if(n !== target){ state.exp11gc.errors = (state.exp11gc.errors||0)+1; }
+          state.exp11gc.success=true; state.exp11gc.finishedAt=now();
+          state.exp11gc.extra = { variant, target, clicked: n };
+          openAttribution({
+            title:'Einordnung - Schritt 11',
+            options:['Lineare Anordnung','Zufällige Position','Gewohnheit','Sonstiges'],
+            onDone:(reason)=>{ state.exp11gc.extra.reason = reason; go('exp12fg'); }
+          });
+        });
+      });
+    }
+
+    // ===== EXP 12: Figure–Ground (subtile Hervorhebung) =====
+    function renderExp12fg(){
+      const wrap = document.getElementById('exp12fg-cards');
+      if(!wrap){ go('survey'); return; }
+      wrap.innerHTML = '';
+      const variant = state.exp12fg.variant; // 'all_equal' | 'one_emph'
+      const cards = ['A','B','C'].map((lab,i)=>({ id:['a','b','c'][i], title:`Paket ${lab}`, price:'9,99 € / Monat', desc:'Tools: Aufgaben, Notizen, Kalender, Freigaben' }));
+      const emphId = cards[Math.floor(Math.random()*3)].id;
+      state.exp12fg.extra = Object.assign({}, state.exp12fg.extra, { emphId, variant });
+      cards.forEach(c=>{
+        const isEmph = (variant==='one_emph' && c.id===emphId);
+        const el = document.createElement('div');
+        el.className = isEmph ? 'card card--halo' : 'card soft';
+        el.innerHTML = `
+          <div class="row between">
+            <div class="plan__title">${c.title}</div>
+            <div class="plan__price">${c.price}</div>
+          </div>
+          <div class="plan__desc">${c.desc}</div>
+          <ul class="list small mt">
+            <li>Unbegrenzte Projekte</li>
+            <li>Grundlegende Analyse</li>
+            <li>Support per E-Mail</li>
+          </ul>
+          <div class="divider"></div>
+          <button type="button" class="btn btn-outline btn-block exp12fg-choose">Wählen</button>`;
+        el.querySelectorAll('.exp12fg-choose').forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            if(state.exp12fg.ttf==null) state.exp12fg.ttf = Math.round(now()-state.exp12fg.startedAt);
+            state.exp12fg.clicks++; state.exp12fg.success=true; state.exp12fg.finishedAt=now();
+            state.exp12fg.extra = Object.assign({}, state.exp12fg.extra, { clickedId: c.id });
+            openAttribution({
+              title:'Einordnung - Schritt 12',
+              options:['Subtile Hervorhebung','Position (links/rechts)','Gewohnheit','Sonstiges'],
+              onDone:(reason)=>{ state.exp12fg.extra.reason=reason; go('survey'); }
+            });
+          });
+        });
+        wrap.appendChild(el);
       });
     }
 
@@ -885,7 +1022,7 @@
         openAttribution({
           title:'Einordnung - Schritt 7',
           options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
-          onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp8'); }
+          onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp9b'); }
         });
       };
       left.querySelector('button').onclick = ()=>clickHandler('left');
@@ -1174,7 +1311,7 @@
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
-      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp4pref:state.exp4pref, exp5:state.exp5, exp2b:state.exp2b, exp6:state.exp6, exp7:state.exp7, exp8:state.exp8, exp9b:state.exp9b, survey:state.survey, events:state.events };
+      return { condition:CONDITION, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp4pref:state.exp4pref, exp5:state.exp5, exp2b:state.exp2b, exp6:state.exp6, exp7:state.exp7, exp8:state.exp8, exp9b:state.exp9b, exp10icon:state.exp10icon, exp11gc:state.exp11gc, exp12fg:state.exp12fg, survey:state.survey, events:state.events };
     }
     async function submit(){
       const out = $('#submit-status');
