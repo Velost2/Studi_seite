@@ -32,9 +32,10 @@ export default async (req) => {
     const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-v2";
     const store = getStore(storeName);
     const prefixParam = url.searchParams.get("prefix");
+    const envPref = ((process.env.BLOBS_KEY_PREFIX || "runs-v3").replace(/^\/+|\/+$/g, "")) + "/";
     const prefixes = (prefixParam && prefixParam.trim().length > 0)
       ? prefixParam.split(",").map((p) => p.trim())
-      : ["runs/", "runs-v2/"];
+      : Array.from(new Set(["runs/", "runs-v2/", envPref]));
     const contains = url.searchParams.get("contains") || "";
     const dryRun = ["1", "true", "yes"].includes((url.searchParams.get("dry") || "").toLowerCase());
     const doDelete = ["1", "true", "yes"].includes((url.searchParams.get("delete") || url.searchParams.get("reset") || "").toLowerCase());

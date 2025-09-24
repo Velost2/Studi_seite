@@ -44,10 +44,11 @@ export default async (req) => {
 
   const storeName = url.searchParams.get("store") || process.env.BLOBS_STORE_NAME || "ux-experiment-v2";
   const prefixParam = url.searchParams.get("prefix");
-  // Standard: beiden Ordner prüfen (runs/ und runs-v2/)
+  // Standard: bekannten Ordner inkl. aktuellem Key-Prefix (z. B. runs-v3/) prüfen
+  const envPref = ((process.env.BLOBS_KEY_PREFIX || "runs-v3").replace(/^\/+|\/+$/g, "")) + "/";
   const prefixes = (prefixParam && prefixParam.trim().length > 0)
     ? prefixParam.split(",").map((p) => p.trim())
-    : ["runs/", "runs-v2/"];
+    : Array.from(new Set(["runs/", "runs-v2/", envPref]));
   const contains = url.searchParams.get("contains") || ""; // optional Filter-Substring
   const dryRun = ["1", "true", "yes"].includes((url.searchParams.get("dry") || "").toLowerCase());
   const doDelete = ["1", "true", "yes"].includes((url.searchParams.get("delete") || "").toLowerCase());

@@ -62,6 +62,7 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .btn-accent:hover { background:#1d4ed8; }
 .btn-disabled { background:#9ca3af; color:#fff; cursor:not-allowed; }
 .btn-pill { border-radius: 999px; }
+.btn-square { border-radius: 0; }
 /* Experiment 2: make the grey/outline button square */
 #screen-exp2 .btn-outline { border-radius: 0; }
 /* Experiment 2: gleiche Form für beide Buttons (nur Kontrast variiert) */
@@ -128,7 +129,7 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 
 /* ===== Helpers ===== */
 .hidden { display:none; }
-/* Exp1 – visuelle Unterstützung für Variante A */
+/* Exp1 - visuelle Unterstützung für Variante A */
 .card--stretched .divider { margin-top: 1rem; }
 .card--stretched .row.end { margin-top: 0.5rem; }
 
@@ -140,12 +141,12 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
   border: 1px solid var(--border, #e5e7eb);
   border-radius: 12px;
   padding: 12px;
-  background: #fafafa;
+  background: #fff;
 }
 
 /* Leichtes Tintenfeld für das Target (optional) */
 .card--tinted {
-  background: #fcfcff;
+  background: #fff;
 }
 
 /* ===== Scarcity emphasis (Exp 5) ===== */
@@ -200,3 +201,30 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
     box-shadow: 0 6px 18px rgba(0,0,0,.18);
   }
 }
+
+/* Alignments per user request */
+/* Exp1: bottom-align choose area and avoid color emphasis */
+#exp1-cards .card.flex-col { display:flex; flex-direction:column; }
+#exp1-cards .mt { margin-top: auto; }
+/* Exp1: remove inner frame on grouped variant */
+.group-box { border: 0 !important; background: transparent !important; padding: 0 !important; }
+.group-box .list { margin-bottom: 8px; }
+.group-box .btn { margin-top: 8px; }
+
+/* Exp3: bottom-align "In den Warenkorb" */
+#exp3-grid .card, #exp9b-grid .card { display:flex; flex-direction:column; }
+#exp3-grid .btn.mt, #exp9b-grid .btn.mt { margin-top: auto !important; }
+
+/* Exp4pref: add spacing before button */
+#exp4pref-next { margin-top: 12px; }
+
+/* Exp5: bottom-align select buttons */
+#screen-exp5 .card.soft { display:flex; flex-direction:column; }
+#screen-exp5 .card.soft > button { margin-top: auto; }
+
+/* Subtle badge for notes (e.g., beliebt heute) */
+.badge-note { display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:2px 8px; border-radius:999px; background:#f3f4f6; color:#374151; border:1px solid #e5e7eb; white-space:nowrap; }
+
+/* Simple layout for header quick-jump */
+.header-actions { display:flex; align-items:center; gap:8px; }
+select.jump { font-size:12px; padding:6px 8px; border:1px solid #d1d5db; border-radius:8px; background:#fff; color:#111827; }
