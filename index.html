@@ -127,7 +127,12 @@
       </div>
     </section>
 
-    
+    <!-- EXP 13: CTA Microcopy (als Schritt 8) -->
+    <section id="screen-exp13" class="card hidden">
+      <h2>Schritt 8</h2>
+      <p class="hint">Klicken Sie den Button.</p>
+      <div class="row"><button id="exp13-cta" type="button" class="btn btn-primary">Weiter</button></div>
+    </section>
 
     <!-- EXP 6: Single Button -->
     <section id="screen-exp6" class="card hidden">
@@ -273,15 +278,6 @@
       const denom = Math.max(1, screens.length - 1);
       $("#progress").style.width = Math.min(100, Math.max(0, (idx/denom)*100)) + "%";
     };
-    const stepNumber = (step)=> Math.max(1, screens.indexOf(step));
-    function setStepHeading(step){
-      try{
-        const sec = document.getElementById('screen-'+step);
-        if(!sec) return;
-        const h2 = sec.querySelector('h2');
-        if(h2) h2.textContent = 'Schritt ' + stepNumber(step);
-      }catch{}
-    }
     // Device-aware helpers for wording
     const IS_MOBILE = (()=>{ try { return /Mobi|Android/i.test(navigator.userAgent) || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) || window.innerWidth < 640; } catch { return false; } })();
     // Simplified wording: just "Position" across devices
@@ -321,7 +317,7 @@
       events: [],
       step: 'intro',
       consent: false,
-      exp1: {
+     exp1: {
   name:'proximity_grouping',
   // pro Session genau eine Variante: "grouping_A" ODER "cta_C"
   variant: Math.random() < 0.5 ? 'grouping_A' : 'cta_C',
@@ -381,9 +377,8 @@
     if(sel){ sel.value = step; }
   } catch {}
 
-  // Nummerierung & Fortschritt konsistent halten
+  // --- ab hier DEIN bestehender, funktionierender Teil unverndert ---
   progress(screens.indexOf(step));
-  setStepHeading(step);
   screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
 
   if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
@@ -406,16 +401,6 @@
   if(step==='exp12fg' && !state.exp12fg.startedAt){ state.exp12fg.startedAt = now(); renderExp12fg(); }
   if(step==='survey'){ renderSurvey(); }
 }
-
-    // Linearer Fortschritt: zum nächsten Screen in 'screens'
-    function next(){
-      try{
-        const idx = screens.indexOf(state.step);
-        if(idx>=0 && idx < screens.length-1){
-          go(screens[idx+1]);
-        }
-      }catch{}
-    }
 
 
     function ttfSet(task){ if(task.ttf==null) task.ttf = Math.round(now() - task.startedAt); }
@@ -496,7 +481,7 @@
             openAttribution({
               title:'Kurze Einordnung - Schritt 1',
               options:['Nähe des Buttons','Gruppierung','Abstand','Position','Sonstiges'],
-              onDone:(reason)=>{ state.exp1.extra.reason=reason; next(); }
+              onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
           });
         });
@@ -526,7 +511,7 @@
         openAttribution({
           title:'Kurze Einordnung – Schritt 2',
           options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position','Gewohnheit','Sonstiges'],
-          onDone:(reason)=>{ state.exp2.extra.reason=reason; next(); }
+          onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
       };
       leftBtn.onclick = ()=>handler('left');
@@ -559,7 +544,7 @@
           <div class="thumb"></div>
           <div class="item__name">${p.name} ${p.eco?'':''}</div>
           ${popularNote}
-          <div class="muted small">${p.price.toFixed(2)}€  ${p.rating.toFixed(1)}?  Versand: ${p.shipping}</div>
+          <div class="muted small">${p.price.toFixed(2)}€  ${p.rating.toFixed(1)}★  Versand: ${p.shipping}</div>
           <button type="button" class="btn mt">In den Warenkorb</button>`;
         /*
         // Normalisierung zur Reduktion von Störfaktoren (keine Hervorhebung/Farbunterschiede)
@@ -569,7 +554,7 @@
           const nameEl = card.querySelector('.item__name'); if(nameEl){ nameEl.textContent = p.name; }
           const infoEls = card.querySelectorAll('.muted.small');
           if(infoEls[0]) infoEls[0].textContent = 'Leicht, robust';
-          if(infoEls[1]) infoEls[1].textContent = `€ ${(19.90).toFixed(2)}  ${(4.4).toFixed(1)}?  Versand: 2–3 Tage`;
+          if(infoEls[1]) infoEls[1].textContent = `€ ${(19.90).toFixed(2)}  ${(4.4).toFixed(1)}★  Versand: 2–3 Tage`;
           const btnEl = card.querySelector('button'); if(btnEl){ btnEl.className = 'btn mt'; }
         } catch {} */
         card.querySelector('button').addEventListener('click', ()=>{
@@ -578,7 +563,7 @@
           openAttribution({
             title:'Kurze Einordnung – Schritt 3',
             options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
-          onDone:(reason)=>{ state.exp3.extra.reason=reason; next(); }
+            onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
         });
         grid.appendChild(card);
@@ -613,7 +598,7 @@
         openAttribution({
           title:'Kurze Einordnung - Schritt 4',
           options:['Voreinstellung','Lieferzeit','Kosten','Nachhaltigkeit','Sonstiges'],
-          onDone:(reason)=>{ state.exp4.extra.reason=reason; next(); }
+          onDone:(reason)=>{ state.exp4.extra.reason=reason; go('exp4pref'); }
         });
       };
     }
@@ -621,9 +606,9 @@
     // ===== EXP 4 Preference: Bevorzugte Versandart =====
     function renderExp4pref(){
       const opts = [
-        { id:'fast', label:'Schneller Versand (1-2 Tage) - leichter Aufpreis' },
-        { id:'standard', label:'Standard (2-3 Tage) - kein Aufpreis' },
-        { id:'green', label:'Klimafreundlich (2-4 Tage) - leichter Aufpreis' },
+        { id:'fast', label:'Schneller Versand (1-2 Tage) – leichter Aufpreis' },
+        { id:'standard', label:'Standard (2-3 Tage) – kein Aufpreis' },
+        { id:'green', label:'Klimafreundlich (2-4 Tage) – leichter Aufpreis' },
       ];
       const wrap = document.getElementById('exp4pref-options');
       if(!wrap) { go('exp5'); return; }
@@ -645,14 +630,14 @@
           if(!selected){ return; }
           if(state.exp4pref.startedAt && !state.exp4pref.finishedAt){ state.exp4pref.finishedAt = now(); }
           state.exp4pref.selected = selected;
-          next();
+          go('exp5');
         };
       }
     }
 
     // ===== EXP 5: Left Bias mit gleichen Karten =====
     function renderExp5(){
-      const grid = document.getElementById('exp6-grid'); if(!grid){ return; }
+      const grid = document.getElementById('exp5-grid'); if(!grid){ return; }
       grid.innerHTML='';
       const cards = ['A','B','C'].map((lab,i)=>({ id:['left','middle','right'][i], title:`Paket ${lab}`, price:'9,99 € / Monat', desc:'Tools: Aufgaben, Notizen, Kalender, Freigaben' }));
       cards.forEach(c=>{
@@ -752,8 +737,7 @@
 
       // build options as checklist (Mehrfachauswahl)
       const box = document.getElementById('attr-options'); box.innerHTML='';
-      const n = stepNumber((state && state.step) || 'intro');
-      document.getElementById('attr-title').textContent = 'Einordnung - Schritt ' + n;
+      document.getElementById('attr-title').textContent = title;
       const selected = new Set();
       const list = document.createElement('div');
       list.className = 'stack gap-sm';
@@ -916,7 +900,7 @@
       if(!btn){ go('survey'); return; }
       const v = state.exp8.variant; // 'with_icon' | 'no_icon'
       btn.innerHTML = v==='with_icon'
-        ? 'Weiter <span aria-hidden="true" style="margin-left:6px">?</span>'
+        ? 'Weiter <span aria-hidden="true" style="margin-left:6px">➔</span>'
         : 'Weiter';
       btn.onclick = ()=>{
         if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
@@ -1501,7 +1485,7 @@
           ${ scarcePresent && scarceLeft ? recommendNote : '' }
           <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
           <div class="muted">Material: ${materialA} (BPA-frei)</div>
-          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ?</div>
+          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
           <div class="muted mb">Versand: 2-3 Tage</div>
           <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinenfest</li></ul>
           <button id="exp5-select-a" type="button" class="btn btn-outline">Auswählen</button>`;
@@ -1510,7 +1494,7 @@
           ${ scarcePresent && !scarceLeft ? recommendNote : '' }
           <div class="muted">Volumen: 750 ml  Gewicht: 180 g</div>
           <div class="muted">Material: ${materialB} (BPA-frei)</div>
-          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ?</div>
+          <div class="muted">Preis: 19,90 €   Bewertung: 4,4 ★</div>
           <div class="muted mb">Versand: 2-3 Tage</div>
           <ul class="list small mb"><li>Auslaufsicherer Deckel</li><li>Spülmaschinenfest</li></ul>
           <button id="exp5-select-b" type="button" class="btn btn-outline">Auswählen</button>`;
@@ -1670,9 +1654,5 @@
 </body>
 </html>
 <!-- hello -->
-
-
-
-
 
 
