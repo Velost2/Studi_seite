@@ -278,6 +278,17 @@
       const denom = Math.max(1, screens.length - 1);
       $("#progress").style.width = Math.min(100, Math.max(0, (idx/denom)*100)) + "%";
     };
+    // Schritt-Beschriftung strikt nach Reihenfolge in "screens"
+    const stepNumber = (step) => Math.max(1, screens.indexOf(step));
+    function setStepHeading(step){
+      try {
+        if(!/^exp/.test(step)) return; // Intro/Survey/Debrief nicht nummerieren
+        const sec = document.getElementById('screen-'+step);
+        if(!sec) return;
+        const h2 = sec.querySelector('h2');
+        if(h2) h2.textContent = 'Schritt ' + stepNumber(step);
+      } catch {}
+    }
     // Device-aware helpers for wording
     const IS_MOBILE = (()=>{ try { return /Mobi|Android/i.test(navigator.userAgent) || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) || window.innerWidth < 640; } catch { return false; } })();
     // Simplified wording: just "Position" across devices
@@ -380,6 +391,7 @@
   // --- ab hier DEIN bestehender, funktionierender Teil unverndert ---
   progress(screens.indexOf(step));
   screens.forEach(id => $('#screen-'+id).classList.toggle('hidden', id!==step));
+  setStepHeading(step);
 
   if(step==='exp1' && !state.exp1.startedAt){ state.exp1.startedAt = now(); renderExp1(); }
   if(step==='exp2' && !state.exp2.startedAt){ state.exp2.startedAt = now(); renderExp2(); }
