@@ -137,8 +137,8 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .chip--active { background:#111827; color:#fff; border-color:#111827; }
 
 /* Floating reopen button for attribution */
-.fab { position:fixed; right:16px; bottom:16px; z-index:60; border:none; border-radius:999px; padding:10px 14px; font-weight:600; background:#111827; color:#fff; cursor:pointer; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
-.fab:hover { background:#000; }
+.fab { position:fixed; right:20px; bottom:24px; z-index:90; border:none; border-radius:999px; padding:10px 14px; font-weight:600; background:#111827; color:#fff; cursor:pointer; box-shadow: 0 2px 8px rgba(0,0,0,.25); outline:none; -webkit-tap-highlight-color: rgba(0,0,0,0); display:inline-flex; align-items:center; justify-content:center; }
+.fab:hover { background:#000; box-shadow: 0 3px 10px rgba(0,0,0,.28); }
 
 /* ===== Helpers ===== */
 .hidden { display:none; }
@@ -210,13 +210,18 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .exp6-card .muted { color:#4b5563; font-size:13px; }
 .exp6-card .btn { align-self:flex-start; }
 
+/* Exp 10 (Good Continuation) mobile visual fix */
+#screen-exp11gc .gc-seq { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:8px 0; }
+.btn-chip { background:#e5e7eb; color:#111827; border:1px solid #d1d5db; border-radius:12px; padding:6px 10px; font-weight:600; }
+
 /* ===== Mobile floating back button ===== */
 @media (max-width: 768px){
   #btn-back {
     position: fixed;
-    right: 16px;
+    left: 16px;  /* move to bottom-left to avoid FAB overlap */
+    right: auto;
     bottom: 16px;
-    z-index: 60;
+    z-index: 55; /* stay below FAB */
     border-radius: 999px;
     padding: 10px 14px;
     box-shadow: 0 6px 18px rgba(0,0,0,.18);

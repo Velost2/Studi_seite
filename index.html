@@ -278,6 +278,12 @@
       const denom = Math.max(1, screens.length - 1);
       $("#progress").style.width = Math.min(100, Math.max(0, (idx/denom)*100)) + "%";
     };
+    // Device-aware helpers for wording
+    const IS_MOBILE = (()=>{ try { return /Mobi|Android/i.test(navigator.userAgent) || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) || window.innerWidth < 640; } catch { return false; } })();
+    // Simplified wording: just "Position" across devices
+    const posLR = ()=> 'Position';
+    const posLMR = ()=> 'Position';
+    const seenPosOptions = ()=> [ 'Position', 'Gewohnheit', 'Aus Gefühl', 'Sonstiges' ];
     const blobDownload = (filename, text) => { const url = URL.createObjectURL(new Blob([text])); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); };
     let _attrCleanup = null;
     function dismissAttribution(){
@@ -351,6 +357,11 @@
   try {
     const backBtn = document.getElementById('btn-back');
     if(backBtn){ backBtn.classList.toggle('hidden', screens.indexOf(step) <= 0); }
+    // Auf Survey/Debrief keine Back- oder Reopen-Buttons anzeigen
+    if(step==='survey' || step==='debrief'){
+      if(backBtn){ backBtn.classList.add('hidden'); }
+      try { const ro = document.getElementById('attr-reopen'); if(ro) ro.classList.add('hidden'); } catch {}
+    }
     const sel = document.getElementById('jump-select');
     if(sel){ sel.value = step; }
   } catch {}
@@ -458,7 +469,7 @@
             state.exp1.extra = { clickedCard:c.id, targetId:exp1TargetId, isTarget };
             openAttribution({
               title:'Kurze Einordnung - Schritt 1',
-              options:['Nähe des Buttons','Gruppierung','Abstand','Position (links/rechts)','Sonstiges'],
+              options:['Nähe des Buttons','Gruppierung','Abstand','Position','Sonstiges'],
               onDone:(reason)=>{ state.exp1.extra.reason=reason; go('exp2'); }
             });
           });
@@ -488,7 +499,7 @@
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
           title:'Kurze Einordnung – Schritt 2',
-          options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
       };
@@ -558,7 +569,7 @@
       const wrap = $('#exp4-options'); wrap.innerHTML='';
       opts.forEach(opt=>{
         const lab = document.createElement('label'); lab.className='radio-row';
-        const inp = document.createElement('input'); inp.type='radio'; inp.name='ship';
+        const inp = document.createElement('input'); inp.type='radio'; inp.name='ship'; inp.value = opt.id;
         if((state.exp4.variant==='default_fast'&&opt.id==='fast')||(state.exp4.variant==='default_standard'&&opt.id==='standard')||(state.exp4.variant==='default_green'&&opt.id==='green')) inp.checked=true;
         inp.addEventListener('change', ()=>{
           if(state.exp4.ttf==null) state.exp4.ttf = Math.round(now()-state.exp4.startedAt);
@@ -569,7 +580,7 @@
         wrap.appendChild(lab);
       });
       $('#exp4-save').onclick = ()=>{
-        const selected = state.exp4.extra.selectedOption || state.exp4.variant.replace('default_','');
+        const selected = (state.exp4.extra && state.exp4.extra.selectedOption) || state.exp4.variant.replace('default_','');
         state.exp4.success = true; state.exp4.finishedAt = now();
         state.exp4.extra.selectedOption = selected; state.exp4.extra.defaultOption = state.exp4.variant.replace('default_','');
         state.exp4.extra.adopted = selected === state.exp4.variant.replace('default_','');
@@ -595,14 +606,17 @@
       opts.forEach(opt=>{
         const lab = document.createElement('label'); lab.className='radio-row';
         const inp = document.createElement('input'); inp.type='radio'; inp.name='ship_pref'; inp.value=opt.id; inp.checked = (selected===opt.id);
-        inp.addEventListener('change', (e)=>{ selected = e.target.value; state.exp4pref.clicks++; });
+        inp.addEventListener('change', (e)=>{ selected = e.target.value; state.exp4pref.clicks++; try{ const nx=document.getElementById('exp4pref-next'); if(nx){ nx.disabled=false; nx.classList.remove('btn-disabled'); nx.classList.add('btn-primary'); } }catch{} });
         const span = document.createElement('span'); span.textContent = opt.label;
         lab.appendChild(inp); lab.appendChild(span);
         wrap.appendChild(lab);
       });
       const nextBtn = document.getElementById('exp4pref-next');
       if(nextBtn){
+        // initially disabled until choice made
+        nextBtn.disabled = !selected; nextBtn.classList.toggle('btn-disabled', !selected); nextBtn.classList.toggle('btn-primary', !!selected);
         nextBtn.onclick = ()=>{
+          if(!selected){ return; }
           if(state.exp4pref.startedAt && !state.exp4pref.finishedAt){ state.exp4pref.finishedAt = now(); }
           state.exp4pref.selected = selected;
           go('exp5');
@@ -693,7 +707,7 @@
         state.exp2b.extra = { clickedPos: pos, blackLeft };
         openAttribution({
           title:'Kurze Einordnung - Zusatztest',
-          options:['Farbe/Kontrast','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          options:['Farbe/Kontrast','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2b.extra.reason=reason; go('exp6'); }
         });
       };
@@ -883,7 +897,7 @@
         state.exp8.extra = { variant: v };
         openAttribution({
           title:'Einordnung - Schritt 8',
-          options:['Pfeil/Zeichen','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          options:['Pfeil/Zeichen','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp9b'); }
         });
       };
@@ -939,7 +953,7 @@
         state.exp10icon.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
         openAttribution({
           title:'Einordnung - Schritt 9',
-          options:['Icon/Zeichen','Nur Text','Position (links/rechts)','Gewohnheit','Sonstiges'],
+          options:['Icon/Zeichen','Nur Text','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp10icon.extra.reason = reason; go('exp11gc'); }
         });
       };
@@ -959,18 +973,27 @@
 
       if(variant === 'linear'){
         const row = document.createElement('div');
-        row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'center'; row.style.flexWrap = 'nowrap';
-        nums.forEach(n=>{ const b=document.createElement('button'); b.className='btn'; b.textContent=String(n); b.dataset.n=String(n); row.appendChild(b); });
+        row.className = 'gc-seq';
+        nums.forEach(n=>{ const b=document.createElement('button'); b.className='btn btn-chip'; b.textContent=String(n); b.dataset.n=String(n); row.appendChild(b); });
         wrap.appendChild(row);
       } else {
-        wrap.style.height = '220px';
-        wrap.style.position = 'relative';
+        // Scatter: sichere Ränder + genügend Innenhöhe, vermeidet Überlappung und Anschnitt am Rand
+        const PAD = 28;           // Randabstand in px
+        const BTN = 48;           // angenommener Button-Durchmesser (Chip)
+        const H   = 260;          // Innenhöhe
+        wrap.style.minHeight = H + 'px';
+        wrap.style.position   = 'relative';
         const placed = [];
-        function overlaps(x,y){ return placed.some(p=> Math.hypot(p.x-x, p.y-y) < 44); }
+        function overlaps(x,y){ return placed.some(p=> Math.hypot(p.x-x, p.y-y) < (BTN+8)); }
+        const W = wrap.clientWidth || 320;
         nums.forEach(n=>{
-          const b=document.createElement('button'); b.className='btn'; b.textContent=String(n); b.dataset.n=String(n);
+          const b=document.createElement('button'); b.className='btn btn-chip'; b.textContent=String(n); b.dataset.n=String(n);
           b.style.position='absolute';
-          let x,y,tries=0; do { x=16+Math.random()* (wrap.clientWidth-64); y=16+Math.random()* (180); tries++; } while(overlaps(x,y) && tries<50);
+          let x,y,tries=0; do {
+            x = PAD + Math.random() * Math.max(1, (W - 2*PAD - BTN));
+            y = PAD + Math.random() * Math.max(1, (H - 2*PAD - BTN));
+            tries++;
+          } while(overlaps(x,y) && tries<80);
           placed.push({x,y}); b.style.left = x+'px'; b.style.top = y+'px'; wrap.appendChild(b);
         });
       }
@@ -1026,7 +1049,7 @@
             state.exp12fg.extra = Object.assign({}, state.exp12fg.extra, { clickedId: c.id });
             openAttribution({
               title:'Einordnung - Schritt 12',
-              options:['Subtile Hervorhebung','Position (links/rechts)','Gewohnheit','Sonstiges'],
+              options:['Subtile Hervorhebung','Position','Gewohnheit','Sonstiges'],
               onDone:(reason)=>{ state.exp12fg.extra.reason=reason; go('exp12sd'); }
             });
           });
@@ -1056,7 +1079,7 @@
         state.exp12sd.extra = { variant: v, emphPos, clickedPos: pos };
         openAttribution({
           title:'Einordnung - Schritt 13',
-          options:['Gleiche Buttons','Leichte Abweichung','Starke Hervorhebung','Position (links/mitte/rechts)','Sonstiges'],
+          options:['Gleiche Buttons','Leichte Abweichung','Starke Hervorhebung','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp12sd.extra.reason = reason; go('exp14sp'); }
           });
       };
@@ -1189,11 +1212,11 @@
         if(state.exp7.ttf==null) state.exp7.ttf = Math.round(now()-state.exp7.startedAt);
         state.exp7.clicks++; state.exp7.success=true; state.exp7.finishedAt=now();
         state.exp7.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
-        openAttribution({
-          title:'Einordnung - Schritt 7',
-          options:['Links zuerst gesehen','Rechts zuerst gesehen','Gewohnheit','Aus Gefühl','Sonstiges'],
-          onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp9b'); }
-        });
+          openAttribution({
+            title:'Einordnung - Schritt 7',
+            options: seenPosOptions(),
+            onDone:(reason)=>{ state.exp7.extra.reason = reason; go('exp9b'); }
+          });
       };
       left.querySelector('button').onclick = ()=>clickHandler('left');
       right.querySelector('button').onclick = ()=>clickHandler('right');
@@ -1339,7 +1362,7 @@
       state.exp12.clicks++;
       openAttribution({
         title:'Was htte Ihre Wahl beeinflusst? (Aufgabe 12)',
-        options:['Schatten (Hervorhebung)','Outline (Rahmen)','Position (links/rechts)','Sonstiges'],
+        options:['Schatten (Hervorhebung)','Outline (Rahmen)','Position','Sonstiges'],
         onDone:(reason)=>{
           state.exp12.success=true; state.exp12.finishedAt=now();
           state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, reason };
@@ -1366,7 +1389,7 @@
           state.exp12.extra = { emphasis: emphShadow ? 'shadow' : 'outline', emphLeft, clickedPos: pos };
           openAttribution({
             title:'Einordnung – Schritt 12',
-            options:['Schatten','Outline','Position (links/rechts)','Sonstiges'],
+            options:['Schatten','Outline','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
           });
         };
@@ -1391,7 +1414,7 @@
           state.exp13.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
           openAttribution({
             title:'Einordnung - Schritt 12',
-            options:['Icon/Haken','Nur Text','Position (links/rechts)','Sonstiges'],
+            options:['Icon/Haken','Nur Text','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason=reason; go('survey'); }
           });
         };
@@ -1467,13 +1490,13 @@
           state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
           const selA = 'A_plastik';
           state.exp5.extra = { selected: selA, recommendShown: scarcePresent && scarceLeft, cueSide: scarceLeft?'A':'B' };
-          openAttribution({ title:'Kurze Einordnung - Schritt 5', options:['Empfehlungshinweis','Position (links/rechts)','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp2b'); } });
+          openAttribution({ title:'Kurze Einordnung - Schritt 5', options:['Empfehlungshinweis','Position','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp2b'); } });
         };
         document.getElementById('exp5-select-b').onclick = ()=>{
           if(state.exp5.ttf==null) state.exp5.ttf = Math.round(now()-state.exp5.startedAt);
           state.exp5.clicks++; state.exp5.success=true; state.exp5.finishedAt=now();
           state.exp5.extra = { selected:'B_plastik', recommendShown: scarcePresent && !scarceLeft, cueSide: scarceLeft?'A':'B' };
-          openAttribution({ title:'Kurze Einordnung - Schritt 5', options:['Empfehlungshinweis','Position (links/rechts)','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp2b'); } });
+          openAttribution({ title:'Kurze Einordnung - Schritt 5', options:['Empfehlungshinweis','Position','Sonstiges'], onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp2b'); } });
         };
       };
     } catch {} */
