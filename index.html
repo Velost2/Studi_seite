@@ -112,7 +112,8 @@
     <!-- EXP 5: Material & Scarcity -->
     <section id="screen-exp5" class="card hidden">
       <h2>Schritt 5</h2>
-      <p class="hint">Wählen Sie ein Paket.</p>
+      <p class="hint">Wählen Sie ein Paket. <br>
+        Alle Pakete sind inhaltlich gleich, bitte wählen Sie nach Gefühl.</p>
       <div id="exp5-grid" class="grid grid-3"></div>
     </section>
 
@@ -636,7 +637,7 @@
           state.exp5.extra = { clickedPos: c.id };
           openAttribution({
             title:'Kurze Einordnung - Schritt 5',
-            options:['Links','Mitte','Rechts','Sonstiges'],
+            options:['Position (links/mitte/rechts)','Gefühl','Gewohnheit','Sonstiges'],
             onDone:(reason)=>{ state.exp5.extra.reason=reason; go('exp2b'); }
           });
         });
