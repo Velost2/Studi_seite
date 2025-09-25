@@ -63,6 +63,19 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .btn-disabled { background:#9ca3af; color:#fff; cursor:not-allowed; }
 .btn-pill { border-radius: 999px; }
 .btn-square { border-radius: 0; }
+/* Similarity/Dissimilarity helpers */
+.btn-soft { background:#f3f4f6; color:#111827; border:1px solid #e5e7eb; }
+.btn-strong { background:#111827; color:#fff; box-shadow:0 8px 18px rgba(17,24,39,.18); }
+
+/* Strong highlight for Social Proof (green, pulsing) */
+.card--emph-strong { outline: 3px solid #10b981; outline-offset: 0; box-shadow: 0 0 0 5px rgba(16,185,129,.20); animation: pulse-green 1.6s ease-out infinite; }
+@keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,.35); } 70% { box-shadow: 0 0 0 10px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
+.badge-pop-strong { display:inline-block; font-size:12px; padding:4px 8px; border-radius:8px; background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:600; box-shadow: 0 0 0 3px rgba(16,185,129,.25); animation: pulse-green 1.6s ease-out infinite; }
+.badge-top-right { position:absolute; top:12px; right:12px; z-index: 2; }
+.badge-top-left { position:absolute; top:12px; left:12px; z-index: 2; }
+.pos-rel { position: relative; }
+/* Reserve space for top-right badge so it does not overlap subtitle */
+.card--has-badge { padding-top: 48px; }
 /* Experiment 2: make the grey/outline button square */
 #screen-exp2 .btn-outline { border-radius: 0; }
 /* Experiment 2: gleiche Form für beide Buttons (nur Kontrast variiert) */
@@ -220,8 +233,8 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .group-box .btn { margin-top: 8px; }
 
 /* Exp3: bottom-align "In den Warenkorb" */
-#exp3-grid .card, #exp9b-grid .card { display:flex; flex-direction:column; }
-#exp3-grid .btn.mt, #exp9b-grid .btn.mt { margin-top: auto !important; }
+#exp3-grid .card, #exp9b-grid .card, #exp14sp-grid .card, #exp15-grid .card { display:flex; flex-direction:column; }
+#exp3-grid .btn.mt, #exp9b-grid .btn.mt, #exp14sp-grid .btn.mt, #exp15-grid .btn.mt { margin-top: auto !important; }
 
 /* Exp4pref: add spacing before button */
 #exp4pref-next { margin-top: 12px; }
@@ -229,6 +242,23 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 /* Exp5: bottom-align select buttons */
 #screen-exp5 .card.soft { display:flex; flex-direction:column; }
 #screen-exp5 .card.soft > button { margin-top: auto; }
+#exp5-grid .card { display:flex; flex-direction:column; }
+/* Create clear space between content divider and button */
+#exp5-grid .divider { margin:18px 0 10px; position:static; }
+/* Remove divider line for Exp5 */
+#exp5-grid .divider { display: none; }
+/* Button: slimmer outline, moderate size, sits at bottom */
+#exp5-grid .btn-big-outline {
+  margin-top:auto;
+  display:block; width:100%;
+  border:1.5px solid #cfd8e3; border-radius:16px;
+  padding:10px 14px; font-weight:700; font-size:16px;
+  background:#fff; color:#0f172a;
+}
+
+/* Exp12fg spacing fixes: divider/button should not overlap */
+#screen-exp12fg .divider { margin:12px 0 8px; display:block; position:static; }
+#screen-exp12fg .exp12fg-choose { margin-top:8px; position:relative; z-index:1; }
 
 /* Subtle badge for notes (e.g., beliebt heute) */
 .badge-note { display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:2px 8px; border-radius:999px; background:#f3f4f6; color:#374151; border:1px solid #e5e7eb; white-space:nowrap; }
