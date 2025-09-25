@@ -188,25 +188,25 @@
     </section>
 
     <!-- EXP 13: Similarity vs. Dissimilarity / Abstufung der Hervorhebung -->
-    <section id="screen-exp12sd" class="card hidden">
+    <section id="screen-exp13" class="card hidden">
       <h2>Schritt 13</h2>
       <p class="hint">Wählen Sie einen Button.</p>
       <div class="row gap" style="justify-content:center;">
-        <button id="exp12sd-left"  type="button" class="btn btn-outline">Weiter</button>
-        <button id="exp12sd-mid"   type="button" class="btn btn-outline">Weiter</button>
-        <button id="exp12sd-right" type="button" class="btn btn-outline">Weiter</button>
+        <button id="exp13-left"  type="button" class="btn btn-outline">Weiter</button>
+        <button id="exp13-mid"   type="button" class="btn btn-outline">Weiter</button>
+        <button id="exp13-right" type="button" class="btn btn-outline">Weiter</button>
       </div>
     </section>
 
     <!-- EXP 14: Social Proof stark hervorgehoben -->
-    <section id="screen-exp14sp" class="card hidden">
+    <section id="screen-exp14" class="card hidden">
       <h2>Schritt 14</h2>
       <p class="hint">Wählen Sie ein Produkt.</p>
-      <div id="exp14sp-grid" class="grid grid-3"></div>
+      <div id="exp14-grid" class="grid grid-3"></div>
     </section>
 
     <!-- EXP 15: Left Bias mit gleichen Karten (Exp1 Kopie ohne Grouping) -->
-    <section id="screen-exp15left" class="card hidden">
+    <section id="screen-exp15" class="card hidden">
       <h2>Schritt 15</h2>
       <p class="hint">Wählen Sie ein Paket.</p>
       <div id="exp15-grid" class="grid grid-3"></div>
@@ -272,7 +272,7 @@
   <script>
     // ===== Utilities =====
     const $ = (sel) => document.querySelector(sel);
-    const screens = ["intro","exp1","exp2","exp3","exp4","exp4pref","exp5","exp2b","exp6","exp6chk","exp7","exp9b","exp10icon","exp11gc","exp12fg","exp12sd","exp14sp","exp15left","survey","debrief"];
+    const screens = ["intro","exp1","exp2","exp3","exp4","exp4pref","exp5","exp2b","exp6","exp6chk","exp7","exp9b","exp10icon","exp11gc","exp12fg","exp13","exp14","exp15","survey","debrief"];
     const now = () => performance.now();
     const progress = (idx) => {
       const denom = Math.max(1, screens.length - 1);
@@ -335,9 +335,9 @@
       exp10icon: { name:'cta_signifier_2', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp11gc: { name:'good_continuation', variant: Math.random()<0.5?'linear':'scatter', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp12fg: { name:'figure_ground', variant: 'one_emph', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-       exp12sd: { name:'similarity_dissimilarity', variant: ['soft_emph','strong_emph'][Math.floor(Math.random()*2)], emphPos: ['left','middle','right'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-       exp14sp: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-       exp15left: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp13: { name:'similarity_dissimilarity', variant: ['soft_emph','strong_emph'][Math.floor(Math.random()*2)], emphPos: ['left','middle','right'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp14: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp15: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp7: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       
       
@@ -394,9 +394,9 @@
   if(step==='exp9b'&& !state.exp9b?.startedAt){ state.exp9b = state.exp9b || { name:'social_proof_v2', variant:'subtitle_note', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} }; state.exp9b.startedAt = now(); renderExp9b(); }
   if(step==='exp10icon' && !state.exp10icon.startedAt){ state.exp10icon.startedAt = now(); renderExp10icon(); }
   if(step==='exp11gc' && !state.exp11gc.startedAt){ state.exp11gc.startedAt = now(); renderExp11gc(); }
-  if(step==='exp12sd' && !state.exp12sd.startedAt){ state.exp12sd.startedAt = now(); renderExp12sd(); }
-  if(step==='exp14sp' && !state.exp14sp.startedAt){ state.exp14sp.startedAt = now(); renderExp14sp(); }
-  if(step==='exp15left' && !state.exp15left.startedAt){ state.exp15left.startedAt = now(); renderExp15left(); }
+  if(step==='exp13' && !state.exp13.startedAt){ state.exp13.startedAt = now(); renderExp13(); }
+  if(step==='exp14' && !state.exp14.startedAt){ state.exp14.startedAt = now(); renderExp14(); }
+  if(step==='exp15' && !state.exp15.startedAt){ state.exp15.startedAt = now(); renderExp15(); }
   if(step==='exp6chk' && !state.exp6chk.startedAt){ state.exp6chk.startedAt = now(); renderExp6chk(); }
   if(step==='exp12fg' && !state.exp12fg.startedAt){ state.exp12fg.startedAt = now(); renderExp12fg(); }
   if(step==='survey'){ renderSurvey(); }
@@ -1061,7 +1061,7 @@
             openAttribution({
               title:'Einordnung - Schritt 12',
               options:['Subtile Hervorhebung','Position','Gewohnheit','Sonstiges'],
-              onDone:(reason)=>{ state.exp12fg.extra.reason=reason; go('exp12sd'); }
+              onDone:(reason)=>{ state.exp12fg.extra.reason=reason; go('exp13'); }
             });
           });
         });
@@ -1070,28 +1070,30 @@
     }
 
     // ===== EXP 13: Similarity vs. Dissimilarity =====
-    function renderExp12sd(){
-      const left = document.getElementById('exp12sd-left');
-      const mid  = document.getElementById('exp12sd-mid');
-      const right= document.getElementById('exp12sd-right');
+    function renderExp13(){
+      const left = document.getElementById('exp13-left');
+      const mid  = document.getElementById('exp13-mid');
+      const right= document.getElementById('exp13-right');
       if(!left || !mid || !right){ go('survey'); return; }
-      const v = state.exp12sd.variant; // 'soft_emph' | 'strong_emph' (immer min. 1 hervorgehoben)
-      const emphPos = state.exp12sd.emphPos; // 'left' | 'middle' | 'right'
+      // Immer genau ein Button stark (schwarz) hervorgehoben
+      const v = 'strong_emph';
+      try { state.exp13.variant = 'strong_emph'; } catch {}
+      const emphPos = state.exp13.emphPos; // 'left' | 'middle' | 'right'
       // Reset classes
       [left,mid,right].forEach(b=> b.className = 'btn btn-outline');
       const applySoft = (b)=>{ b.className = 'btn btn-soft'; };
       const applyStrong = (b)=>{ b.className = 'btn btn-strong'; };
       const posEl = emphPos==='left'? left : emphPos==='middle'? mid : right;
-      if(v==='strong_emph') applyStrong(posEl); else applySoft(posEl);
+      applyStrong(posEl);
 
       const handler = (pos)=>{
-        if(state.exp12sd.ttf==null) state.exp12sd.ttf = Math.round(now()-state.exp12sd.startedAt);
-        state.exp12sd.clicks++; state.exp12sd.success=true; state.exp12sd.finishedAt=now();
-        state.exp12sd.extra = { variant: v, emphPos, clickedPos: pos };
+        if(state.exp13.ttf==null) state.exp13.ttf = Math.round(now()-state.exp13.startedAt);
+        state.exp13.clicks++; state.exp13.success=true; state.exp13.finishedAt=now();
+        state.exp13.extra = { variant: 'strong_emph', emphPos, clickedPos: pos };
         openAttribution({
           title:'Einordnung - Schritt 13',
           options:['Gleiche Buttons','Leichte Abweichung','Starke Hervorhebung','Position','Sonstiges'],
-            onDone:(reason)=>{ state.exp12sd.extra.reason = reason; go('exp14sp'); }
+            onDone:(reason)=>{ state.exp13.extra.reason = reason; go('exp14'); }
           });
       };
       left.onclick = ()=>handler('left');
@@ -1100,19 +1102,19 @@
     }
 
     // ===== EXP 14: Social Proof – starke Hervorhebung =====
-    const exp14spTargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
-    const exp14spBannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
-    function renderExp14sp(){
-      const grid = document.getElementById('exp14sp-grid'); if(!grid){ go('survey'); return; }
+    const exp14TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
+    const exp14BannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
+    function renderExp14(){
+      const grid = document.getElementById('exp14-grid'); if(!grid){ go('survey'); return; }
       grid.innerHTML = '';
       const order = [0,1,2].sort(()=>Math.random()-0.5);
       order.forEach(idx=>{
         const p = products[idx];
-        const isTarget = p.id===exp14spTargetId;
+        const isTarget = p.id===exp14TargetId;
         const card = document.createElement('div');
         // Karten alle mit gleichem oberen Innenabstand; Badge nur auf Zielkarte
         card.className = 'card soft pos-rel card--has-badge';
-        const badge = isTarget ? `<div class=\"badge-pop-strong badge-top-left\">Beliebt heute, ${exp14spBannerCount} mal gekauft</div>` : '';
+        const badge = isTarget ? `<div class=\"badge-pop-strong badge-top-left\">Beliebt heute, ${exp14BannerCount} mal gekauft</div>` : '';
         card.innerHTML = `
           ${badge}
           <div class=\"muted small\">${p.subtitle}</div>
@@ -1121,21 +1123,21 @@
           <div class=\"muted small\">${p.price.toFixed(2)}&nbsp;&euro;&nbsp;&nbsp;${p.rating.toFixed(1)}&#9733;&nbsp;&nbsp;Versand: ${p.shipping}</div>
           <button type=\"button\" class=\"btn mt\">In den Warenkorb</button>`;
         card.querySelector('button').addEventListener('click', ()=>{
-          if(state.exp14sp.ttf==null) state.exp14sp.ttf = Math.round(now()-state.exp14sp.startedAt);
-          state.exp14sp.clicks++; state.exp14sp.success=true; state.exp14sp.finishedAt=now();
-          state.exp14sp.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp14spTargetId).name, bannerCount: exp14spBannerCount };
+          if(state.exp14.ttf==null) state.exp14.ttf = Math.round(now()-state.exp14.startedAt);
+          state.exp14.clicks++; state.exp14.success=true; state.exp14.finishedAt=now();
+          state.exp14.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp14TargetId).name, bannerCount: exp14BannerCount };
           openAttribution({
             title:'Einordnung - Schritt 14',
             options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
-            onDone:(reason)=>{ state.exp14sp.extra.reason=reason; go('survey'); }
-          });
+            onDone:(reason)=>{ state.exp14.extra.reason=reason; go('survey'); }
+        });
         });
         grid.appendChild(card);
       });
     }
 
     // ===== EXP 15: Left Bias mit gleichen Karten =====
-    function renderExp15left(){
+    function renderExp15(){
       const wrap = document.getElementById('exp15-grid'); if(!wrap){ go('survey'); return; }
       wrap.innerHTML='';
       const cards = ['A','B','C'].map((lab,i)=>({ id:['left','middle','right'][i], title:`Paket ${lab}`, price:'9,99 € / Monat', desc:'Tools: Aufgaben, Notizen, Kalender, Freigaben' }));
@@ -1156,13 +1158,13 @@
           <div class="divider"></div>
           <button type="button" class="btn btn-outline btn-block exp15-choose">Wählen</button>`;
         el.querySelector('.exp15-choose').addEventListener('click', ()=>{
-          if(state.exp15left.ttf==null) state.exp15left.ttf = Math.round(now()-state.exp15left.startedAt);
-          state.exp15left.clicks++; state.exp15left.success=true; state.exp15left.finishedAt=now();
-          state.exp15left.extra = { clickedPos: c.id };
+          if(state.exp15.ttf==null) state.exp15.ttf = Math.round(now()-state.exp15.startedAt);
+          state.exp15.clicks++; state.exp15.success=true; state.exp15.finishedAt=now();
+          state.exp15.extra = { clickedPos: c.id };
           openAttribution({
             title:'Einordnung - Schritt 15',
             options:['Links','Mitte','Rechts','Sonstiges'],
-            onDone:(reason)=>{ state.exp15left.extra.reason = reason; go('survey'); }
+            onDone:(reason)=>{ state.exp15.extra.reason = reason; go('survey'); }
           });
         });
         wrap.appendChild(el);
@@ -1527,15 +1529,19 @@
         '9': state.exp10icon,
         '10': state.exp11gc,
         '11': state.exp12fg,
-        '12': state.exp12sd,
-        '13': state.exp14sp,
-        '14': state.exp15left,
+        '12': state.exp12fg,
+        '13': state.exp13,
+        '14': state.exp14,
+        '15': state.exp15,
       };
       const stepVariants = {
         '6': (state.exp6 && state.exp6.posTop===true) ? '6a' : '6b', // a=oben, b=unten
         '7': (state.exp6chk && state.exp6chk.variant==='near') ? '7a' : '7b', // a=nah, b=fern
         '9': (state.exp10icon && state.exp10icon.iconLeft) ? '9a' : '9b', // a=Icon links, b=Icon rechts
-        '12': (state.exp12sd && state.exp12sd.variant==='soft_emph') ? '12a' : '12b', // a=weich, b=stark
+        '12': '11',
+        '13': (state.exp13 && state.exp13.variant==='soft_emph') ? '13a' : '13b', // a=weich, b=stark
+        '14': '14',
+        '15': '15',
       };
       return {
         condition:CONDITION,
@@ -1560,13 +1566,9 @@
         exp10icon:state.exp10icon,
         exp11gc:state.exp11gc,
         exp12fg:state.exp12fg,
-        exp12sd:state.exp12sd,
-        exp14sp:state.exp14sp,
-        exp15left:state.exp15left,
-        // Aliases for tools expecting numeric exp13/14/15 keys
-        exp13: state.exp12sd,
-        exp14: state.exp14sp,
-        exp15: state.exp15left,
+        exp13: state.exp13,
+        exp14: state.exp14,
+        exp15: state.exp15,
         survey:state.survey,
         events:state.events
       };
