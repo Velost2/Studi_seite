@@ -127,13 +127,12 @@ export default async (req) => {
   // Build a more readable, structured key using European date order:
   // prefix/DD-MM-YYYY/nNNNN_device_condition[_label]_id.json
   try {
-    const now = new Date();
-    const startedAt = (typeof body.startedAt === 'number') ? new Date(body.startedAt) : now;
-    const dt = isNaN(startedAt.getTime()) ? now : startedAt;
+    // IMPORTANT: Use server time, not client performance.now() (which would be ~1970)
+    const dt = new Date();
     const y = String(dt.getFullYear());
     const m = String(dt.getMonth()+1).padStart(2,'0');
     const d = String(dt.getDate()).padStart(2,'0');
-    const folder = `${d}-${m}-${y}`; // European order
+    const folder = `${d}-${m}-${y}`; // European order DD-MM-YYYY
     const device = (body && body.client && body.client.isMobile) ? 'mobile' : 'desktop';
     const condition = String(body && body.condition || 'na').replace(/[^a-zA-Z0-9_-]/g,'').toLowerCase() || 'na';
     const labelRaw = String(body && body.sessionLabel || '').trim();
@@ -152,7 +151,9 @@ export default async (req) => {
       const n = total + 1;
       nStr = 'n' + String(n).padStart(5,'0');
     } catch {}
-    const key = `${keyPrefix}/${folder}/${nStr}_${device}_${condition}${label}_${id}.json`;
+    // File name also includes the date for clarity
+    const fname = `${folder}_${nStr}_${device}_${condition}${label}_${id}.json`;
+    const key = `${keyPrefix}/${fname}`;
 
     await store.set(key, JSON.stringify(body));
     return new Response(JSON.stringify({ ok: true, key }), { status: 200, headers: cors });
