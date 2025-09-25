@@ -201,7 +201,11 @@
     <!-- EXP 14: Social Proof stark hervorgehoben -->
     <section id="screen-exp14sp" class="card hidden">
       <h2>Schritt 14</h2>
+<<<<<<< HEAD
       <p class="hint">WÃ¤hlen Sie ein Produkt.</p>
+=======
+      <p class="hint">Wählen Sie ein Produkt.</p>
+>>>>>>> parent of 721c336 (exp update)
       <div id="exp14sp-grid" class="grid grid-3"></div>
     </section>
 
@@ -332,6 +336,7 @@
       exp8: { name:'single_button', posTop: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp9: { name:'confirm_distance', variant: Math.random()<0.5?'near':'far', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp8: { name:'cta_signifier', variant: Math.random()<0.5?'with_icon':'no_icon', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+<<<<<<< HEAD
       exp12: { name:'cta_signifier_2', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp13: { name:'good_continuation', variant: Math.random()<0.5?'linear':'scatter', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp14: { name:'figure_ground', variant: 'one_emph', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
@@ -339,6 +344,15 @@
        exp16: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp17: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp10: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+=======
+      exp10icon: { name:'cta_signifier_2', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp11gc: { name:'good_continuation', variant: Math.random()<0.5?'linear':'scatter', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp12fg: { name:'figure_ground', variant: 'one_emph', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp12sd: { name:'similarity_dissimilarity', variant: ['soft_emph','strong_emph'][Math.floor(Math.random()*2)], emphPos: ['left','middle','right'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp14sp: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp15left: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp7: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+>>>>>>> parent of 721c336 (exp update)
       
       
       exp13:{ name:'cta_icon', variant: Math.random()<0.5?'generic':'actionable', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
@@ -1061,7 +1075,11 @@
             openAttribution({
               title:'Einordnung - Schritt 12',
               options:['Subtile Hervorhebung','Position','Gewohnheit','Sonstiges'],
+<<<<<<< HEAD
               onDone:(reason)=>{ state.exp14.extra.reason=reason; go('exp12sd'); }
+=======
+              onDone:(reason)=>{ state.exp12fg.extra.reason=reason; go('exp12sd'); }
+>>>>>>> parent of 721c336 (exp update)
             });
           });
         });
@@ -1071,12 +1089,21 @@
 
     // ===== EXP 13: Similarity vs. Dissimilarity =====
     function renderExp12sd(){
+<<<<<<< HEAD
       const left = document.getElementById('exp15-left');
       const mid  = document.getElementById('exp15-mid');
       const right= document.getElementById('exp15-right');
       if(!left || !mid || !right){ go('survey'); return; }
       const v = state.exp15.variant; // 'soft_emph' | 'strong_emph' (immer min. 1 hervorgehoben)
       const emphPos = state.exp15.emphPos; // 'left' | 'middle' | 'right'
+=======
+      const left = document.getElementById('exp12sd-left');
+      const mid  = document.getElementById('exp12sd-mid');
+      const right= document.getElementById('exp12sd-right');
+      if(!left || !mid || !right){ go('survey'); return; }
+      const v = state.exp12sd.variant; // 'soft_emph' | 'strong_emph' (immer min. 1 hervorgehoben)
+      const emphPos = state.exp12sd.emphPos; // 'left' | 'middle' | 'right'
+>>>>>>> parent of 721c336 (exp update)
       // Reset classes
       [left,mid,right].forEach(b=> b.className = 'btn btn-outline');
       const applySoft = (b)=>{ b.className = 'btn btn-soft'; };
@@ -1085,6 +1112,7 @@
       if(v==='strong_emph') applyStrong(posEl); else applySoft(posEl);
 
       const handler = (pos)=>{
+<<<<<<< HEAD
         if(state.exp15.ttf==null) state.exp15.ttf = Math.round(now()-state.exp15.startedAt);
         state.exp15.clicks++; state.exp15.success=true; state.exp15.finishedAt=now();
         state.exp15.extra = { variant: v, emphPos, clickedPos: pos };
@@ -1092,6 +1120,15 @@
           title:'Einordnung - Schritt 13',
           options:['Gleiche Buttons','Leichte Abweichung','Starke Hervorhebung','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp15.extra.reason = reason; go('exp14sp'); }
+=======
+        if(state.exp12sd.ttf==null) state.exp12sd.ttf = Math.round(now()-state.exp12sd.startedAt);
+        state.exp12sd.clicks++; state.exp12sd.success=true; state.exp12sd.finishedAt=now();
+        state.exp12sd.extra = { variant: v, emphPos, clickedPos: pos };
+        openAttribution({
+          title:'Einordnung - Schritt 13',
+          options:['Gleiche Buttons','Leichte Abweichung','Starke Hervorhebung','Position','Sonstiges'],
+            onDone:(reason)=>{ state.exp12sd.extra.reason = reason; go('exp14sp'); }
+>>>>>>> parent of 721c336 (exp update)
           });
       };
       left.onclick = ()=>handler('left');
@@ -1099,11 +1136,19 @@
       right.onclick= ()=>handler('right');
     }
 
+<<<<<<< HEAD
     // ===== EXP 14: Social Proof â€“ starke Hervorhebung =====
     const exp14spTargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
     const exp14spBannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
     function renderExp14sp(){
       const grid = document.getElementById('exp16-grid'); if(!grid){ go('survey'); return; }
+=======
+    // ===== EXP 14: Social Proof – starke Hervorhebung =====
+    const exp14spTargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
+    const exp14spBannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
+    function renderExp14sp(){
+      const grid = document.getElementById('exp14sp-grid'); if(!grid){ go('survey'); return; }
+>>>>>>> parent of 721c336 (exp update)
       grid.innerHTML = '';
       const order = [0,1,2].sort(()=>Math.random()-0.5);
       order.forEach(idx=>{
@@ -1121,6 +1166,7 @@
           <div class=\"muted small\">${p.price.toFixed(2)}&nbsp;&euro;&nbsp;&nbsp;${p.rating.toFixed(1)}&#9733;&nbsp;&nbsp;Versand: ${p.shipping}</div>
           <button type=\"button\" class=\"btn mt\">In den Warenkorb</button>`;
         card.querySelector('button').addEventListener('click', ()=>{
+<<<<<<< HEAD
           if(state.exp16.ttf==null) state.exp16.ttf = Math.round(now()-state.exp16.startedAt);
           state.exp16.clicks++; state.exp16.success=true; state.exp16.finishedAt=now();
           state.exp16.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp14spTargetId).name, bannerCount: exp14spBannerCount };
@@ -1128,6 +1174,15 @@
             title:'Einordnung - Schritt 14',
             options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
             onDone:(reason)=>{ state.exp16.extra.reason=reason; go('survey'); }
+=======
+          if(state.exp14sp.ttf==null) state.exp14sp.ttf = Math.round(now()-state.exp14sp.startedAt);
+          state.exp14sp.clicks++; state.exp14sp.success=true; state.exp14sp.finishedAt=now();
+          state.exp14sp.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp14spTargetId).name, bannerCount: exp14spBannerCount };
+          openAttribution({
+            title:'Einordnung - Schritt 14',
+            options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
+            onDone:(reason)=>{ state.exp14sp.extra.reason=reason; go('survey'); }
+>>>>>>> parent of 721c336 (exp update)
           });
         });
         grid.appendChild(card);
@@ -1156,6 +1211,7 @@
           <div class="divider"></div>
           <button type="button" class="btn btn-outline btn-block exp15-choose">WÃ¤hlen</button>`;
         el.querySelector('.exp15-choose').addEventListener('click', ()=>{
+<<<<<<< HEAD
           if(state.exp17.ttf==null) state.exp17.ttf = Math.round(now()-state.exp17.startedAt);
           state.exp17.clicks++; state.exp17.success=true; state.exp17.finishedAt=now();
           state.exp17.extra = { clickedPos: c.id };
@@ -1163,6 +1219,15 @@
             title:'Einordnung - Schritt 15',
             options:['Links','Mitte','Rechts','Sonstiges'],
             onDone:(reason)=>{ state.exp17.extra.reason = reason; go('survey'); }
+=======
+          if(state.exp15left.ttf==null) state.exp15left.ttf = Math.round(now()-state.exp15left.startedAt);
+          state.exp15left.clicks++; state.exp15left.success=true; state.exp15left.finishedAt=now();
+          state.exp15left.extra = { clickedPos: c.id };
+          openAttribution({
+            title:'Einordnung - Schritt 15',
+            options:['Links','Mitte','Rechts','Sonstiges'],
+            onDone:(reason)=>{ state.exp15left.extra.reason = reason; go('survey'); }
+>>>>>>> parent of 721c336 (exp update)
           });
         });
         wrap.appendChild(el);
@@ -1520,6 +1585,7 @@
         '2': state.exp2,
         '3': state.exp3,
         '4': state.exp4,
+<<<<<<< HEAD
         '5': state.exp8,
         '6': state.exp8,
         '7': state.exp9, // BestÃ¤tigung + Distanz
@@ -1536,6 +1602,24 @@
         '7': (state.exp9 && state.exp9.variant==='near') ? '7a' : '7b', // a=nah, b=fern
         '9': (state.exp12 && state.exp12.iconLeft) ? '9a' : '9b', // a=Icon links, b=Icon rechts
         '12': (state.exp15 && state.exp15.variant==='soft_emph') ? '12a' : '12b', // a=weich, b=stark
+=======
+        '5': state.exp5,
+        '6': state.exp6,
+        '7': state.exp6chk, // Bestätigung + Distanz
+        '8': state.exp9b,
+        '9': state.exp10icon,
+        '10': state.exp11gc,
+        '11': state.exp12fg,
+        '12': state.exp12sd,
+        '13': state.exp14sp,
+        '14': state.exp15left,
+      };
+      const stepVariants = {
+        '6': (state.exp6 && state.exp6.posTop===true) ? '6a' : '6b', // a=oben, b=unten
+        '7': (state.exp6chk && state.exp6chk.variant==='near') ? '7a' : '7b', // a=nah, b=fern
+        '9': (state.exp10icon && state.exp10icon.iconLeft) ? '9a' : '9b', // a=Icon links, b=Icon rechts
+        '12': (state.exp12sd && state.exp12sd.variant==='soft_emph') ? '12a' : '12b', // a=weich, b=stark
+>>>>>>> parent of 721c336 (exp update)
       };
       return {
         condition:CONDITION,
@@ -1556,6 +1640,7 @@
         exp6chk:state.exp9,
         exp7:state.exp10,
         exp8:state.exp8,
+<<<<<<< HEAD
         exp9b:state.exp11,
         exp10icon:state.exp12,
         exp11gc:state.exp13,
@@ -1567,6 +1652,19 @@
         exp13: state.exp15,
         exp14: state.exp16,
         exp15: state.exp17,
+=======
+        exp9b:state.exp9b,
+        exp10icon:state.exp10icon,
+        exp11gc:state.exp11gc,
+        exp12fg:state.exp12fg,
+        exp12sd:state.exp12sd,
+        exp14sp:state.exp14sp,
+        exp15left:state.exp15left,
+        // Aliases for tools expecting numeric exp13/14/15 keys
+        exp13: state.exp12sd,
+        exp14: state.exp14sp,
+        exp15: state.exp15left,
+>>>>>>> parent of 721c336 (exp update)
         survey:state.survey,
         events:state.events
       };
