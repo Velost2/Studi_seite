@@ -123,11 +123,45 @@ export default async (req) => {
   const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-v2";
   const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v3";
   const store = getStore(storeName);
-  const ts = new Date().toISOString().replace(/[:.]/g, "-");
-  const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
-  const key = `${keyPrefix}/${ts}_${id}.json`;
 
-  await store.set(key, JSON.stringify(body));
+  // Build a more readable, structured key using European date order:
+  // prefix/DD-MM-YYYY/nNNNN_device_condition[_label]_id.json
+  try {
+    const now = new Date();
+    const startedAt = (typeof body.startedAt === 'number') ? new Date(body.startedAt) : now;
+    const dt = isNaN(startedAt.getTime()) ? now : startedAt;
+    const y = String(dt.getFullYear());
+    const m = String(dt.getMonth()+1).padStart(2,'0');
+    const d = String(dt.getDate()).padStart(2,'0');
+    const folder = `${d}-${m}-${y}`; // European order
+    const device = (body && body.client && body.client.isMobile) ? 'mobile' : 'desktop';
+    const condition = String(body && body.condition || 'na').replace(/[^a-zA-Z0-9_-]/g,'').toLowerCase() || 'na';
+    const labelRaw = String(body && body.sessionLabel || '').trim();
+    const label = labelRaw ? ('_' + labelRaw.replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40)) : '';
+    const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
+    // Determine the global sequential number (across all days)
+    let nStr = 'n00001';
+    try {
+      const prefixAll = `${keyPrefix}/`;
+      let total = 0; let cursor;
+      do {
+        const res = await store.list({ prefix: prefixAll, cursor });
+        total += Array.isArray(res.blobs) ? res.blobs.length : 0;
+        cursor = res.cursor;
+      } while (cursor);
+      const n = total + 1;
+      nStr = 'n' + String(n).padStart(5,'0');
+    } catch {}
+    const key = `${keyPrefix}/${folder}/${nStr}_${device}_${condition}${label}_${id}.json`;
 
-  return new Response(JSON.stringify({ ok: true, key }), { status: 200, headers: cors });
+    await store.set(key, JSON.stringify(body));
+    return new Response(JSON.stringify({ ok: true, key }), { status: 200, headers: cors });
+  } catch (e) {
+    // Fallback to old scheme if something goes wrong
+    const ts = new Date().toISOString().replace(/[:.]/g, "-");
+    const id = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
+    const key = `${keyPrefix}/${ts}_${id}.json`;
+    await store.set(key, JSON.stringify(body));
+    return new Response(JSON.stringify({ ok: true, key, fallback: true }), { status: 200, headers: cors });
+  }
 };

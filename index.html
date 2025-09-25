@@ -1515,7 +1515,61 @@
     // ===== Export/Submit =====
     function payload(){
       const dur = state.startedAt? Math.round(now()-state.startedAt):0;
-      return { condition:CONDITION, client:CLIENT, startedAt:state.startedAt, durationMs:dur, exp1:state.exp1, exp2:state.exp2, exp3:state.exp3, exp4:state.exp4, exp4pref:state.exp4pref, exp5:state.exp5, exp2b:state.exp2b, exp6:state.exp6, exp6chk:state.exp6chk, exp7:state.exp7, exp8:state.exp8, exp9b:state.exp9b, exp10icon:state.exp10icon, exp11gc:state.exp11gc, exp12fg:state.exp12fg, exp12sd:state.exp12sd, exp14sp:state.exp14sp, exp15left:state.exp15left, survey:state.survey, events:state.events };
+      const steps = {
+        '1': state.exp1,
+        '2': state.exp2,
+        '3': state.exp3,
+        '4': state.exp4,
+        '5': state.exp5,
+        '6': state.exp6,
+        '7': state.exp6chk, // Bestätigung + Distanz
+        '8': state.exp9b,
+        '9': state.exp10icon,
+        '10': state.exp11gc,
+        '11': state.exp12fg,
+        '12': state.exp12sd,
+        '13': state.exp14sp,
+        '14': state.exp15left,
+      };
+      const stepVariants = {
+        '6': (state.exp6 && state.exp6.posTop===true) ? '6a' : '6b', // a=oben, b=unten
+        '7': (state.exp6chk && state.exp6chk.variant==='near') ? '7a' : '7b', // a=nah, b=fern
+        '9': (state.exp10icon && state.exp10icon.iconLeft) ? '9a' : '9b', // a=Icon links, b=Icon rechts
+        '12': (state.exp12sd && state.exp12sd.variant==='soft_emph') ? '12a' : '12b', // a=weich, b=stark
+      };
+      return {
+        condition:CONDITION,
+        client:CLIENT,
+        startedAt:state.startedAt,
+        durationMs:dur,
+        steps,
+        stepVariants,
+        // Backwards/compat keys (will be removed later if not needed)
+        exp1:state.exp1,
+        exp2:state.exp2,
+        exp3:state.exp3,
+        exp4:state.exp4,
+        exp4pref:state.exp4pref,
+        exp5:state.exp5,
+        exp2b:state.exp2b,
+        exp6:state.exp6,
+        exp6chk:state.exp6chk,
+        exp7:state.exp7,
+        exp8:state.exp8,
+        exp9b:state.exp9b,
+        exp10icon:state.exp10icon,
+        exp11gc:state.exp11gc,
+        exp12fg:state.exp12fg,
+        exp12sd:state.exp12sd,
+        exp14sp:state.exp14sp,
+        exp15left:state.exp15left,
+        // Aliases for tools expecting numeric exp13/14/15 keys
+        exp13: state.exp12sd,
+        exp14: state.exp14sp,
+        exp15: state.exp15left,
+        survey:state.survey,
+        events:state.events
+      };
     }
     async function submit(){
       const out = $('#submit-status');
