@@ -211,7 +211,7 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .exp6-card .btn { align-self:flex-start; }
 
 /* Exp 10 (Good Continuation) mobile visual fix */
-#screen-exp11gc .gc-seq { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:8px 0; }
+#screen-exp13 .gc-seq { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:8px 0; }
 .btn-chip { background:#e5e7eb; color:#111827; border:1px solid #d1d5db; border-radius:12px; padding:6px 10px; font-weight:600; }
 
 /* ===== Mobile floating back button ===== */
@@ -238,22 +238,22 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 .group-box .btn { margin-top: 8px; }
 
 /* Exp3: bottom-align "In den Warenkorb" */
-#exp3-grid .card, #exp9b-grid .card, #exp14sp-grid .card, #exp15-grid .card { display:flex; flex-direction:column; }
-#exp3-grid .btn.mt, #exp9b-grid .btn.mt, #exp14sp-grid .btn.mt, #exp15-grid .btn.mt { margin-top: auto !important; }
+#exp3-grid .card, #exp11-grid .card, #exp14sp-grid .card, #exp17-grid .card { display:flex; flex-direction:column; }
+#exp3-grid .btn.mt, #exp11-grid .btn.mt, #exp14sp-grid .btn.mt, #exp17-grid .btn.mt { margin-top: auto !important; }
 
 /* Exp4pref: add spacing before button */
-#exp4pref-next { margin-top: 12px; }
+#exp5-next { margin-top: 12px; }
 
 /* Exp5: bottom-align select buttons */
-#screen-exp5 .card.soft { display:flex; flex-direction:column; }
-#screen-exp5 .card.soft > button { margin-top: auto; }
-#exp5-grid .card { display:flex; flex-direction:column; }
+#screen-exp6 .card.soft { display:flex; flex-direction:column; }
+#screen-exp6 .card.soft > button { margin-top: auto; }
+#exp6-grid .card { display:flex; flex-direction:column; }
 /* Create clear space between content divider and button */
-#exp5-grid .divider { margin:18px 0 10px; position:static; }
+#exp6-grid .divider { margin:18px 0 10px; position:static; }
 /* Remove divider line for Exp5 */
-#exp5-grid .divider { display: none; }
+#exp6-grid .divider { display: none; }
 /* Button: slimmer outline, moderate size, sits at bottom */
-#exp5-grid .btn-big-outline {
+#exp6-grid .btn-big-outline {
   margin-top:auto;
   display:block; width:100%;
   border:1.5px solid #cfd8e3; border-radius:16px;
@@ -262,8 +262,8 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 }
 
 /* Exp12fg spacing fixes: divider/button should not overlap */
-#screen-exp12fg .divider { margin:12px 0 8px; display:block; position:static; }
-#screen-exp12fg .exp12fg-choose { margin-top:8px; position:relative; z-index:1; }
+#screen-exp14 .divider { margin:12px 0 8px; display:block; position:static; }
+#screen-exp14 .exp12fg-choose { margin-top:8px; position:relative; z-index:1; }
 
 /* Subtle badge for notes (e.g., beliebt heute) */
 .badge-note { display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:2px 8px; border-radius:999px; background:#f3f4f6; color:#374151; border:1px solid #e5e7eb; white-space:nowrap; }
@@ -271,3 +271,4 @@ body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helv
 /* Simple layout for header quick-jump */
 .header-actions { display:flex; align-items:center; gap:8px; }
 select.jump { font-size:12px; padding:6px 8px; border:1px solid #d1d5db; border-radius:8px; background:#fff; color:#111827; }
+
