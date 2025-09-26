@@ -191,17 +191,17 @@
     
 
     <!-- EXP 14: Social Proof stark hervorgehoben -->
-    <section id="screen-exp16" class="card hidden">
+    <section id="screen-exp15" class="card hidden">
       <h2>Schritt 14</h2>
       <p class="hint">Wählen Sie ein Produkt.</p>
-      <div id="exp16-grid" class="grid grid-3"></div>
+      <div id="exp15-grid" class="grid grid-3"></div>
     </section>
 
     <!-- EXP 15: Left Bias mit gleichen Karten (Exp1 Kopie ohne Grouping) -->
-    <section id="screen-exp17" class="card hidden">
+    <section id="screen-exp16" class="card hidden">
       <h2>Schritt 15</h2>
       <p class="hint">Wählen Sie ein Paket.</p>
-      <div id="exp17-grid" class="grid grid-3"></div>
+      <div id="exp16-grid" class="grid grid-3"></div>
     </section>
 
     <!-- EXP 7: Positionsbias (Reihenfolge/Alignment) -->
@@ -264,7 +264,7 @@
   <script>
     // ===== Utilities =====
     const $ = (sel) => document.querySelector(sel);
-    const screens = ["intro", "exp1", "exp2", "exp3", "exp4", "exp5", "exp6", "exp7", "exp8", "exp9", "exp10", "exp11", "exp12", "exp13", "exp14", "exp16", "exp17", "survey", "debrief"];
+    const screens = ["intro", "exp1", "exp2", "exp3", "exp4", "exp5", "exp6", "exp7", "exp8", "exp9", "exp10", "exp11", "exp12", "exp13", "exp14", "exp15", "exp16", "survey", "debrief"];
     const now = () => performance.now();
     const progress = (idx) => {
       const denom = Math.max(1, screens.length - 1);
@@ -332,15 +332,14 @@
       exp6: { name:'left_bias_equal', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp5:{ name:'shipping_preference', startedAt:null, finishedAt:null, clicks:0, selected:null, extra:{} },
       exp7:{ name:'cta_color', blackLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-      exp8: { name:'single_button', posTop: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+      exp8: { name:'single_button', variant: (window.crypto && window.crypto.getRandomValues) ? ((window.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0) ? 'top' : 'bottom') : (Math.random()<0.5?'top':'bottom'), startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp9: { name:'confirm_distance', variant: Math.random()<0.5?'near':'far', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-      exp8: { name:'cta_signifier', variant: Math.random()<0.5?'with_icon':'no_icon', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       exp12: { name:'cta_signifier_2', iconLeft: Math.random()<0.5, startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp13: { name:'good_continuation', variant: Math.random()<0.5?'linear':'scatter', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp14: { name:'figure_ground', variant: 'one_emph', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp15: { name:'similarity_dissimilarity', variant: ['soft_emph','strong_emph'][Math.floor(Math.random()*2)], emphPos: ['left','middle','right'][Math.floor(Math.random()*3)], startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-       exp16: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
-       exp17: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp15: { name:'social_proof_strong', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
+       exp16: { name:'left_bias_equal_cards', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
        exp10: { name:'order_alignment', variant: Math.random()<0.5?'left_target':'right_target', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} },
       
       
@@ -394,12 +393,11 @@
   if(step==='exp7'&& !state.exp7.startedAt){ state.exp7.startedAt = now(); renderexp7(); }
   if(step==='exp8' && !state.exp8.startedAt){ state.exp8.startedAt = now(); renderexp8(); }
   if(step==='exp10' && !state.exp10.startedAt){ state.exp10.startedAt = now(); renderexp10(); }
-  if(step==='exp8' && !state.exp8.startedAt){ state.exp8.startedAt = now(); renderExp8(); }
   if(step==='exp11'&& !state.exp11?.startedAt){ state.exp11 = state.exp11 || { name:'social_proof_v2', variant:'subtitle_note', startedAt:null, finishedAt:null, clicks:0, errors:0, success:false, ttf:null, extra:{} }; state.exp11.startedAt = now(); renderexp11(); }
   if(step==='exp12' && !state.exp12.startedAt){ state.exp12.startedAt = now(); renderexp12(); }
   if(step==='exp13' && !state.exp13.startedAt){ state.exp13.startedAt = now(); renderexp13(); }
+  if(step==='exp15' && !state.exp15.startedAt){ state.exp15.startedAt = now(); renderexp15(); }
   if(step==='exp16' && !state.exp16.startedAt){ state.exp16.startedAt = now(); renderexp16(); }
-  if(step==='exp17' && !state.exp17.startedAt){ state.exp17.startedAt = now(); renderexp17(); }
   if(step==='exp9' && !state.exp9.startedAt){ state.exp9.startedAt = now(); renderexp9(); }
   if(step==='exp14' && !state.exp14.startedAt){state.exp14.startedAt = now();renderExp14();  }
   if(step==='survey'){ renderSurvey(); }
@@ -857,7 +855,11 @@
       if(!btn){ go('exp10'); return; }
       const wrap = document.getElementById('exp8-wrap');
       try {
-        // place button high or low to affect time to click
+        // ensure posTop is deterministically set at render time (50/50)
+        if (typeof state.exp8.posTop === 'undefined' || state.exp8.posTop === null) {
+          state.exp8.posTop = (window.crypto && window.crypto.getRandomValues) ? (window.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0) : (Math.random()<0.5);
+        }
+        console.log('[DEBUG] exp8.posTop =', state.exp8.posTop);
         const top = state.exp8.posTop === true;
         wrap.style.minHeight = '360px';
         wrap.style.justifyContent = 'flex-start';
@@ -873,9 +875,7 @@
         go('exp9');
       };
     }
-
-    // ===== EXP 6b: Confirm + Distance =====
-    function renderexp9(){
+function renderexp9(){
       const cb = document.getElementById('exp9-cb');
       const btn = document.getElementById('exp9-next');
       const wrap = document.getElementById('exp9-wrap');
@@ -899,26 +899,6 @@
         if(state.exp9.ttf==null) state.exp9.ttf = Math.round(now()-state.exp9.startedAt);
         state.exp9.clicks++; state.exp9.success=true; state.exp9.finishedAt=now();
         go('exp10');
-      };
-    }
-
-    // ===== EXP 8: CTA-Signifier =====
-    function renderExp8(){
-      const btn = document.getElementById('exp8-cta');
-      if(!btn){ go('survey'); return; }
-      const v = state.exp8.variant; // 'with_icon' | 'no_icon'
-      btn.innerHTML = v==='with_icon'
-        ? 'Weiter <span aria-hidden="true" style="margin-left:6px">➔</span>'
-        : 'Weiter';
-      btn.onclick = ()=>{
-        if(state.exp8.ttf==null) state.exp8.ttf = Math.round(now()-state.exp8.startedAt);
-        state.exp8.clicks++; state.exp8.success=true; state.exp8.finishedAt=now();
-        state.exp8.extra = { variant: v };
-        openAttribution({
-          title:'Einordnung - Schritt 8',
-          options:['Pfeil/Zeichen','Position','Gewohnheit','Sonstiges'],
-          onDone:(reason)=>{ state.exp8.extra.reason = reason; go('exp11'); }
-        });
       };
     }
 
@@ -1070,7 +1050,7 @@
             openAttribution({
               title:'Einordnung - Schritt 12',
               options:['Subtile Hervorhebung','Position','Gewohnheit','Sonstiges'],
-              onDone:(reason)=>{ state.exp14.extra.reason=reason; go('exp16'); }
+              onDone:(reason)=>{ state.exp14.extra.reason=reason; go('exp15'); }
             });
           });
         });
@@ -1083,19 +1063,19 @@
     
 
     // ===== EXP 14: Social Proof – starke Hervorhebung =====
-    const exp16TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
-    const exp16BannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
-    function renderexp16(){
-      const grid = document.getElementById('exp16-grid'); if(!grid){ go('survey'); return; }
+    const exp15TargetId = ['reuse','basic','steel'][Math.floor(Math.random()*3)];
+    const exp15BannerCount = [260,310,355,402][Math.floor(Math.random()*4)];
+    function renderexp15(){
+      const grid = document.getElementById('exp15-grid'); if(!grid){ go('survey'); return; }
       grid.innerHTML = '';
       const order = [0,1,2].sort(()=>Math.random()-0.5);
       order.forEach(idx=>{
         const p = products[idx];
-        const isTarget = p.id===exp16TargetId;
+        const isTarget = p.id===exp15TargetId;
         const card = document.createElement('div');
         // Karten alle mit gleichem oberen Innenabstand; Badge nur auf Zielkarte
         card.className = 'card soft pos-rel card--has-badge';
-        const badge = isTarget ? `<div class=\"badge-pop-strong badge-top-left\">Beliebt heute, ${exp16BannerCount} mal gekauft</div>` : '';
+        const badge = isTarget ? `<div class=\"badge-pop-strong badge-top-left\">Beliebt heute, ${exp15BannerCount} mal gekauft</div>` : '';
         card.innerHTML = `
           ${badge}
           <div class=\"muted small\">${p.subtitle}</div>
@@ -1104,13 +1084,13 @@
           <div class=\"muted small\">${p.price.toFixed(2)}&nbsp;&euro;&nbsp;&nbsp;${p.rating.toFixed(1)}&#9733;&nbsp;&nbsp;Versand: ${p.shipping}</div>
           <button type=\"button\" class=\"btn mt\">In den Warenkorb</button>`;
         card.querySelector('button').addEventListener('click', ()=>{
-          if(state.exp16.ttf==null) state.exp16.ttf = Math.round(now()-state.exp16.startedAt);
-          state.exp16.clicks++; state.exp16.success=true; state.exp16.finishedAt=now();
-          state.exp16.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp16TargetId).name, bannerCount: exp16BannerCount };
+          if(state.exp15.ttf==null) state.exp15.ttf = Math.round(now()-state.exp15.startedAt);
+          state.exp15.clicks++; state.exp15.success=true; state.exp15.finishedAt=now();
+          state.exp15.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp15TargetId).name, bannerCount: exp15BannerCount };
           openAttribution({
             title:'Einordnung - Schritt 14',
             options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
-            onDone:(reason)=>{ state.exp16.extra.reason=reason; go('exp17'); }
+            onDone:(reason)=>{ state.exp15.extra.reason=reason; go('exp16'); }
         });
         });
         grid.appendChild(card);
@@ -1118,13 +1098,13 @@
     }
 
     // ===== EXP 15: Left Bias mit gleichen Karten =====
-    function renderexp17(){
-      const wrap = document.getElementById('exp17-grid'); if(!wrap){ go('exp16'); return; }
+    function renderexp16(){
+      const wrap = document.getElementById('exp16-grid'); if(!wrap){ go('exp15'); return; }
       wrap.innerHTML='';
       // UX test: always one black (strong) button
       try {
-        if(!state.exp17.emphPos){ state.exp17.emphPos = ['left','middle','right'][Math.floor(Math.random()*3)]; }
-        state.exp17.variant = 'strong_emph';
+        if(!state.exp16.emphPos){ state.exp16.emphPos = ['left','middle','right'][Math.floor(Math.random()*3)]; }
+        state.exp16.variant = 'strong_emph';
       } catch {}
 
       const cards = ['A','B','C'].map((lab,i)=>({ id:['left','middle','right'][i], title:`Paket ${lab}`, price:'9,99 € / Monat', desc:'Tools: Aufgaben, Notizen, Kalender, Freigaben' }));
@@ -1142,22 +1122,22 @@
             <li>Grundlegende Analyse</li>
             <li>Support per E-Mail</li>
           </ul>
-          <button type="button" class="btn btn-outline btn-block exp17-choose">Wählen</button>`;
+          <button type="button" class="btn btn-outline btn-block exp16-choose">Wählen</button>`;
         try {
-          const btn = el.querySelector('.exp17-choose');
+          const btn = el.querySelector('.exp16-choose');
           if(btn){
-            const isEmph = (state.exp17 && state.exp17.emphPos===c.id);
-            btn.className = isEmph ? 'btn btn-strong btn-block exp17-choose' : 'btn btn-outline btn-block exp17-choose';
+            const isEmph = (state.exp16 && state.exp16.emphPos===c.id);
+            btn.className = isEmph ? 'btn btn-strong btn-block exp16-choose' : 'btn btn-outline btn-block exp16-choose';
           }
         } catch {}
-        el.querySelector('.exp17-choose').addEventListener('click', ()=>{
-          if(state.exp17.ttf==null) state.exp17.ttf = Math.round(now()-state.exp17.startedAt);
-          state.exp17.clicks++; state.exp17.success=true; state.exp17.finishedAt=now();
-          state.exp17.extra = { clickedPos: c.id, emphPos: (state.exp17&&state.exp17.emphPos)||null };
+        el.querySelector('.exp16-choose').addEventListener('click', ()=>{
+          if(state.exp16.ttf==null) state.exp16.ttf = Math.round(now()-state.exp16.startedAt);
+          state.exp16.clicks++; state.exp16.success=true; state.exp16.finishedAt=now();
+          state.exp16.extra = { clickedPos: c.id, emphPos: (state.exp16&&state.exp16.emphPos)||null };
           openAttribution({
             title:'Einordnung - Schritt 15',
             options:['Links','Mitte','Rechts','Sonstiges'],
-            onDone:(reason)=>{ state.exp17.extra.reason = reason; go('survey'); }
+            onDone:(reason)=>{ state.exp16.extra.reason = reason; go('survey'); }
           });
         });
         wrap.appendChild(el);
@@ -1432,8 +1412,8 @@
         '11': state.exp14,
         '12': state.exp14,
         '13': state.exp15,
-        '14': state.exp16,
-        '15': state.exp17,
+        '14': state.exp15,
+        '15': state.exp16,
       };
       const stepVariants = {
         '6': (state.exp8 && state.exp8.posTop===true) ? '6a' : '6b', // a=oben, b=unten
@@ -1469,8 +1449,8 @@
         exp13:state.exp13,
         exp14:state.exp14,
         exp15: state.exp15,
+        exp15: state.exp15,
         exp16: state.exp16,
-        exp17: state.exp17,
         survey:state.survey,
         events:state.events
       };
@@ -1544,138 +1524,458 @@
   </script>
 
 <script>
-/**
- * Runtime Patch: Harmonize experiments to exactly exp1..exp16 with fixed names.
- * - Prevents duplicate/overwriting of exp8/exp15.
- * - Normalizes names to your requested mapping.
- * - Can be called right after app init and before export/finish.
- */
 (function(){
-  const EXP_NAMES = {
-    1: "proximity_grouping",
-    2: "cta_shape",
-    3: "social_proof",
-    4: "shipping_defaults",
-    5: "shipping_preference",
-    6: "left_bias_equal",
-    7: "cta_color",
-    8: "single_button",
-    9: "confirm_distance",
-    10: "order_alignment",
-    11: "social_proof_v2",
-    12: "cta_signifier_2",
-    13: "good_continuation",
-    14: "figure_ground",
-    15: "social_proof_strong",
-    16: "cta_highlight_black"
-  };
-
-  // utility: deep clone safely
-  const clone = (o) => JSON.parse(JSON.stringify(o ?? {}));
-
-  // Guard if app exposes a global state object
+  const now = () => (performance && performance.now) ? performance.now() : Date.now();
   function getState(){
-    // try common globals without breaking if undefined
     return (window.app && app.state) || window.state || window.__APP_STATE__ || null;
   }
 
-  // Normalize screens list if present
-  function normalizeScreens(){
-    const names = Object.values(EXP_NAMES);
-    if (Array.isArray(window.screens)) {
-      // Filter only known experiments once, preserving order of EXP_NAMES
-      const byName = new Map(window.screens.map(s => [s?.name || s?.id || s?.key, s]));
-      const normalized = names.map(n => byName.get(n)).filter(Boolean);
-      if (normalized.length) {
-        window.screens = normalized;
-      }
-    }
-  }
-
-  // Normalize experiments object to exp1..exp16 unique keys
-  function normalizeExperiments(){
+  // --- EXP 8: single_button (50/50 near/far) ---
+  const orig_exp8 = window.renderexp8;
+  window.renderexp8 = function patched_renderexp8(){
     const st = getState();
-    if (!st || !st.experiments) return;
+    try { if (typeof orig_exp8 === "function") orig_exp8.apply(this, arguments); } catch(e){ console.warn("orig renderexp8 failed:", e); }
 
-    const src = clone(st.experiments);
-    const dest = {};
+    try {
+      if (!st) return;
+      st.exp8 = st.exp8 || { name:"single_button" };
 
-    // Helper to pick a block by name (if the app wrote different numbers)
-    function pickByName(name){
-      // find any expX with matching 'name'
-      const keys = Object.keys(src);
-      for (const k of keys){
-        const v = src[k];
-        if (v && typeof v === "object" && (v.name === name)) {
-          return v;
-        }
+      // Einmalige 50/50-Zuweisung analog zu Exp9
+      if (st.exp8.variant !== "near" && st.exp8.variant !== "far") {
+        st.exp8.variant = Math.random() < 0.5 ? "near" : "far";
       }
-      return null;
+      const near = st.exp8.variant === "near";
+      const offset = near ? 24 : 280;
+
+      const btn  = document.getElementById("exp8-cta");
+      const wrap = document.getElementById("exp8-wrap") || (btn && btn.parentElement);
+      if (wrap) {
+        wrap.style.minHeight = "360px";
+        wrap.style.display = "flex";
+        wrap.style.flexDirection = "column";
+        wrap.style.justifyContent = "flex-start";
+        if (btn) btn.style.marginTop = "0px";
+        wrap.style.marginTop = offset + "px";
+      } else if (btn) {
+        btn.style.marginTop = offset + "px";
+      }
+
+      st.exp8.name      = "single_button";
+      st.exp8.clicks    = st.exp8.clicks  || 0;
+      st.exp8.errors    = st.exp8.errors  || 0;
+      st.exp8.success   = false;
+      st.exp8.startedAt = now();
+      st.exp8.extra = Object.assign({}, st.exp8.extra || {}, {
+        distance: st.exp8.variant,
+        pos: near ? "top" : "bottom",
+        offsetPx: offset
+      });
+    } catch (err) {
+      console.warn("[exp8 patch] apply failed", err);
     }
+  };
 
-    for (let i=1;i<=16;i++){
-      const key = "exp"+i;
-      const desiredName = EXP_NAMES[i];
-
-      // Priority 1: existing proper key
-      let block = clone(src[key]);
-      // Priority 2: any block that has the desired name
-      if (!block || !block.name || block.name !== desiredName){
-        const byName = pickByName(desiredName);
-        if (byName) block = clone(byName);
+  document.addEventListener("click", function(e){
+    const st = getState();
+    if (!st || !st.exp8) return;
+    const btnHit = e.target && e.target.closest && e.target.closest("#exp8-cta");
+    if (!btnHit) return;
+    try {
+      if (st.exp8.ttf == null && st.exp8.startedAt != null) {
+        st.exp8.ttf = Math.max(0, Math.round(now() - st.exp8.startedAt));
       }
-
-      // If still missing, synthesize a minimal placeholder to avoid holes
-      if (!block) block = { name: desiredName, success: false, clicks: 0, errors: 0, ttf: null, extra: {} };
-
-      // Force correct name
-      block.name = desiredName;
-
-      // Fix specific conflicts:
-      // - exp8 must be 'single_button' (remove any legacy 'cta_signifier' content here)
-      if (i === 8) {
-        if (block && block.name !== "single_button") {
-          block = { name: "single_button", success: block.success ?? null, clicks: block.clicks ?? 0, errors: block.errors ?? 0, ttf: block.ttf ?? null, extra: block.extra ?? {} };
-        }
-      }
-      // - exp12 must be 'cta_signifier_2'. If we find a legacy 'cta_signifier' elsewhere, migrate its useful fields.
-      if (i === 12) {
-        const legacy = pickByName("cta_signifier");
-        if (legacy) {
-          // prefer iconPos/clickedPos/variant-like extras
-          const e = Object.assign({}, legacy.extra || {}, block.extra || {});
-          block = Object.assign({}, legacy, { name: "cta_signifier_2", extra: e });
-        } else {
-          block.name = "cta_signifier_2";
-        }
-      }
-      // - exp15 must be 'social_proof_strong' (drop any 'cta_icon'/'similarity_dissimilarity' duplicates)
-      if (i === 15) {
-        block.name = "social_proof_strong";
-      }
-      // - exp16 must be 'cta_highlight_black'
-      if (i === 16) {
-        block.name = "cta_highlight_black";
-      }
-
-      dest[key] = block;
-    }
-
-    // Replace state in-place so existing export logic picks it up
-    st.experiments = dest;
-  }
-
-  // Expose for manual triggering in console and call once after load
-  window.__normalizeScreens = normalizeScreens;
-  window.__normalizeExperiments = normalizeExperiments;
-
-  // Try auto-run after the current event loop tick (after app likely initialized)
-  setTimeout(() => {
-    try { normalizeScreens(); } catch(e){ console.warn("normalizeScreens failed", e); }
-    try { normalizeExperiments(); } catch(e){ console.warn("normalizeExperiments failed", e); }
-  }, 0);
+      st.exp8.clicks = (st.exp8.clicks || 0) + 1;
+      st.exp8.success = true;
+      st.exp8.finishedAt = now();
+    } catch {}
+  }, { capture: true });
 })();
 </script>
+
+<script>
+/* EXP 8: Robust 50/50 via spacer element in DOM (no margin hacks) */
+(function(){
+  const now = () => (performance && performance.now) ? performance.now() : Date.now();
+  function getState(){ return (window.app && app.state) || window.state || window.__APP_STATE__ || null; }
+
+  // Helper: ensure spacer exists just BEFORE the button
+  function ensureSpacer(btn){
+    if (!btn) return null;
+    const prev = btn.previousElementSibling;
+    if (prev && prev.id === "exp8-spacer") return prev;
+    const spacer = document.createElement("div");
+    spacer.id = "exp8-spacer";
+    spacer.style.width = "100%";
+    spacer.style.pointerEvents = "none";
+    spacer.style.transition = "height 100ms ease-out";
+    btn.parentElement.insertBefore(spacer, btn);
+    return spacer;
+  }
+
+  // Wrap original renderer, then apply our spacer logic
+  const orig = window.renderexp8;
+  window.renderexp8 = function patched_renderexp8(){
+    const st = getState();
+    try { if (typeof orig === "function") orig.apply(this, arguments); } catch(e){ console.warn("orig renderexp8 failed:", e); }
+    try {
+      if (!st) return;
+      st.exp8 = st.exp8 || { name: "single_button" };
+
+      // one-time 50/50 assignment (near/far) like your working Exp9
+      if (st.exp8.variant !== "near" && st.exp8.variant !== "far") {
+        st.exp8.variant = Math.random() < 0.5 ? "near" : "far";
+      }
+      const near = st.exp8.variant === "near";
+      const offset = near ? 24 : 320; // bigger offset to make it OBVIOUS
+
+      const btn = document.getElementById("exp8-cta");
+      if (!btn) return;
+
+      // neutralize previous inline margins that could fight this
+      btn.style.marginTop = "0px";
+      btn.style.position = "relative";
+
+      // ensure spacer element exists and set its height
+      const spacer = ensureSpacer(btn);
+      if (spacer){
+        spacer.style.height = offset + "px";
+      }
+
+      // ensure container allows vertical stacking
+      const parent = btn.parentElement;
+      if (parent){
+        parent.style.display = "block"; // keep flow layout simple & predictable
+        parent.style.minHeight = "480px";
+      }
+
+      // logging
+      st.exp8.name = "single_button";
+      st.exp8.clicks = st.exp8.clicks || 0;
+      st.exp8.errors = st.exp8.errors || 0;
+      st.exp8.success = false;
+      st.exp8.startedAt = now();
+      st.exp8.extra = Object.assign({}, st.exp8.extra || {}, {
+        distance: st.exp8.variant,           // near|far
+        pos: near ? "top" : "bottom",        // human readable
+        offsetPx: offset
+      });
+    } catch(err){
+      console.warn("[exp8 spacer patch] failed", err);
+    }
+  };
+
+  // TTF on click
+  document.addEventListener("click", function(e){
+    const st = getState();
+    if (!st || !st.exp8) return;
+    const btnHit = e.target && e.target.closest && e.target.closest("#exp8-cta");
+    if (!btnHit) return;
+    try {
+      if (st.exp8.ttf == null && st.exp8.startedAt != null) {
+        st.exp8.ttf = Math.max(0, Math.round(now() - st.exp8.startedAt));
+      }
+      st.exp8.clicks = (st.exp8.clicks || 0) + 1;
+      st.exp8.success = true;
+      st.exp8.finishedAt = now();
+    } catch {}
+  }, { capture: true });
+})();
+</script>
+
+<script>
+/* EXP 8: Setze margin-top direkt auf die umgebende .row – robust, nach dem Render, mit Re-Apply */
+(function(){
+  const now = () => (performance && performance.now) ? performance.now() : Date.now();
+  function getState(){ return (window.app && app.state) || window.state || window.__APP_STATE__ || null; }
+
+  function assignVariant(st){
+    st.exp8 = st.exp8 || { name:"single_button" };
+    if (st.exp8.variant !== "near" && st.exp8.variant !== "far") {
+      st.exp8.variant = Math.random() < 0.5 ? "near" : "far";
+    }
+    return st.exp8.variant;
+  }
+
+  function expectedOffsetPx(variant){
+    return variant === "near" ? 28 : 280; // genau wie von dir getestet
+  }
+
+  function applyRowMargin(){
+    const st = getState(); if (!st) return;
+    const variant = assignVariant(st);
+    const btn = document.getElementById("exp8-cta");
+    if (!btn) return;
+    const row = btn.closest(".row") || btn.parentElement;
+    if (!row) return;
+
+    const offset = expectedOffsetPx(variant);
+    row.style.marginTop = offset + "px";   // <-- direkte Inline-Style-Anpassung an der .row
+    // Log
+    st.exp8.name = "single_button";
+    st.exp8.startedAt = st.exp8.startedAt || now();
+    st.exp8.success = false;
+    st.exp8.clicks = st.exp8.clicks || 0;
+    st.exp8.errors = st.exp8.errors || 0;
+    st.exp8.extra = Object.assign({}, st.exp8.extra || {}, {
+      distance: variant,
+      pos: (variant === "near" ? "top" : "bottom"),
+      offsetPx: offset
+    });
+
+    // Beobachter: falls etwas das style-Attribut ändert -> wiederherstellen
+    if (!st.exp8.__rowObserverAttached) {
+      const obs = new MutationObserver(() => {
+        // Wenn marginTop unerwartet ist, wieder setzen
+        const current = parseInt((row.style.marginTop || "0").replace("px",""), 10);
+        if (current !== offset) {
+          row.style.marginTop = offset + "px";
+        }
+      });
+      obs.observe(row, { attributes:true, attributeFilter:["style"] });
+      st.exp8.__rowObserverAttached = true;
+    }
+  }
+
+  // TTF & Klick logging
+  document.addEventListener("click", function(e){
+    const st = getState(); if (!st || !st.exp8) return;
+    const btn = e.target.closest && e.target.closest("#exp8-cta");
+    if (!btn) return;
+    if (st.exp8.ttf == null && st.exp8.startedAt != null) {
+      st.exp8.ttf = Math.max(0, Math.round(now() - st.exp8.startedAt));
+    }
+    st.exp8.clicks = (st.exp8.clicks || 0) + 1;
+    st.exp8.success = true;
+    st.exp8.finishedAt = now();
+  }, { capture:true });
+
+  // Patch renderexp8: nach Original-Render marginTop setzen und nochmal im nächsten Tick
+  const orig = window.renderexp8;
+  window.renderexp8 = function patched_renderexp8(){
+    const st = getState();
+    try { if (typeof orig === "function") orig.apply(this, arguments); } catch(e){ console.warn("orig renderexp8 failed:", e); }
+    try {
+      applyRowMargin();
+      setTimeout(applyRowMargin, 0);       // falls das Original im nächsten Tick überschreibt
+      setTimeout(applyRowMargin, 50);      // falls spätere Styles kommen
+    } catch(err){ console.warn("[exp8 row patch] failed", err); }
+  };
+
+  // Falls renderexp8 nicht sofort aufgerufen wird, versuchen wir periodisch
+  let tries = 0;
+  const iv = setInterval(()=>{
+    try { applyRowMargin(); } catch {}
+    if (++tries > 10) clearInterval(iv);
+  }, 100);
+})();
+</script>
+
+<script id="exp8-5050-toggle">
+/* EXP 8: garantiertes 50/50 durch Toggle (localStorage), keine Zufallsabhängigkeit */
+(function(){
+  function getState(){ return (window.app && app.state) || window.state || window.__APP_STATE__ || null; }
+
+  function pickVariant(){
+    try {
+      const last = localStorage.getItem("exp8_variant_last");
+      const v = (last === "top") ? "bottom" : "top";
+      localStorage.setItem("exp8_variant_last", v);
+      return v;
+    } catch(e){
+      // Fallback ohne Storage: simple Zeit-Parität
+      return (Date.now() % 2 === 0) ? "top" : "bottom";
+    }
+  }
+
+  function applyLayout(){
+    const st = getState(); if (!st) return;
+    st.exp8 = st.exp8 || { name:"single_button" };
+
+    // Variante stets NEU bestimmen und bestehende überschreiben
+    const variant = pickVariant();
+    st.exp8.variant = variant;
+
+    const btn = document.getElementById("exp8-cta");
+    if (!btn) return;
+    const row = btn.closest(".row") || btn.parentElement;
+    if (!row || !row.parentElement) return;
+    const parent = row.parentElement;
+
+    // Basisposition: Row an den Anfang
+    if (row !== parent.firstElementChild) {
+      parent.insertBefore(row, parent.firstElementChild);
+    }
+
+    // "top" = 0px, "bottom" = 280px Abstand (sichtbar weit unten)
+    const mt = (variant === "top") ? "0px" : "280px";
+    row.style.setProperty("margin-top", mt, "important");
+    btn.style.setProperty("margin-top", "0px", "important");
+
+    // Debug-Marker (optional sichtbar in DevTools)
+    document.documentElement.setAttribute("data-exp8-variant", variant);
+
+    // Logging
+    st.exp8.name = "single_button";
+    st.exp8.extra = Object.assign({}, st.exp8.extra || {}, {
+      pos: variant,
+      offsetPx: (variant === "top") ? 0 : 280
+    });
+  }
+
+  const orig = window.renderexp8;
+  window.renderexp8 = function(){
+    try { if (typeof orig === "function") orig.apply(this, arguments); } catch(e){}
+    try {
+      applyLayout();
+      setTimeout(applyLayout, 0);
+      setTimeout(applyLayout, 50);
+    } catch(e){}
+  };
+})();
+</script>
+
+
+
+<script id="exp8-order-toggle">
+/* EXP 8: Decide variant ONCE, then only re-apply (no toggling, no re-pick) */
+(function(){
+  function getState(){ return (window.app && app.state) || window.state || window.__APP_STATE__ || null; }
+
+  function ensureVariant(){
+    const st = getState(); if (!st) return null;
+    st.exp8 = st.exp8 || { name:"single_button" };
+    // Decide ONCE: if not set, pick randomly and store
+    if (st.exp8.variant !== "top" && st.exp8.variant !== "bottom") {
+      st.exp8.variant = (Math.random() < 0.5) ? "top" : "bottom";
+    }
+    return st.exp8.variant;
+  }
+
+  function applyVariant(v){
+    if (v !== "top" && v !== "bottom") return;
+    const btn = document.getElementById("exp8-cta");
+    if (!btn) return;
+    const row = btn.closest(".row") || btn.parentElement;
+    if (!row || !row.parentElement) return;
+    const parent = row.parentElement;
+
+    // Make parent a vertical stack
+    parent.style.display = "flex";
+    parent.style.flexDirection = "column";
+
+    // Neutralize margins that could interfere
+    row.style.marginTop = "0px";
+    btn.style.marginTop = "0px";
+
+    // Use flex order + padding to place
+    if (v === "top") {
+      row.style.order = "-1";
+      row.style.paddingTop = "0px";
+    } else {
+      row.style.order = "9999";
+      row.style.paddingTop = "280px";
+    }
+
+    // Debug marker
+    document.documentElement.setAttribute("data-exp8-variant", v);
+  }
+
+  function applyCurrent(){
+    const st = getState(); if (!st || !st.exp8) return;
+    applyVariant(st.exp8.variant);
+  }
+
+  // Wrap original renderexp8
+  const original = window.renderexp8;
+  window.renderexp8 = function(){
+    try { if (typeof original === "function") original.apply(this, arguments); } catch(e){}
+    try {
+      const v = ensureVariant();
+      applyVariant(v);
+      setTimeout(applyCurrent, 0);
+      setTimeout(applyCurrent, 50);
+      setTimeout(applyCurrent, 150);
+    } catch(e){}
+  };
+
+  // Re-apply ONLY current variant on mutations (do NOT re-pick)
+  const mo = new MutationObserver(()=> applyCurrent());
+  mo.observe(document.documentElement, { childList:true, subtree:true });
+
+  // Also apply on load
+  window.addEventListener("load", applyCurrent);
+})();
+</script>
+
+<script id="exp8-5050-fix">
+(function(){
+  function getState(){ return (window.app && app.state) || window.state || window.__APP_STATE__ || null; }
+
+  function ensureVariant(){
+    const st = getState(); if (!st) return null;
+    st.exp8 = st.exp8 || { name: 'single_button' };
+    if (st.exp8.variant !== 'top' && st.exp8.variant !== 'bottom') {
+      try {
+        if (window.crypto && window.crypto.getRandomValues) {
+          st.exp8.variant = (window.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0) ? 'top' : 'bottom';
+        } else {
+          st.exp8.variant = Math.random() < 0.5 ? 'top' : 'bottom';
+        }
+      } catch { st.exp8.variant = Math.random() < 0.5 ? 'top' : 'bottom'; }
+    }
+    return st.exp8.variant;
+  }
+
+  function applyVariant(){
+    const st = getState(); if (!st) return;
+    const v = ensureVariant(); if (v!=='top' && v!=='bottom') return;
+
+    const btn = document.getElementById('exp8-cta'); if(!btn) return;
+    const row = btn.closest('.row') || btn.parentElement; if(!row || !row.parentElement) return;
+    const parent = row.parentElement;
+
+    // Make parent a vertical stack from the top
+    parent.style.display = 'flex';
+    parent.style.flexDirection = 'column';
+    parent.style.justifyContent = 'flex-start';
+    parent.style.minHeight = '480px';
+
+    // Normalize margins
+    btn.style.setProperty('margin-top','0px','important');
+    row.style.setProperty('padding-top','0px','important');
+    row.style.setProperty('margin-top', v==='top' ? '0px' : '280px', 'important');
+
+    // Make sure row stays first in DOM so margin-top simulates top/bottom distance
+    if (row !== parent.firstElementChild) parent.insertBefore(row, parent.firstElementChild);
+
+    // Debug marker to verify variant quickly in DevTools
+    document.documentElement.setAttribute('data-exp8-variant', v);
+  }
+
+  // Patch original renderexp8 once
+  const original = window.renderexp8;
+  window.renderexp8 = function(){
+    try { if (typeof original === 'function') original.apply(this, arguments); } catch(e){}
+    try {
+      applyVariant();
+      setTimeout(applyVariant, 0);
+      setTimeout(applyVariant, 60);
+      setTimeout(applyVariant, 150);
+    } catch{}
+  };
+
+  // Re-apply on DOM mutations within exp8 section (but never re-pick variant)
+  const target = document.getElementById('screen-exp8') || document.body;
+  try {
+    const mo = new MutationObserver(()=> applyVariant());
+    mo.observe(target, { childList:true, subtree:true, attributes:true });
+  } catch {}
+
+  // Apply once on load too
+  window.addEventListener('load', applyVariant);
+})();
+</script>
+
 </body>
 </html>
 <!-- hello -->
