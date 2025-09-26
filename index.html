@@ -1542,6 +1542,140 @@
     // Start button state init
     $('#consent').dispatchEvent(new Event('change'));
   </script>
+
+<script>
+/**
+ * Runtime Patch: Harmonize experiments to exactly exp1..exp16 with fixed names.
+ * - Prevents duplicate/overwriting of exp8/exp15.
+ * - Normalizes names to your requested mapping.
+ * - Can be called right after app init and before export/finish.
+ */
+(function(){
+  const EXP_NAMES = {
+    1: "proximity_grouping",
+    2: "cta_shape",
+    3: "social_proof",
+    4: "shipping_defaults",
+    5: "shipping_preference",
+    6: "left_bias_equal",
+    7: "cta_color",
+    8: "single_button",
+    9: "confirm_distance",
+    10: "order_alignment",
+    11: "social_proof_v2",
+    12: "cta_signifier_2",
+    13: "good_continuation",
+    14: "figure_ground",
+    15: "social_proof_strong",
+    16: "cta_highlight_black"
+  };
+
+  // utility: deep clone safely
+  const clone = (o) => JSON.parse(JSON.stringify(o ?? {}));
+
+  // Guard if app exposes a global state object
+  function getState(){
+    // try common globals without breaking if undefined
+    return (window.app && app.state) || window.state || window.__APP_STATE__ || null;
+  }
+
+  // Normalize screens list if present
+  function normalizeScreens(){
+    const names = Object.values(EXP_NAMES);
+    if (Array.isArray(window.screens)) {
+      // Filter only known experiments once, preserving order of EXP_NAMES
+      const byName = new Map(window.screens.map(s => [s?.name || s?.id || s?.key, s]));
+      const normalized = names.map(n => byName.get(n)).filter(Boolean);
+      if (normalized.length) {
+        window.screens = normalized;
+      }
+    }
+  }
+
+  // Normalize experiments object to exp1..exp16 unique keys
+  function normalizeExperiments(){
+    const st = getState();
+    if (!st || !st.experiments) return;
+
+    const src = clone(st.experiments);
+    const dest = {};
+
+    // Helper to pick a block by name (if the app wrote different numbers)
+    function pickByName(name){
+      // find any expX with matching 'name'
+      const keys = Object.keys(src);
+      for (const k of keys){
+        const v = src[k];
+        if (v && typeof v === "object" && (v.name === name)) {
+          return v;
+        }
+      }
+      return null;
+    }
+
+    for (let i=1;i<=16;i++){
+      const key = "exp"+i;
+      const desiredName = EXP_NAMES[i];
+
+      // Priority 1: existing proper key
+      let block = clone(src[key]);
+      // Priority 2: any block that has the desired name
+      if (!block || !block.name || block.name !== desiredName){
+        const byName = pickByName(desiredName);
+        if (byName) block = clone(byName);
+      }
+
+      // If still missing, synthesize a minimal placeholder to avoid holes
+      if (!block) block = { name: desiredName, success: false, clicks: 0, errors: 0, ttf: null, extra: {} };
+
+      // Force correct name
+      block.name = desiredName;
+
+      // Fix specific conflicts:
+      // - exp8 must be 'single_button' (remove any legacy 'cta_signifier' content here)
+      if (i === 8) {
+        if (block && block.name !== "single_button") {
+          block = { name: "single_button", success: block.success ?? null, clicks: block.clicks ?? 0, errors: block.errors ?? 0, ttf: block.ttf ?? null, extra: block.extra ?? {} };
+        }
+      }
+      // - exp12 must be 'cta_signifier_2'. If we find a legacy 'cta_signifier' elsewhere, migrate its useful fields.
+      if (i === 12) {
+        const legacy = pickByName("cta_signifier");
+        if (legacy) {
+          // prefer iconPos/clickedPos/variant-like extras
+          const e = Object.assign({}, legacy.extra || {}, block.extra || {});
+          block = Object.assign({}, legacy, { name: "cta_signifier_2", extra: e });
+        } else {
+          block.name = "cta_signifier_2";
+        }
+      }
+      // - exp15 must be 'social_proof_strong' (drop any 'cta_icon'/'similarity_dissimilarity' duplicates)
+      if (i === 15) {
+        block.name = "social_proof_strong";
+      }
+      // - exp16 must be 'cta_highlight_black'
+      if (i === 16) {
+        block.name = "cta_highlight_black";
+      }
+
+      dest[key] = block;
+    }
+
+    // Replace state in-place so existing export logic picks it up
+    st.experiments = dest;
+  }
+
+  // Expose for manual triggering in console and call once after load
+  window.__normalizeScreens = normalizeScreens;
+  window.__normalizeExperiments = normalizeExperiments;
+
+  // Try auto-run after the current event loop tick (after app likely initialized)
+  setTimeout(() => {
+    try { normalizeScreens(); } catch(e){ console.warn("normalizeScreens failed", e); }
+    try { normalizeExperiments(); } catch(e){ console.warn("normalizeExperiments failed", e); }
+  }, 0);
+})();
+</script>
 </body>
 </html>
 <!-- hello -->
