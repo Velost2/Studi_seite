@@ -568,7 +568,7 @@
           state.exp3.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp3TargetId).name, bannerCount: exp3BannerCount };
           openAttribution({
             title:'Kurze Einordnung – Schritt 3',
-            options:['Beliebtheitshinweis','Hervorhebung/Ring','Nachhaltigkeit','Sonstiges'],
+            options:['Beliebtheitshinweis','Position','Gefühl','Gewohnheit','Sonstiges'],
             onDone:(reason)=>{ state.exp3.extra.reason=reason; go('exp4'); }
           });
         });
@@ -667,7 +667,7 @@
           state.exp6.clicks++; state.exp6.success=true; state.exp6.finishedAt=now();
           state.exp6.extra = { clickedPos: c.id };
           openAttribution({
-            title:'Kurze Einordnung - Schritt 5',
+            title:'Kurze Einordnung - Schritt 6',
             options:['Position','Gefühl','Gewohnheit','Sonstiges'],
             onDone:(reason)=>{ state.exp6.extra.reason=reason; go('exp7'); }
           });
@@ -723,7 +723,7 @@
         state.exp7.success = true; state.exp7.finishedAt = now();
         state.exp7.extra = { clickedPos: pos, blackLeft };
         openAttribution({
-          title:'Kurze Einordnung - Zusatztest',
+          title:'Kurze Einordnung - Schritt 7',
           options:['Farbe/Kontrast','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp7.extra.reason=reason; go('exp8'); }
         });
@@ -928,7 +928,7 @@ function renderexp9(){
           state.exp11.clicks++; state.exp11.success=true; state.exp11.finishedAt=now();
           state.exp11.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp11TargetId).name, bannerCount: exp11BannerCount };
           openAttribution({
-            title:'Einordnung - Schritt 8',
+            title:'Einordnung - Schritt 11',
             options:['Beliebtheitshinweis','Sonstiges'],
             onDone:(reason)=>{ state.exp11.extra.reason=reason; go('exp12'); }
           });
@@ -951,7 +951,7 @@ function renderexp9(){
         state.exp12.clicks++; state.exp12.success=true; state.exp12.finishedAt=now();
         state.exp12.extra = { iconPos: iconLeft?'left':'right', clickedPos: pos };
         openAttribution({
-          title:'Einordnung - Schritt 9',
+          title:'Einordnung - Schritt 12',
           options:['Icon/Zeichen','Nur Text','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp12.extra.reason = reason; go('exp13'); }
         });
@@ -1007,7 +1007,7 @@ function renderexp9(){
           state.exp13.success=true; state.exp13.finishedAt=now();
           state.exp13.extra = { variant, target, clicked: n };
           openAttribution({
-            title:'Einordnung - Schritt 11',
+            title:'Einordnung - Schritt 13',
             options:['Lineare Anordnung','Zufällige Position','Gewohnheit','Sonstiges'],
             onDone:(reason)=>{ state.exp13.extra.reason = reason; go('exp14'); }
           });
@@ -1048,7 +1048,7 @@ function renderexp9(){
             state.exp14.clicks++; state.exp14.success=true; state.exp14.finishedAt=now();
             state.exp14.extra = Object.assign({}, state.exp14.extra, { clickedId: c.id });
             openAttribution({
-              title:'Einordnung - Schritt 12',
+              title:'Einordnung - Schritt 14',
               options:['Subtile Hervorhebung','Position','Gewohnheit','Sonstiges'],
               onDone:(reason)=>{ state.exp14.extra.reason=reason; go('exp15'); }
             });
@@ -1088,7 +1088,7 @@ function renderexp9(){
           state.exp15.clicks++; state.exp15.success=true; state.exp15.finishedAt=now();
           state.exp15.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp15TargetId).name, bannerCount: exp15BannerCount };
           openAttribution({
-            title:'Einordnung - Schritt 14',
+            title:'Einordnung - Schritt 15',
             options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
             onDone:(reason)=>{ state.exp15.extra.reason=reason; go('exp16'); }
         });
@@ -1135,8 +1135,8 @@ function renderexp9(){
           state.exp16.clicks++; state.exp16.success=true; state.exp16.finishedAt=now();
           state.exp16.extra = { clickedPos: c.id, emphPos: (state.exp16&&state.exp16.emphPos)||null };
           openAttribution({
-            title:'Einordnung - Schritt 15',
-            options:['Links','Mitte','Rechts','Sonstiges'],
+            title:'Einordnung - Schritt 16',
+            options:['Position','Sonstiges'],
             onDone:(reason)=>{ state.exp16.extra.reason = reason; go('survey'); }
           });
         });
@@ -1199,7 +1199,7 @@ function renderexp9(){
         state.exp10.clicks++; state.exp10.success=true; state.exp10.finishedAt=now();
         state.exp10.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
           openAttribution({
-            title:'Einordnung - Schritt 7',
+            title:'Einordnung - Schritt 10',
             options: seenPosOptions(),
             onDone:(reason)=>{ state.exp10.extra.reason = reason; go('exp11'); }
           });
