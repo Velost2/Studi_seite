@@ -668,7 +668,7 @@
           state.exp6.extra = { clickedPos: c.id };
           openAttribution({
             title:'Kurze Einordnung - Schritt 5',
-            options:['Position (links/mitte/rechts)','Gefühl','Gewohnheit','Sonstiges'],
+            options:['Position','Gefühl','Gewohnheit','Sonstiges'],
             onDone:(reason)=>{ state.exp6.extra.reason=reason; go('exp7'); }
           });
         });
