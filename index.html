@@ -1134,7 +1134,7 @@ function renderexp9(){
           state.exp16.extra = { clickedBlackEmph: (typeof isEmph!=='undefined'? !!isEmph : !!(state.exp16 && state.exp16.emphPos===c.id)), clickedId: c.id };
           openAttribution({
             title:'Einordnung - Schritt 16',
-            options:['Gefühl','Position','Sonstiges'],
+            options:['Gefühl','Hervorhebung','Farbe','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp16.extra.reason = reason; go('survey'); }
           });
         });
