@@ -1084,7 +1084,7 @@ function renderexp9(){
         card.querySelector('button').addEventListener('click', ()=>{
           if(state.exp15.ttf==null) state.exp15.ttf = Math.round(now()-state.exp15.startedAt);
           state.exp15.clicks++; state.exp15.success=true; state.exp15.finishedAt=now();
-          state.exp15.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp15TargetId).name, bannerCount: exp15BannerCount };
+          state.exp15.extra = { clickedPopular: !!isTarget, clickedId: p.id };
           openAttribution({
             title:'Einordnung - Schritt 15',
             options:['Beliebtheitshinweis','Gefühl','Position','Starker Rahmen/Animation','Sonstiges'],
@@ -1131,7 +1131,7 @@ function renderexp9(){
         el.querySelector('.exp16-choose').addEventListener('click', ()=>{
           if(state.exp16.ttf==null) state.exp16.ttf = Math.round(now()-state.exp16.startedAt);
           state.exp16.clicks++; state.exp16.success=true; state.exp16.finishedAt=now();
-          state.exp16.extra = { clickedPos: c.id, emphPos: (state.exp16&&state.exp16.emphPos)||null };
+          state.exp16.extra = { clickedBlackEmph: (typeof isEmph!=='undefined'? !!isEmph : !!(state.exp16 && state.exp16.emphPos===c.id)), clickedId: c.id };
           openAttribution({
             title:'Einordnung - Schritt 16',
             options:['Gefühl','Position','Sonstiges'],
@@ -1195,7 +1195,7 @@ function renderexp9(){
       const clickHandler = (pos)=>{
         if(state.exp10.ttf==null) state.exp10.ttf = Math.round(now()-state.exp10.startedAt);
         state.exp10.clicks++; state.exp10.success=true; state.exp10.finishedAt=now();
-        state.exp10.extra = { targetPos: leftFirst?'left':'right', clickedPos: pos };
+        state.exp10.extra = { clickedPos: pos };
           openAttribution({
             title:'Einordnung - Schritt 10',
             options: seenPosOptions(),
@@ -1233,69 +1233,7 @@ function renderexp9(){
     }
 
     // ===== EXP 10: Inline vs Toast Validation =====
-    function renderExp10(){
-      const inline = state.exp10.variant==='inline';
-      const email = document.getElementById('exp10-email');
-      const pass = document.getElementById('exp10-pass');
-      const emailErr = document.getElementById('exp10-email-err');
-      const passErr = document.getElementById('exp10-pass-err');
-      const passCount = document.getElementById('exp10-pass-count');
-      const toast = document.getElementById('exp10-toast');
-      const submit = document.getElementById('exp10-submit');
-      // Anpassung: kein echter E-Mail-Test, sondern neutraler Benutzername
-      const labels = document.querySelectorAll('#exp10-form .label');
-      if(labels && labels[0]) labels[0].textContent = 'Eingabe (min. 3 Zeichen)';
-      try { email.type = 'text'; email.placeholder = 'z. B. nutzer123'; emailErr.textContent = 'Mindestens 3 Zeichen.'; } catch {}
-      const validUser = (v)=> (v||'').trim().length >= 3;
-      let emailBad=true, passBad=true, corrections=0, errorsInline=0, errorsSubmit=0;
-      // Rehydrate previously entered values
-      try {
-        const saved = (state.exp10.extra = state.exp10.extra || {});
-        if(typeof saved.fieldValue === 'string'){ email.value = saved.fieldValue; }
-        if(typeof saved.passValue === 'string'){ pass.value = saved.passValue; }
-      } catch {}
-      function valEmail(){ const bad = !validUser(email.value); if(inline){ emailErr.style.display= bad?'block':'none'; if(emailBad && !bad) corrections++; if(bad) errorsInline++; } emailBad = bad; }
-      function valPass(){
-        const len = (pass.value||'').length;
-        const remain = Math.max(0, 6-len);
-        if(passCount){ passCount.textContent = remain>0 ? `Noch ${remain} Zeichen` : 'OK'; }
-        const bad = len<6;
-        if(inline){ passErr.style.display= bad?'block':'none'; if(passBad && !bad) corrections++; if(bad) errorsInline++; }
-        passBad = bad;
-      }
-      // Always persist values to state
-      try { email.addEventListener('input', ()=>{ (state.exp10.extra = state.exp10.extra || {}).fieldValue = email.value; }); } catch {}
-      try { pass.addEventListener('input',  ()=>{ (state.exp10.extra = state.exp10.extra || {}).passValue  = pass.value;  }); } catch {}
-      if(inline){ email.addEventListener('input', valEmail); pass.addEventListener('input', valPass); }
-      // initial counter update
-      try { valPass(); } catch {}
-      submit.onclick = ()=>{
-        if(!inline){ emailErr.style.display='none'; passErr.style.display='none'; }
-        valEmail(); valPass();
-        if(emailBad || passBad){
-          if(!inline){ errorsSubmit++; toast.classList.remove('hidden'); setTimeout(()=>toast.classList.add('hidden'), 1500); }
-          return;
-        }
-        if(state.exp10.ttf==null) state.exp10.ttf = Math.round(now()-state.exp10.startedAt);
-        state.exp10.clicks++; state.exp10.success=true; state.exp10.finishedAt=now();
-        state.exp10.extra = Object.assign((state.exp10.extra||{}), { errorsInline, errorsSubmit, corrections });
-        // Direktes Overlay fr Nutzungsfeedback, ohne den Screen zu wechseln
-        openAttribution({
-          title:'Wie angenehm war die Nutzung?',
-          options:['Sehr unangenehm','Eher unangenehm','Neutral','Eher angenehm','Sehr angenehm'],
-          onDone:(reason)=>{
-            // Im exp11-Container protokollieren, aber nicht zu exp11 springen
-            state.exp11 = state.exp11 || {};
-            if(state.exp11.startedAt==null) state.exp11.startedAt = state.exp10.finishedAt;
-            state.exp11.clicks = (state.exp11.clicks||0) + 1;
-            state.exp11.success = true;
-            state.exp11.finishedAt = now();
-            state.exp11.extra = Object.assign((state.exp11.extra||{}), { pleasantness: reason });
-            go('exp15');
-          }
-        });
-      };
-    }
+    
 
     // ===== EXP 11: Weißraum =====
     function renderExp11(){
