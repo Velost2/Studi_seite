@@ -929,7 +929,7 @@ function renderexp9(){
           state.exp11.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp11TargetId).name, bannerCount: exp11BannerCount };
           openAttribution({
             title:'Einordnung - Schritt 11',
-            options:['Beliebtheitshinweis','Sonstiges'],
+            options:['Beliebtheitshinweis','Gefühl','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp11.extra.reason=reason; go('exp12'); }
           });
         });
@@ -1089,7 +1089,7 @@ function renderexp9(){
           state.exp15.extra = { bannerChoices: isTarget?1:0, otherChoices: isTarget?0:1, targetName: products.find(pp=>pp.id===exp15TargetId).name, bannerCount: exp15BannerCount };
           openAttribution({
             title:'Einordnung - Schritt 15',
-            options:['Beliebtheitshinweis','Starker Rahmen/Animation','Sonstiges'],
+            options:['Beliebtheitshinweis','Gefühl','Position','Starker Rahmen/Animation','Sonstiges'],
             onDone:(reason)=>{ state.exp15.extra.reason=reason; go('exp16'); }
         });
         });
@@ -1136,7 +1136,7 @@ function renderexp9(){
           state.exp16.extra = { clickedPos: c.id, emphPos: (state.exp16&&state.exp16.emphPos)||null };
           openAttribution({
             title:'Einordnung - Schritt 16',
-            options:['Position','Sonstiges'],
+            options:['Gefühl','Position','Sonstiges'],
             onDone:(reason)=>{ state.exp16.extra.reason = reason; go('survey'); }
           });
         });
