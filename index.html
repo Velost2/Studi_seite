@@ -39,8 +39,6 @@
       </div>
       <div class="header-actions">
         <button id="btn-back" type="button" class="btn btn-outline hidden">Zurück</button>
-        <select id="jump-select" class="jump"></select>
-        <button id="jump-go" type="button" class="btn btn-outline">Gehe</button>
       </div>
     </header>
 
@@ -516,7 +514,7 @@
         state.exp2.extra = { clicked:clickedStyle, expected:variant, clickedPos:pos, salientPos:leftSalient?'left':'right' };
         openAttribution({
           title:'Kurze Einordnung – Schritt 2',
-          options:['Buttonform (rund/eckig)','Kontrast/Farbe','Position','Gewohnheit','Sonstiges'],
+          options:['Buttonform (rund/eckig)','Farbe','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp2.extra.reason=reason; go('exp3'); }
         });
       };
@@ -724,7 +722,7 @@
         state.exp7.extra = { clickedPos: pos, blackLeft };
         openAttribution({
           title:'Kurze Einordnung - Schritt 7',
-          options:['Farbe/Kontrast','Position','Gewohnheit','Sonstiges'],
+          options:['Farbe','Position','Gewohnheit','Sonstiges'],
           onDone:(reason)=>{ state.exp7.extra.reason=reason; go('exp8'); }
         });
       };
