@@ -120,8 +120,8 @@ export default async (req) => {
   // Site-weiter Blob-Store (konfigurierbar per ENV)
   // Standard: gleicher Store wie bisher, aber neuer Ordner (runs-v2/)
   // Optional via ENV: BLOBS_STORE_NAME, BLOBS_KEY_PREFIX
-  const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-final";
-  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v1";
+  const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-v2";
+  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v4";
   const store = getStore(storeName);
 
   // Build a more readable, structured key using European date order:
