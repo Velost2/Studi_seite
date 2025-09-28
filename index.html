@@ -219,9 +219,14 @@
     <!-- SURVEY -->
     <section id="screen-survey" class="card hidden">
       <h2>Abschlussfragebogen</h2>
-      <p class="hint">Bitte teilen Sie Ihr offenes Feedback zur Nutzung mit.</p>
+      <p class="hint">Bitte teilen Sie Ihr offenes Feedback zur Nutzung und Ihr Alter mit.</p>
       <div class="stack gap-sm">
-        <label class="label">Offenes Feedback</label>
+  <label class="label" for="age">Ihr Alter</label>
+  <input id="age" type="number" class="input" min="10" max="120" />
+</div>
+
+      <div class="stack gap-sm">
+        <label class="label">Offenes Feedback (Optional)</label>
         <textarea id="openComment" class="input" rows="4" placeholder="Was war gut, was nicht?"></textarea>
       </div>
       <div class="row"><button id="survey-finish" type="button" class="btn btn-primary">Abschließen</button></div>
@@ -697,14 +702,27 @@
       const note = document.createElement('input'); note.type='text'; note.className='input mt'; note.placeholder='Zusätzliches Feedback'; try { note.value = state.survey[id+'_note'] || ''; } catch {} note.addEventListener('input', (e)=>{ try { state.survey[id+'_note'] = e.target.value; } catch {} }); root.appendChild(note); document.getElementById(containerId).appendChild(root);
     }
     function renderSurvey(){
-      const input = document.getElementById('openComment');
-      if(input){
-        try { input.value = state.survey.openComment || ''; } catch {}
-        input.oninput = (e)=>{ state.survey.openComment = e.target.value; };
-      }
-      const finishBtn = document.getElementById('survey-finish');
-      if(finishBtn){ finishBtn.onclick = ()=>{ go('debrief'); }; }
-    }
+  const input = document.getElementById('openComment');
+  if(input){
+    try { input.value = state.survey.openComment || ''; } catch {}
+    input.oninput = (e)=>{ state.survey.openComment = e.target.value; };
+  }
+
+  // Altersfeld (optional)
+  const ageEl = document.getElementById('age');
+  if(ageEl){
+    try { ageEl.value = state.survey.age != null ? String(state.survey.age) : ''; } catch {}
+    ageEl.oninput = (e)=>{
+      const v = parseInt(e.target.value, 10);
+      if(Number.isFinite(v)) state.survey.age = Math.max(10, Math.min(120, v));
+      else state.survey.age = null;
+    };
+  }
+
+  const finishBtn = document.getElementById('survey-finish');
+  if(finishBtn){ finishBtn.onclick = ()=>{ go('debrief'); }; }
+}
+
 
     
     // ===== EXP 2b: CTA Farbe (rund vs. rund, schwarz vs. weiß) =====
