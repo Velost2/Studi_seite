@@ -121,7 +121,7 @@ export default async (req) => {
   // Standard: gleicher Store wie bisher, aber neuer Ordner (runs-v2/)
   // Optional via ENV: BLOBS_STORE_NAME, BLOBS_KEY_PREFIX
   const storeName = process.env.BLOBS_STORE_NAME || "ux-experiment-final";
-  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v1";
+  const keyPrefix = process.env.BLOBS_KEY_PREFIX || "runs-v2";
   const store = getStore(storeName);
 
   // Build a more readable, structured key using European date order:
